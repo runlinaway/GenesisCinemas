@@ -1,0 +1,12 @@
+.homepage {
+    // Set a full-screen layout with flexbox
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5f5f5; // Light background color for the homepage
+    
+    /* Ensure Header is at the top */
+    header {
+      flex: 0 0 auto;
+    }
+}

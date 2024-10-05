@@ -1,0 +1,43 @@
+.logo {
+    display: flex;
+    font-size: 2rem;
+    font-weight: bold;
+    position: relative;
+  
+    .letter {
+      transition: all 0.5s ease; // Transition for smooth animation
+    }
+  
+    // Logo in flat state (scrolled down)
+    &.logo-flat {
+      .letter {
+        transform: translate(0, 0); // Default positions
+      }
+    }
+  
+    // Logo forming a play symbol (scrolled to top)
+    &.logo-play {
+        .letter:nth-child(1) {
+          transform: translate(-40px, -30px); // G moves to top-left
+        }
+        .letter:nth-child(2) {
+          transform: translate(-20px, -50px); // E moves upwards
+        }
+        .letter:nth-child(3) {
+          transform: translate(0, -70px); // N moves to top-center
+        }
+        .letter:nth-child(4) {
+          transform: translate(20px, -50px); // E moves upwards but slightly right
+        }
+        .letter:nth-child(5) {
+          transform: translate(40px, -30px); // S moves to top-right
+        }
+        .letter:nth-child(6) {
+          transform: translate(0, 30px); // I moves downwards
+        }
+        .letter:nth-child(7) {
+          transform: translate(0, 50px); // S moves downwards further (bottom-center)
+        }
+      }
+    }
+  
