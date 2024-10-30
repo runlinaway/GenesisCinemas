@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS GenesisCinemas;
-CREATE DATABASE IF NOT EXISTS GenesisCinemas;
-USE GenesisCinemas;
-
 CREATE TABLE IF NOT EXISTS members (
     member_id INT PRIMARY KEY,
     email VARCHAR(100) NOT NULL,
@@ -25,7 +21,7 @@ CREATE TABLE IF NOT EXISTS shows (
 );
 
 CREATE TABLE IF NOT EXISTS bookings (
-    booking_id INT PRIMARY KEY,
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
     member_id INT,
     show_id INT NOT NULL,
     booking_date DATETIME NOT NULL,
@@ -38,7 +34,7 @@ CREATE TABLE IF NOT EXISTS bookings (
 );
 
 CREATE TABLE IF NOT EXISTS payments (
-    payment_id INT PRIMARY KEY,
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
     booking_id INT NOT NULL,
     payment_date DATETIME NOT NULL,
     amount FLOAT NOT NULL,
@@ -49,7 +45,6 @@ CREATE TABLE IF NOT EXISTS payments (
 SHOW TABLES;
 
 INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, release_date, poster_url, trailer_url, banner_url) VALUES
-
 (
     'Akira (1988)', 
     'In 2019, 31 years after nuking the city, Kaneda, a bike gang leader, tries to save his friend Tetsuo from a secret government project. He battles against anti-government activists, greedy politicians, irresponsible scientists and a powerful military leader until Tetsuo''s supernatural power suddenly manifests.', 
@@ -57,13 +52,12 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     'Katsuhiro Otomo',
     'Anime, Action, Science Fiction', 
     '2:04:00', 
-    5, 
-    '1988-07-16', 
+    5.0, 
+    '1988-07-16 00:00:00', 
     'Akira.jpg', 
     NULL, 
     'akira_banner'
 ),
-
 (
     'Transformers One', 
     'TRANSFORMERS ONE is the untold origin story of Optimus Prime and Megatron, better known as sworn enemies, but once were friends bonded like brothers who changed the fate of Cybertron forever. In the first-ever fully CG-animated Transformers movie.',
@@ -72,11 +66,10 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     'Action, Adventure, Science Fiction', 
     '1:44:00', 
     4.94,
-    '2024-09-12', 
+    '2024-09-12 00:00:00', 
     'tfone.jpg', 
     NULL,
     'tf_one_banner'),
-
 (
     'Alien: Romulus',
     'The sci-fi/horror-thriller takes the phenomenally successful “Alien” franchise back to its roots: While scavenging the deep ends of a derelict space station, a group of young space colonizers come face to face with the most terrifying life form in the universe.',
@@ -85,12 +78,11 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     'Horror, Science Fiction',
     '1:59:00',
     4.84,
-    '2024-08-15',
+    '2024-08-15 00:00:00',
     'romulus.jpg',
     NULL,
     'romulus_banner'
 ),
-
 (
     'Speak No Evil',
     'When an American family is invited to spend the weekend at the idyllic country estate of a charming British family they befriended on vacation, what begins as a dream holiday soon warps into a snarled psychological nightmare.',
@@ -99,12 +91,11 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     'Thriller',
     '1:50:00',
     3.9,
-    '2024-09-12',
+    '2024-09-12 00:00:00',
     'speaknoevil.jpg',
     NULL,
     NULL
 ),
-
 (
     'It Ends With Us',
     'Global publishing phenomenon IT ENDS WITH US (Colleen Hoover''s beloved book) becomes an inspiring theatrical event. Lily Bloom (Blake Lively) leaves her small hometown to embark on a new life in Boston, chasing a lifelong dream of opening her own flower shop.\nA chance meeting with charming neurosurgeon Ryle Kincaid (Justin Baldoni) sparks an intense connection, but as the two fall deeply in love, Lily begins to see sides of Ryle he has attempted to keep hidden.\nWhen Lily''s first love, Atlas Corrigan (Brandon Sklenar), suddenly reenters her life, her relationship with Ryle is upended, and she realizes she must rely on her own strength to make an impossible choice for her future.',
@@ -113,14 +104,11 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     'Drama, Romance',
     '2:10:00',
     3.5,
-    '2024-09-05',
+    '2024-09-05 00:00:00',
     'itendswithus.jpg',
     NULL,
-    NULL,
+    NULL
 );
-
-
-
 
 
 
