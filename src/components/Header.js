@@ -45,7 +45,7 @@ class AppHeader extends HTMLElement {
         }
 
         .navbar-links a {
-            color: white;
+            color: #b3b3b3;
             text-decoration: none;
             font-size: 1.8rem;
             position: relative; /* Position for pseudo-element */
@@ -56,6 +56,7 @@ class AppHeader extends HTMLElement {
             content: '';
             display: block;
             height: 2px; /* Height of the underline */
+            color: white;
             background-color: #f0f0f0; /* Underline color */
             width: 0; /* Initial width */
             transition: width 0.2s; /* Smooth width transition */
@@ -137,11 +138,16 @@ class AppHeader extends HTMLElement {
 
 
         .dropdown-chevron {
-            width: 20px; /* Set the desired width */
-            height: 20px; /* Set the desired height */
+            width: 22px; /* Set the desired width */
+            height: 22px; /* Set the desired height */
             margin-left: 5px; /* Space between the text and the icon */
             vertical-align: 50%%; /* Aligns the image vertically with the text */
-            filter: invert(1); /* Inverts colors */
+            color: #b3b3b3;
+        }
+        
+        .dropdown:hover .dropdown-chevron {
+            color: white; /* Change color on hover */
+            transition: color 0.2s; /* Smooth transition */
         }
 
         /* Show the dropdown content when hovering over .dropdown */
@@ -156,7 +162,7 @@ class AppHeader extends HTMLElement {
             top: 20%; /* Center vertically relative to the header */
             transform: translateY(-50%);  
             white-space: nowrap; /* Prevent the link from wrapping */
-            color: white; /* Default text color */
+            color: #b3b3b3; /* Default text color */
             font-size: 1.2rem; /* Font size */
             text-decoration: none; /* Remove default underline */
             margin-left: auto; /* Push to the right */
@@ -173,10 +179,12 @@ class AppHeader extends HTMLElement {
             transform: scaleX(0); /* Initially scaled down to 0 */
             transition: transform 0.2s ease; /* Smooth transition for scaling */
             transform-origin: left; /* Origin of the scaling effect */
+            color: white;
         }
 
         .login-link:hover {
             color: #f0f0f0; /* Change text color on hover */
+            transition: color 0.2s; /* Smooth transition */
         }
 
         .login-link:hover::after {
@@ -219,7 +227,15 @@ class AppHeader extends HTMLElement {
         <ul class="navbar-links">
             <li class="dropdown">
                 <a href="#Movies" class="dropbtn">Movies</a>
-                <img src="./src/assets/icons/chevron-down.svg" alt="Downward Chevron" class="dropdown-chevron">
+                <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="dropdown-chevron">
+                        <title>Chevron Down</title>
+                        <g id="Complete">
+                            <g id="F-Chevron">
+                                <polyline id="Down" points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        </g>
+                    </g>
+                </svg>
+
                 <div class="dropdown-content">
                     <a href="#">Featured</a>
                     <a href="#">Upcoming</a>
@@ -229,7 +245,14 @@ class AppHeader extends HTMLElement {
 
             <li class="dropdown">
                 <a href="#Locations" class="dropbtn">Locations</a>
-                <img src="./src/assets/icons/chevron-down.svg" alt="Downward Chevron" class="dropdown-chevron">
+                <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="dropdown-chevron">
+                        <title>Chevron Down</title>
+                        <g id="Complete">
+                            <g id="F-Chevron">
+                                <polyline id="Down" points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        </g>
+                    </g>
+                </svg>
                 <div class="dropdown-content">
                     <a href="#">Location 1</a>
                     <a href="#">Location 2</a>
