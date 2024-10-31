@@ -5,20 +5,6 @@ class AppHeader extends HTMLElement {
       this.attachShadow({ mode: 'open' });
       this.shadowRoot.innerHTML = `
       <style>
-          @font-face {
-          font-family: 'Italiana';
-          src: url('../assets/fonts/Italiana-Regular.ttf') format('truetype');
-          font-weight: normal;
-          font-style: normal;
-          }
-
-          @font-face {
-          font-family: 'Kantumury Pro Thin';
-          src: url('../assets/fonts/KantumruyPro.ttf') format('truetype');
-          font-weight: normal;
-          font-style: normal;
-          }
-
           body {
               background-color: #1e1e1e;
               margin: 0; /* Remove default margins */

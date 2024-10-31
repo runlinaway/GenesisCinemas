@@ -12,3 +12,9 @@
     font-style: normal;
 }
 
+body {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Optionally remove default padding */
+}
+
+

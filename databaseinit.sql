@@ -1,3 +1,9 @@
+DROP TABLE IF EXISTS payments;
+DROP TABLE IF EXISTS bookings; -- Drop dependent tables first
+DROP TABLE IF EXISTS shows;
+DROP TABLE IF EXISTS members;
+
+
 CREATE TABLE IF NOT EXISTS members (
     member_id INT PRIMARY KEY,
     email VARCHAR(100) NOT NULL,
@@ -56,7 +62,7 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     '1988-07-16 00:00:00', 
     'Akira.jpg', 
     NULL, 
-    'akira_banner'
+    'akira_banner.jpg'
 ),
 (
     'Transformers One', 
@@ -69,7 +75,7 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     '2024-09-12 00:00:00', 
     'tfone.jpg', 
     NULL,
-    'tf_one_banner'),
+    'tfone_banner.jpeg'),
 (
     'Alien: Romulus',
     'The sci-fi/horror-thriller takes the phenomenally successful “Alien” franchise back to its roots: While scavenging the deep ends of a derelict space station, a group of young space colonizers come face to face with the most terrifying life form in the universe.',
@@ -81,7 +87,7 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     '2024-08-15 00:00:00',
     'romulus.jpg',
     NULL,
-    'romulus_banner'
+    'romulus_banner.jpg'
 ),
 (
     'Speak No Evil',
