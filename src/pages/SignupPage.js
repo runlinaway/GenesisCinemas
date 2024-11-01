@@ -46,10 +46,26 @@ class SignupPage extends HTMLElement {
         `;
     }
 
-    logout() {
-        // Delete the user cookie
-        document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
-        this.render(); // Re-render the page to show the sign-up form
+    async logout() {
+        try {
+            const response = await fetch('./src/services/logout.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                // If logout was successful, clear the user cookie
+                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+                this.render(); // Re-render the page to show the sign-up form
+            } else {
+                console.error('Logout failed:', result.message); // Handle logout failure
+            }
+        } catch (error) {
+            console.error('Error during logout:', error); // Handle any network errors
+        }
     }
 
     getCookie(name) {
