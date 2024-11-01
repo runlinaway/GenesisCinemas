@@ -1,7 +1,13 @@
+import '../components/LoginForm.js'; // Ensure to import your LoginForm component
+
 class SignupForm extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.render();
+    }
+
+    render() {
         this.shadowRoot.innerHTML = `
             <style>
                 form {
@@ -30,7 +36,7 @@ class SignupForm extends HTMLElement {
                 </label>
                 <label>
                     Password:
-                    <input type="password" id="password" required value="abc123"/>
+                    <input type="password" id="password" required value="abcd1234"/>
                 </label>
                 <button type="button" id="signup-button">Sign Up</button>
                 <button type="button" id="member-button">I'm Already a Member</button>
@@ -42,7 +48,10 @@ class SignupForm extends HTMLElement {
     }
 
     redirectToLogin() {
-        window.location.href = '/login-page'; // Update URL as needed
+        // Replace the signup form with the login form
+        const loginForm = document.createElement('login-form');
+        this.shadowRoot.innerHTML = ''; // Clear current content
+        this.shadowRoot.appendChild(loginForm); // Append the login form
     }
 
     async handleSignUp() {
@@ -66,7 +75,6 @@ class SignupForm extends HTMLElement {
             return;
         }
 
-        
         const response = await fetch('./src/services/signup.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -76,9 +84,9 @@ class SignupForm extends HTMLElement {
         const result = await response.json();
 
         if (result.success) {
-            document.cookie = `session_token=${result.token}; path=/; secure; HttpOnly`;
+            document.cookie = `user=${encodeURIComponent(JSON.stringify(result.userData))}; path=/;`;
             alert('Sign up successful! You are now logged in.');
-            window.location.href = '#'; // Update URL as needed
+            window.location.href = '#'; // Redirect to home or desired page
         } else {
             alert(result.message);
         }
@@ -86,3 +94,4 @@ class SignupForm extends HTMLElement {
 }
 
 customElements.define('signup-form', SignupForm);
+

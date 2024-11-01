@@ -24,8 +24,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode(['success' => false, 'message' => 'Invalid email format.']);
     exit;
 }
-if (!preg_match('/^[a-zA-Z0-9]+$/', $password)) {
-    echo json_encode(['success' => false, 'message' => 'Password must be alphanumeric.']);
+if (strlen($password) < 8 || !preg_match('/[a-zA-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
+    echo json_encode(['success' => false, 'message' => 'Password must be at least 8 characters long and include both letters and numbers.']);
     exit;
 }
 
@@ -48,6 +48,11 @@ try {
     if ($stmt->execute(['member_name' => $name, 'email' => $email, 'password_hash' => $password_hash])) {
         // Generate a session token
         $token = bin2hex(random_bytes(16)); // Simplified token example
+        
+        $userId = $conn->lastInsertId(); // Use $conn to get the last inserted ID
+        // Update the user record with the token
+        $stmt = $conn->prepare("UPDATE members SET session_token = :token WHERE member_id = :id");
+        $stmt->execute(['token' => $token, 'id' => $userId]);
 
         // Create user data array
         $userData = [
@@ -58,7 +63,7 @@ try {
         $cookieData = json_encode(['name' => $name, 'email' => $email, 'token' => $token]);
         setcookie('user', $cookieData, 0, "/"); // 0 timing till browser close for my sanity
 
-        echo json_encode(['success' => true, 'token' => $token]);
+        echo json_encode(['success' => true, 'userData' => $userData]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Registration failed. Please try again.']);
     }
@@ -66,7 +71,7 @@ try {
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
     exit; // Ensure script stops here
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'An unexpected error occurred.']);
+    echo json_encode(['success' => false, 'message' => 'An unexpected error occurred: ' . $e->getMessage()]);
     exit; // Ensure script stops here
 }
 

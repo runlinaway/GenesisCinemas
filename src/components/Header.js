@@ -316,9 +316,9 @@ class AppHeader extends HTMLElement {
             console.log('User Data:', userData); // Debugging: Log parsed user data
     
             if (userData.email) {
-                const memberLink = this.shadowRoot.querySelector('.login-link');
+                const memberLink = this.shadowRoot.querySelector('.login-link a');
                 memberLink.textContent = userData.email; // Set the text to the member's email
-                memberLink.setAttribute('href', '#account'); // Update the link to point to the account page
+                memberLink.setAttribute('href', '#Signup'); 
                 console.log('Updated login link to:', userData.email); // Debugging: Confirm update
             }
         } catch (e) {

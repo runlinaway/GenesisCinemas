@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS members (
     member_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password_hash VARCHAR(100) NOT NULL,
-    points INT DEFAULT 0
+    points INT DEFAULT 0,
+    session_token VARCHAR(64)
 );
 
 CREATE TABLE IF NOT EXISTS shows (
