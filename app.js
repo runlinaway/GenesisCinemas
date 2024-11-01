@@ -4,6 +4,7 @@ import './src/pages/MoviesPage.js';
 import './src/pages/LocationsPage.js';
 import './src/pages/BarPage.js';
 import './src/pages/SignupPage.js';
+import './src/pages/MovieDetailsPage.js';
 import './src/components/Header.js';
 import './src/components/Footer.js';
 
@@ -39,27 +40,32 @@ function loadPage() {
   pageContainer.innerHTML = ''; // Clear previous page content
 
   let page;
-  switch (window.location.hash) {
-    case '#Movies':
-      page = document.createElement('movies-page');
-      break;
-    case '#Locations':
-      page = document.createElement('locations-page');
-      break;
-    case '#Bar':
-      page = document.createElement('bar-page');
-      break;
-    case '#Signup':
-      page = document.createElement('signup-page');
-      break;
+  const hash = window.location.hash;
 
-    case '#Home':
-    default:
-      page = document.createElement('home-page');
-      break;
-    
+  if (hash.startsWith('#MovieDetails/')) {
+    const movieId = hash.split('/')[1]; // Extract movie ID from the hash
+    page = document.createElement('movie-details-page');
+    page.setAttribute('movie-id', movieId); // Pass the movie ID to the component
+  } else {
+    switch (hash) {
+      case '#Movies':
+        page = document.createElement('movies-page');
+        break;
+      case '#Locations':
+        page = document.createElement('locations-page');
+        break;
+      case '#Bar':
+        page = document.createElement('bar-page');
+        break;
+      case '#Signup':
+        page = document.createElement('signup-page');
+        break;
+      case '#Home':
+      default:
+        page = document.createElement('home-page');
+        break;
+    }
   }
-
   pageContainer.appendChild(page);
 }
 

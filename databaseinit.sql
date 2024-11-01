@@ -63,7 +63,7 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     5.0, 
     '1988-07-16 00:00:00', 
     'Akira.jpg', 
-    NULL, 
+    'https://www.youtube.com/watch?v=FtPhrCTjMtQ&ab_channel=Akira2019', 
     'akira_banner.jpg'
 ),
 (
@@ -76,7 +76,7 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     4.94,
     '2024-09-12 00:00:00', 
     'tfone.jpg', 
-    NULL,
+    'https://www.youtube.com/watch?v=u2NuUWuwPCM&ab_channel=ParamountPictures',
     'tfone_banner.jpeg'),
 (
     'Alien: Romulus',
@@ -88,7 +88,7 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     4.84,
     '2024-08-15 00:00:00',
     'romulus.jpg',
-    NULL,
+    'https://www.youtube.com/watch?v=x0XDEhP4MQs&ab_channel=20thCenturyStudios',
     'romulus_banner.jpg'
 ),
 (
@@ -101,7 +101,7 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     3.9,
     '2024-09-12 00:00:00',
     'speaknoevil.jpg',
-    NULL,
+    'https://www.youtube.com/watch?v=FjzxI6uf8H8&ab_channel=UniversalPictures',
     NULL
 ),
 (
@@ -114,7 +114,7 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     3.5,
     '2024-09-05 00:00:00',
     'itendswithus.jpg',
-    NULL,
+    'https://www.youtube.com/watch?v=DLET_u31M4M&ab_channel=SonyPicturesEntertainment',
     NULL
 );
 

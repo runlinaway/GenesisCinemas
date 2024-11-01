@@ -31,19 +31,25 @@ class MovieBanner extends HTMLElement {
 
     // Function to create and display the banner
     // Update createBanner to set container width dynamically
+    // Function to create and display the banner
     createBanner() {
         this.bannerContainer.style.width = `${this.movies.length * 100}%`; // Set container width based on the number of items
 
-        let maxTitleHeight = 0;
-
         this.movies.forEach((movie) => {
+            // Create the main banner item container
             const bannerItem = document.createElement('div');
             bannerItem.className = 'banner-item';
-            // In the createBanner method
+
+            // Create an anchor element for navigation
+            const link = document.createElement('a');
+            link.href = `#MovieDetails/${encodeURIComponent(movie.title)}`; // Use the movie title for the link
+            link.style.textDecoration = 'none'; // Remove underline for link text
+
             const bannerImage = document.createElement('img');
             bannerImage.src = `./src/assets/images/${movie.banner_url}`;
             bannerImage.className = 'banner-image'; // Add a class for styling
-            bannerItem.appendChild(bannerImage);
+            link.appendChild(bannerImage); // Append image to link
+
             // Create movie info box
             const movieInfo = document.createElement('div');
             movieInfo.className = 'movie-info';
@@ -51,20 +57,20 @@ class MovieBanner extends HTMLElement {
                 <strong class="movie-title">${movie.title}</strong>
                 <p class="movie-synopsis">${movie.synopsis}</p>
             `;
-            bannerItem.appendChild(movieInfo);
+            link.appendChild(movieInfo); // Append movie info to link
 
             // Add mouse enter and leave event listeners to pause/resume auto-scroll
             movieInfo.addEventListener('mouseenter', () => clearInterval(this.intervalId)); // Pause auto-scroll
             movieInfo.addEventListener('mouseleave', () => this.startAutoScroll()); // Resume auto-scroll
 
-
-            this.bannerContainer.appendChild(bannerItem);
-
+            bannerItem.appendChild(link); // Append link (with image and info) to bannerItem
+            this.bannerContainer.appendChild(bannerItem); // Append bannerItem to bannerContainer
         });
 
         this.createNavigationButtons(); // Create navigation buttons
         this.startAutoScroll(); // Start auto-scrolling
     }
+
 
 
     // Function to create navigation buttons
