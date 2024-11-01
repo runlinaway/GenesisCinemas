@@ -23,6 +23,7 @@ class SignupPage extends HTMLElement {
             // Render different HTML if the user cookie exists and is valid
             if (userData && userData.name) {
                 this.shadowRoot.innerHTML = `
+
                     <h2>Welcome Back, ${userData.name}!</h2>
                     <p>You are already logged in. <a href="#account">Go to your account</a>.</p>
                     <button id="logout-button">Logout</button>
@@ -41,8 +42,28 @@ class SignupPage extends HTMLElement {
     renderSignupForm() {
         // Render the sign-up form if there is no user cookie
         this.shadowRoot.innerHTML = `
-            <h2>Log In / Sign Up</h2>
-            <signup-form></signup-form>
+            <style>
+                .container {
+                    background-color: #1e1e1e; /* Set the background color */
+                    color: white; /* Set the text color for better readability */
+                    margin: 0; /* Reset margin */
+                    padding: 1rem; /* Optional: Set padding for the container */
+                    height: 100vh; /* Optional: Full height for the background */
+                    display: flex; /* Optional: Center content */
+                    flex-direction: column; /* Optional: Vertical alignment */
+                }
+
+                h2 {
+                    font-family: 'Italiana', serif; /* Ensure you have the font imported */
+                    font-size: 2.5rem;
+                    padding: 1rem; /* Adjust padding as needed */
+                    margin: 0;
+                }
+            </style>
+            <div class="container">
+                <h2>Log In / Sign Up</h2>
+                <signup-form></signup-form>
+            </div>
         `;
     }
 
