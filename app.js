@@ -3,8 +3,10 @@ import './src/pages/HomePage.js';
 import './src/pages/MoviesPage.js';
 import './src/pages/LocationsPage.js';
 import './src/pages/BarPage.js';
+import './src/pages/SignupPage.js';
 import './src/components/Header.js';
 import './src/components/Footer.js';
+
 
 // Main App Initialization
 function init() {
@@ -47,10 +49,15 @@ function loadPage() {
     case '#Bar':
       page = document.createElement('bar-page');
       break;
+    case '#Signup':
+      page = document.createElement('signup-page');
+      break;
+
     case '#Home':
     default:
       page = document.createElement('home-page');
       break;
+    
   }
 
   pageContainer.appendChild(page);

@@ -215,7 +215,7 @@ class AppHeader extends HTMLElement {
 
     <div class="header-wrapper">
     <nav class="login-link">
-        <a href="#Login" class="login-link">Member Login</a> <!-- Member login link -->
+        <a href="#Signup" class="login-link">Member Login</a> <!-- Member login link -->
     </nav>
 
     <header>
@@ -279,20 +279,65 @@ class AppHeader extends HTMLElement {
 
   // Use the connectedCallback lifecycle method to add event listeners
   connectedCallback() {
-        const dropdowns = this.shadowRoot.querySelectorAll('.dropdown');
+    // Add event listener for popstate
+    window.addEventListener('popstate', this.updateLoginLink.bind(this));
+    
+    this.updateLoginLink();
 
-        dropdowns.forEach(dropdown => {
-            dropdown.addEventListener('mouseenter', () => {
-                const dropdownContent = dropdown.querySelector('.dropdown-content');
-                dropdownContent.classList.add('show');
-            });
+    const dropdowns = this.shadowRoot.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+      dropdown.addEventListener('mouseenter', () => {
+        const dropdownContent = dropdown.querySelector('.dropdown-content');
+        dropdownContent.classList.add('show');
+      });
 
-            dropdown.addEventListener('mouseleave', () => {
-                const dropdownContent = dropdown.querySelector('.dropdown-content');
-                dropdownContent.classList.remove('show');
-            });
-        });
+      dropdown.addEventListener('mouseleave', () => {
+        const dropdownContent = dropdown.querySelector('.dropdown-content');
+        dropdownContent.classList.remove('show');
+      });
+    });
+  }
+
+  updateLoginLink() {
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
+    const userCookie = getCookie('user');
+    console.log('User Cookie:', userCookie); // Debugging: Log the cookie
+
+    if (userCookie) {
+        try {
+            // Decode the cookie value before parsing
+            const decodedCookie = decodeURIComponent(userCookie);
+            const userData = JSON.parse(decodedCookie);
+            console.log('User Data:', userData); // Debugging: Log parsed user data
+    
+            if (userData.email) {
+                const memberLink = this.shadowRoot.querySelector('.login-link');
+                memberLink.textContent = userData.email; // Set the text to the member's email
+                memberLink.setAttribute('href', '#account'); // Update the link to point to the account page
+                console.log('Updated login link to:', userData.email); // Debugging: Confirm update
+            }
+        } catch (e) {
+            console.error('Error parsing user cookie:', e); // Debugging: Log parsing error
+        }
+    } else {
+        console.log('No user cookie found.'); // Debugging: Log when cookie is not found
     }
+    
+}
+
+disconnectedCallback() {
+    // Remove event listener to prevent memory leaks
+    window.removeEventListener('popstate', this.updateLoginLink.bind(this));
+}
+
+
+
+
 }
 
 // Define the custom element

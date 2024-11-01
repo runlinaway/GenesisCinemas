@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS members;
 
 CREATE TABLE IF NOT EXISTS members (
     member_id INT PRIMARY KEY,
+    member_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password_hash VARCHAR(100) NOT NULL,
     points INT DEFAULT 0
