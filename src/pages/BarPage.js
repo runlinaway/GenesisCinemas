@@ -118,6 +118,11 @@ class BarPage extends HTMLElement {
         item.id
       ); // Directly pass parameters
 
+      // Conditional handling for description attribute
+      if (category !== "Alcohol") {
+        menuItemCard.setAttribute("description", item.description);
+      }
+
       row.appendChild(menuItemCard);
     });
 
