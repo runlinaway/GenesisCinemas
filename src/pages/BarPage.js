@@ -50,11 +50,22 @@ class BarPage extends HTMLElement {
                     flex-wrap: wrap;
                     gap: 16px;
                 }
+                .food-list {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center; /* Center the rows within the menu list */
+                  width: 100%;
+                }
+                .food-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 16px;
+                }
   
             <div class="page-content">
                 <wine-banner></wine-banner>
                 <h1>Food List</h1>
-                <div class="item-list"></div>
+                <div class="food-list"></div>
                 <h1>Drinks List</h1>
                 <div class="item-list"></div>
                 <h1>Wine List</h1>
@@ -84,14 +95,14 @@ class BarPage extends HTMLElement {
   }
 
   renderFoodItems(foodItems) {
-    const foodList = this.shadowRoot.querySelector(".item-list");
+    const foodList = this.shadowRoot.querySelector(".food-list");
     foodList.innterHTML = "";
 
     let row;
     foodItems.forEach((food, index) => {
       if (index % 5 === 0) {
         row = document.createElement("div");
-        row.classList.add("item-row");
+        row.classList.add("food-row");
         foodList.appendChild(row);
       }
 
