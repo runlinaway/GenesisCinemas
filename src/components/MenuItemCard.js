@@ -2,7 +2,7 @@ class MenuItemCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.render();
+    this.render(); // Initial render call
   }
 
   async fetchItems(category) {
@@ -23,48 +23,62 @@ class MenuItemCard extends HTMLElement {
   }
 
   async render() {
-    // Creating main container
+    // Create main container
     const container = document.createElement("div");
 
-    const sections = ["food", "drinks", "alcohol", "wine"];
+    // Define the categories to fetch from
+    const categories = ["food", "drinks", "alcohol", "wine"];
 
-    for (const section of sections) {
-      const items = await this.fetchItems(section);
+    // Loop through each category to fetch and display items
+    for (const category of categories) {
+      const items = await this.fetchItems(category);
       const sectionDiv = document.createElement("div");
       sectionDiv.setAttribute("class", "section");
 
       const title = document.createElement("h2");
-      title.textContent = this.capitalizeFirstLetter(section);
+      title.textContent = this.capitalizeFirstLetter(category);
       sectionDiv.appendChild(title);
 
       const itemContainer = document.createElement("div");
       itemContainer.setAttribute("class", "item-container");
 
-      // Loop through items and create MenuItemCard for each
-      items.slice(0, 4).forEach((item) => {
-        const card = document.createElement("menu-item-card");
+      // Check if items are available and loop through to create cards
+      if (items.length > 0) {
+        // Randomize items and show only 4
+        const randomizedItems = this.getRandomItems(items, 4);
 
-        // Set common attributes
-        card.setAttribute("name", item.name);
-        card.setAttribute("description", item.description); // Common description
-        card.setAttribute("price", item.price); // Common price
-        card.setAttribute("image-url", item.image_url);
+        randomizedItems.forEach((item) => {
+          const card = document.createElement("menu-item-card");
 
-        // Set category-specific attributes
-        if (section === "wine") {
-          card.setAttribute("vintage", item.vintage); // Include vintage for wines
-          card.setAttribute("region", item.region); // Include region for wines
-        } else if (section === "alcohol") {
-          card.setAttribute("description", item.type); // Assuming alcohol has a type instead of description
-        }
+          // Set common attributes
+          card.setAttribute("name", item.name);
+          card.setAttribute("description", item.description); // Common description
+          card.setAttribute("price", item.price); // Common price
+          card.setAttribute("image-url", item.image_url);
 
-        itemContainer.appendChild(card);
-      });
+          // Set category-specific attributes
+          if (category === "wine") {
+            card.setAttribute("vintage", item.vintage || "N/A"); // Include vintage for wines
+            card.setAttribute("region", item.region || "N/A"); // Include region for wines
+          } else if (category === "alcohol") {
+            card.setAttribute("description", item.type || "N/A"); // Assuming alcohol has a type instead of description
+          }
+
+          itemContainer.appendChild(card);
+        });
+      } else {
+        // Handle case where no items are found
+        const noItemsMessage = document.createElement("p");
+        noItemsMessage.textContent = `No items found in ${this.capitalizeFirstLetter(
+          category
+        )}.`;
+        itemContainer.appendChild(noItemsMessage);
+      }
 
       const moreItemsLink = document.createElement("a");
       moreItemsLink.textContent = "More Items";
       moreItemsLink.setAttribute("class", "more-items");
-      moreItemsLink.href = `#${section}Items`; // Adjust to your routing system
+      moreItemsLink.href = `#${category}Items`; // Adjust to your routing system
       sectionDiv.appendChild(itemContainer);
       sectionDiv.appendChild(moreItemsLink);
       container.appendChild(sectionDiv);
@@ -72,6 +86,12 @@ class MenuItemCard extends HTMLElement {
 
     this.shadowRoot.appendChild(container);
     this.stylePage(); // Call styling function
+  }
+
+  getRandomItems(items, count) {
+    // Shuffle items and return a subset of the specified count
+    const shuffled = items.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
   }
 
   stylePage() {
