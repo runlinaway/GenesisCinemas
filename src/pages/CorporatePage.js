@@ -43,12 +43,62 @@ class CorporatePage extends HTMLElement {
         </style>
   
         <div class="page-content">
-          <h2>testing testing page Title</h2>
-          <p>This is a stand-in template for a page. Add your content here.</p>
-          <a href="#" class="cta-button">Learn More</a>
+          <h2>Corporate Inquiry</h2>
+          <p>Please fill out the form below for any corporate inquiries, and we'll get back to you as soon as possible.</p>
+          <form id="corporate-form">
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Submit</button>
+          </form>
         </div>
       `;
   }
+}
+
+connectedCallback();
+{
+  this.shadowRoot
+    .querySelector("#corporate-form")
+    .addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.sendEmail();
+    });
+}
+
+sendEmail();
+{
+  const name = this.shadowRoot.querySelector("#name").value;
+  const email = this.shadowRoot.querySelector("#email").value;
+  const message = this.shadowRoot.querySelector("#message").value;
+
+  // Construct the email content
+  const emailContent = `
+      Name: ${name}
+      Email: ${email}
+      Message: ${message}
+    `;
+
+  // Email sending logic
+  fetch("your_email_sending_endpoint", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      subject: "Corporate Inquiry",
+      body: emailContent,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+      alert("Your message has been sent successfully!");
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("There was an error sending your message. Please try again later.");
+    });
 }
 
 customElements.define("corporate-page", CorporatePage);
