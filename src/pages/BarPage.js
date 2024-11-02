@@ -57,6 +57,10 @@ class BarPage extends HTMLElement {
                 <div class="item-list"></div>
                 <h1>Drinks List</h1>
                 <div class="item-list"></div>
+                <h1>Wine List</h1>
+                <div class="item-list"></div>
+                <h1>Alcohol List</h1>
+                <div class="item-list"></div>
             </div>
         `;
   }
