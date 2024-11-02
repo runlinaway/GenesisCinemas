@@ -23,8 +23,19 @@ class MovieDetailsPage extends HTMLElement {
                         .container {
                             display: flex;
                             flex-direction: column;
-                            width: 100%;
                             position: relative;
+                            width: 100%;
+                        }
+
+                        .content-wrapper {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 0 40px;
+                            margin-top: 10px;
+                        }
+
+                        .left-column {
+                            width: 422px;
                         }
 
                         .movie-trailer {
@@ -32,60 +43,42 @@ class MovieDetailsPage extends HTMLElement {
                             overflow: hidden;
                         }
 
-                        .content-row {
-                            display: flex;
-                            justify-content: space-between;
-                            padding: 40px;
-                            gap: 40px;
-                        }
-
-                        .left-column {
-                            flex: 1;
-                        }
-
                         .synopsis_container {
-                            width: 422px;
                             color: white;
                             font-family: 'Kantumury Pro Thin', serif;
                         }
                         
                         .synopsis_container h1 {
                             font-family: 'Italiana', serif;
-                            font-size: 3rem; /* Italiana size 3rem */
+                            font-size: 3rem;
                             font-weight: normal;
-                            margin-bottom: 10px; /* Space below the heading */
-                            text-decoration: underline; /* Underline the title */
-                            text-decoration-color: white; /* Underline color */
-                            text-decoration-thickness: 2px; /* Thickness of the underline */
-                            border-radius: 10px; /* Rounded underline */
+                            margin-bottom: 10px;
+                            text-decoration: underline;
+                            text-decoration-color: white;
+                            text-decoration-thickness: 2px;
+                            border-radius: 10px;
                         }
                         
                         .synopsis_container p {
                             font-family: 'Kantumury Pro Thin', serif;
-                            font-size: 1.5rem; /* Synopsis text size */
-                            margin: 0; /* Remove default margins */
+                            font-size: 1.5rem;
+                            margin: 0;
                         }
 
                         .info_box {
-                            
-                            border: 2px solid white; /* White border */
-                            border-radius: 10px; /* Rounded corners */
-                            padding: 20px; /* Padding inside the box */
-                            margin-top: 40px; /* Space between synopsis and info box */
-                            background:#1e1e1e; 
-                            width: 378px; /* Match width with synopsis container */
-                            color: white; /* Text color */
+                            border: 2px solid white;
+                            border-radius: 10px;
+                            padding: 20px;
+                            margin-top: 40px;
+                            background: #1e1e1e;
+                            width: 378px;
+                            color: white;
                             font-family: 'Kantumury Pro Thin', serif;
-
                         }
 
                         .info_box div {
-                            margin-bottom: 10px; /* Space between each info item */
-                            font-size: 1.5rem; /* Set font size for info items */
-                        }
-
-                        .info_box div span {
-                             /* Bold label for each info item */
+                            margin-bottom: 10px;
+                            font-size: 1.5rem;
                         }
                     </style>
 
@@ -98,7 +91,7 @@ class MovieDetailsPage extends HTMLElement {
                             starring="${movie.cast}">
                         </movie-trailer>
                         
-                        <div class="content-row">
+                        <div class="content-wrapper">
                             <div class="left-column">
                                 <div class="synopsis_container">
                                     <h1>Synopsis</h1>
@@ -113,7 +106,10 @@ class MovieDetailsPage extends HTMLElement {
                                 </div>
                             </div>
 
-                            <movie-showtimes show-id="${movie.show_id}"></movie-showtimes>
+                            <movie-showtimes 
+                                show-id="${movie.show_id}" 
+                                movie-title="${movie.title}">
+                            </movie-showtimes>
                         </div>
                     </div>
                 `;

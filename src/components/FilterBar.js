@@ -159,7 +159,7 @@ class FilterBar extends HTMLElement {
             .filter-bar {
                 padding: 0;
                 background-color: #1e1e1e;
-                border-bottom: 1px solid white;
+                border-bottom: 1px solid #b3b3b3;
             }
 
             .filter-line-container {

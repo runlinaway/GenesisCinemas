@@ -6,6 +6,8 @@ import './src/pages/SignupPage.js';
 import './src/pages/MovieDetailsPage.js';
 import './src/components/Header.js';
 import './src/components/Footer.js';
+import './src/pages/SeatSelectionPage.js';
+import './src/components/CinemaLayout.js';
 
 // Main App Initialization
 function init() {
@@ -50,7 +52,10 @@ function loadPage() {
         if (params.has('location')) {
             page.setAttribute('location-id', params.get('location'));
         }
-    } else {
+    }  else if (hash.startsWith('#SeatSelection')) {
+        page = document.createElement('seat-selection-page');
+    }
+    else {
         switch (hash) {
             case '#Locations':
                 page = document.createElement('locations-page');

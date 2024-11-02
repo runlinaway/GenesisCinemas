@@ -11,6 +11,7 @@ try {
     $query = "
         SELECT l.name as location_name, 
                GROUP_CONCAT(TIME_FORMAT(s.show_date, '%H:%i') ORDER BY s.show_date SEPARATOR ',') as times,
+               GROUP_CONCAT(s.showtime_id ORDER BY s.show_date SEPARATOR ',') as showtime_id,
                l.location_id,
                DATE(s.show_date) as show_date
         FROM showtimes s
