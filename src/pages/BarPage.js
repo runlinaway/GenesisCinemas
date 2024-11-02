@@ -27,51 +27,44 @@ class BarPage extends HTMLElement {
                     gap: 16px;
                     padding: 0;
                 }
+
                 .page-content h1 {
                     align-self: center; /* Centers only the h1 element */
                     font-family: 'Italiana', serif;
                     font-size: 3rem;
                     font-weight: normal;
                     margin-bottom: 10px;
-                    color:white;
+                    color: white;
                     text-decoration: underline;
                     text-decoration-color: white;
                     text-decoration-thickness: 2px;
                     border-radius: 10px;
-                }    
-                .item-list {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center; /* Center the rows within the menu list */
-                  width: 100%;
                 }
-                .item-row {
+
+                .item-list, .food-list, .drink-list, .wine-list, .alcohol-list {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center; /* Center the rows within the menu list */
+                    width: 100%;
+                }
+
+                .item-row, .food-row, .drink-row, .wine-row, .alcohol-row {
                     display: flex;
                     flex-wrap: wrap;
                     gap: 16px;
                 }
-                .food-list {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center; /* Center the rows within the menu list */
-                  width: 100%;
-                }
-                .food-row {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 16px;
-                }
-  
+            </style>
+
             <div class="page-content">
                 <wine-banner></wine-banner>
                 <h1>Food List</h1>
                 <div class="food-list"></div>
                 <h1>Drinks List</h1>
-                <div class="item-list"></div>
+                <div class="drink-list"></div>
                 <h1>Wine List</h1>
-                <div class="item-list"></div>
+                <div class="wine-list"></div>
                 <h1>Alcohol List</h1>
-                <div class="item-list"></div>
+                <div class="alcohol-list"></div>
             </div>
         `;
   }
@@ -96,7 +89,7 @@ class BarPage extends HTMLElement {
 
   renderFoodItems(foodItems) {
     const foodList = this.shadowRoot.querySelector(".food-list");
-    foodList.innterHTML = "";
+    foodList.innerHTML = "";
 
     let row;
     foodItems.forEach((food, index) => {
@@ -129,14 +122,14 @@ class BarPage extends HTMLElement {
   }
 
   renderDrinkItems(drinkItems) {
-    const drinkList = this.shadowRoot.querySelector(".item-list");
-    drinkList.innterHTML = "";
+    const drinkList = this.shadowRoot.querySelector(".drink-list");
+    drinkList.innerHTML = "";
 
     let row;
     drinkItems.forEach((drink, index) => {
       if (index % 5 === 0) {
         row = document.createElement("div");
-        row.classList.add("item-row");
+        row.classList.add("drink-row");
         drinkList.appendChild(row);
       }
 
@@ -163,14 +156,14 @@ class BarPage extends HTMLElement {
   }
 
   renderWineItems(wineItems) {
-    const wineList = this.shadowRoot.querySelector(".item-list");
-    wineList.innterHTML = "";
+    const wineList = this.shadowRoot.querySelector(".wine-list");
+    wineList.innerHTML = "";
 
     let row;
     wineItems.forEach((wine, index) => {
       if (index % 5 === 0) {
         row = document.createElement("div");
-        row.classList.add("item-row");
+        row.classList.add("wine-row");
         wineList.appendChild(row);
       }
 
@@ -197,14 +190,14 @@ class BarPage extends HTMLElement {
   }
 
   renderAlcoholItems(alcoholItems) {
-    const alcoholList = this.shadowRoot.querySelector(".item-list");
-    alcoholList.innterHTML = "";
+    const alcoholList = this.shadowRoot.querySelector(".alcohol-list");
+    alcoholList.innerHTML = "";
 
     let row;
     alcoholItems.forEach((alcohol, index) => {
       if (index % 5 === 0) {
         row = document.createElement("div");
-        row.classList.add("item-row");
+        row.classList.add("alcohol-row");
         alcoholList.appendChild(row);
       }
 
@@ -218,11 +211,6 @@ class BarPage extends HTMLElement {
       row.appendChild(alcoholCard);
     });
   }
-
-  //   categoryHeading.addEventListener("click", () => {
-  //     row.classList.toggle("expanded");
-  //     row.style.display = row.classList.contains("expanded") ? "flex" : "none";
-  //   });
 }
 
 customElements.define("bar-page", BarPage);
