@@ -23,10 +23,10 @@ class BarPage extends HTMLElement {
                 }
                     
                 .menu-list {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center; /* Center the rows within the menu list */
-                    width: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center; /* Center the rows within the menu list */
+                  width: 100%;
                 }
                 .page-content h1 {
                     align-self: center; /* Centers only the h1 element */
@@ -40,30 +40,10 @@ class BarPage extends HTMLElement {
                     text-decoration-thickness: 2px;
                     border-radius: 10px;
                 }
-                h2 {
-                    cursor: pointer; /* Make category headings clickable */
-                    color: #fff;
-                    background-color: #333;
-                    padding: 10px;
-                    width: 100%;
-                    text-align: center;
-                    margin: 0;
-                    border-radius: 4px;
-                    transition: background-color 0.3s;
-                }
-
-                h2:hover {
-                    background-color: #444;
-                }
-
                 .menu-row {
-                    display: none; /* Hide menu items by default */
+                    display: flex;
                     flex-wrap: wrap;
                     gap: 16px;
-                }
-
-                .menu-row.expanded {
-                    display: flex; /* Show menu items when expanded */
                 }
             </style>
   
@@ -76,93 +56,74 @@ class BarPage extends HTMLElement {
   }
 
   connectedCallback() {
-    this.fetchFoodItems();
-    this.fetchDrinkItems();
-    this.fetchWineItems();
-    this.fetchAlcoholItems();
+    this.fetchMenuItems();
   }
 
-  async fetchFoodItems() {
+  async fetchMenuItems() {
     try {
-      const response = await fetch("./src/services/fetch_food.php");
-      const foodItems = await response.json();
+      const foodResponse = await fetch("./src/services/fetch_food.php");
+      const drinkResponse = await fetch("./src/services/fetch_drinks.php");
+      const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
+      const alcoholResponse = await fetch("./src/services/fetch_alcohol.php");
+
+      const foodItems = await foodResponse.json();
+      const drinkItems = await drinkResponse.json();
+      const wineItems = await wineResponse.json();
+      const alcoholItems = await alcoholResponse.json();
+
       console.log("Fetched Food Items:", foodItems);
-      this.renderMenuItems(foodItems, "Food");
-    } catch (error) {
-      console.error("Error fetching food items:", error);
-    }
-  }
-
-  async fetchDrinkItems() {
-    try {
-      const response = await fetch("./src/services/fetch_drinks.php");
-      const drinkItems = await response.json();
       console.log("Fetched Drink Items:", drinkItems);
-      this.renderMenuItems(drinkItems, "Drinks");
-    } catch (error) {
-      console.error("Error fetching drink items:", error);
-    }
-  }
-
-  async fetchWineItems() {
-    try {
-      const response = await fetch("./src/services/fetch_wine_drop.php");
-      const wineItems = await response.json();
       console.log("Fetched Wine Items:", wineItems);
-      this.renderMenuItems(wineItems, "Wine");
-    } catch (error) {
-      console.error("Error fetching wine items:", error);
-    }
-  }
-
-  async fetchAlcoholItems() {
-    try {
-      const response = await fetch("./src/services/fetch_alcohol.php");
-      const alcoholItems = await response.json();
       console.log("Fetched Alcohol Items:", alcoholItems);
+
+      this.renderMenuItems(foodItems, "Food");
+      this.renderMenuItems(drinkItems, "Drinks");
+      this.renderMenuItems(wineItems, "Wine");
       this.renderMenuItems(alcoholItems, "Alcohol");
     } catch (error) {
-      console.error("Error fetching alcohol items:", error);
+      console.error("Error fetching menu items:", error);
     }
   }
 
   renderMenuItems(menuItems, category) {
     const menuList = this.shadowRoot.querySelector(".menu-list");
-    menuList.innerHTML = ""; // Clear previous content
 
-    let row;
+    // Create a heading for each category
+    const categoryHeading = document.createElement("h2");
+    categoryHeading.textContent = category;
+    menuList.appendChild(categoryHeading);
+
+    // Create a container for menu items
+    let row = document.createElement("div");
+    row.classList.add("menu-row");
+    menuList.appendChild(row);
+
+    // Clear previous content in the row
+    row.innerHTML = "";
+
     menuItems.forEach((item, index) => {
-      // Create a new row every 5 items
-      if (index % 5 === 0) {
+      // Create a new row every 5 menu items
+      if (index % 5 === 0 && index !== 0) {
         row = document.createElement("div");
         row.classList.add("menu-row");
         menuList.appendChild(row);
       }
 
-      // Create a MenuItemCard element for each item
-      const menuItemCard = document.createElement("menu-item-card");
-
-      // Set attributes individually after element creation
-      menuItemCard.name = item.name;
-      menuItemCard.price = item.price;
-      menuItemCard.imageUrl = `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`;
-      menuItemCard.id = item.id;
-
-      // Conditional handling for description attribute
-      if (category !== "Alcohol") {
-        menuItemCard.description = item.description;
-      }
+      // Create a MenuItemCard element for each menu item
+      const menuItemCard = new MenuItemCard(
+        item.name,
+        item.image_url,
+        item.description,
+        item.price,
+        item.id
+      ); // Directly pass parameters
 
       row.appendChild(menuItemCard);
     });
 
     // Add click event to toggle visibility
-    const categoryHeading = document.createElement("h2");
-    categoryHeading.textContent = category;
-    menuList.appendChild(categoryHeading);
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
-      row.style.display = row.classList.contains("expanded") ? "flex" : "none";
     });
   }
 }
