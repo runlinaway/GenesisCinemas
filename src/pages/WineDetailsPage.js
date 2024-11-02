@@ -86,6 +86,7 @@ class WineDetailsPage extends HTMLElement {
         background: #1e1e1e; 
         color: white; /* Text color */
         font-family: 'Kantumury Pro Thin', serif;
+        width: 300px;
     }
 
     .info_box div {
