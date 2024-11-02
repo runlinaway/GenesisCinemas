@@ -1,50 +1,58 @@
-import "../components/WineBanner.js"; // Importing Wine Selection Banner Component
-import "../components/MenuItemCard.js"; // Importing Menu Item Card Component
+import "../components/WineBanner.js";
+import "../components/MenuItemCard.js"; // Ensure you have imported the MenuItemCard component
+import { MenuItemCard } from "../components/MenuItemCard.js";
 
 class BarPage extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
-        <style>
-          /* Basic page styling */
-          :host {
-            display: block;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            color: #333;
-            background-color: #f5f5f5;
-          }
+            <style>
+                :host {
+                    display: block;
+                    padding: 0;
+                    color: #333;
+                    background-color: #1e1e1e;
+                }
 
-          h2 {
-            color: #333;
-            font-size: 2rem;
-            margin: 0 0 10px;
-            cursor: pointer; /* Make headings clickable */
-          }
-
-          .menu-row {
-            display: none; /* Hide menu items by default */
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-          }
-
-          .menu-row.expanded {
-            display: flex; /* Show menu items when expanded */
-          }
-
-          .menu-item {
-            flex: 1 1 calc(25% - 20px); /* 4 items in a row with margin */
-            margin: 10px;
-            max-width: 200px; /* Set max width to prevent overflow */
-          }
-        </style>
-
-        <div class="page-content">
-          <wine-banner></wine-banner>
-          <div class="menu-list"></div>
-        </div>
-      `;
+                .page-content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                    padding: 0;
+                }
+                    
+                .menu-list {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center; /* Center the rows within the menu list */
+                  width: 100%;
+                }
+                .page-content h1 {
+                    align-self: center; /* Centers only the h1 element */
+                    font-family: 'Italiana', serif;
+                    font-size: 3rem;
+                    font-weight: normal;
+                    margin-bottom: 10px;
+                    color:white;
+                    text-decoration: underline;
+                    text-decoration-color: white;
+                    text-decoration-thickness: 2px;
+                    border-radius: 10px;
+                }
+                .menu-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 16px;
+                }
+            </style>
+  
+            <div class="page-content">
+                <wine-banner></wine-banner>
+                <h1>Menu Items</h1>
+                <div class="menu-list"></div>
+            </div>
+        `;
   }
 
   connectedCallback() {
@@ -53,7 +61,6 @@ class BarPage extends HTMLElement {
 
   async fetchMenuItems() {
     try {
-      // Fetching menu items from different categories
       const foodResponse = await fetch("./src/services/fetch_food.php");
       const drinkResponse = await fetch("./src/services/fetch_drinks.php");
       const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
@@ -64,17 +71,15 @@ class BarPage extends HTMLElement {
       const wineItems = await wineResponse.json();
       const alcoholItems = await alcoholResponse.json();
 
-      // Log the fetched items
       console.log("Fetched Food Items:", foodItems);
       console.log("Fetched Drink Items:", drinkItems);
       console.log("Fetched Wine Items:", wineItems);
       console.log("Fetched Alcohol Items:", alcoholItems);
 
-      // Render menu items for each category
       this.renderMenuItems(foodItems, "Food");
       this.renderMenuItems(drinkItems, "Drinks");
-      this.renderMenuItems(alcoholItems, "Alcohol");
       this.renderMenuItems(wineItems, "Wine");
+      this.renderMenuItems(alcoholItems, "Alcohol");
     } catch (error) {
       console.error("Error fetching menu items:", error);
     }
@@ -82,57 +87,33 @@ class BarPage extends HTMLElement {
 
   renderMenuItems(menuItems, category) {
     const menuList = this.shadowRoot.querySelector(".menu-list");
+    menuList.innerHTML = ""; // Clear previous content
 
-    // Create a heading for each category
-    const categoryHeading = document.createElement("h2");
-    categoryHeading.textContent = category;
-    menuList.appendChild(categoryHeading);
-
-    // Create a container for menu items
-    const row = document.createElement("div");
-    row.classList.add("menu-row");
-    menuList.appendChild(row);
-
-    // Clear previous content in the row
-    row.innerHTML = "";
-
+    let row;
     menuItems.forEach((item, index) => {
-      // Create a new row every 5 items
-      if (index % 5 === 0 && index !== 0) {
+      // Create a new row every 5 menu items
+      if (index % 5 === 0) {
         row = document.createElement("div");
         row.classList.add("menu-row");
         menuList.appendChild(row);
       }
 
-      // Create a MenuItemCard element for each item
-      const menuItemCard = document.createElement("menu-item-card");
-      menuItemCard.setAttribute("name", item.name);
-      menuItemCard.setAttribute("description", item.description);
-      menuItemCard.setAttribute("price", item.price);
-      menuItemCard.setAttribute(
-        "image-url",
-        `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
-      );
-
-      // Log the image URL to the console
-      console.log(
-        `Rendering ${category} item: ${
-          item.name
-        } Image URL: ${menuItemCard.getAttribute("image-url")}`
-      );
-
-      // Set additional attributes if applicable
-      if (category === "Wine") {
-        menuItemCard.setAttribute("vintage", item.vintage || "N/A");
-        menuItemCard.setAttribute("region", item.region || "N/A");
-      } else if (category === "Alcohol") {
-        menuItemCard.setAttribute("description", item.type || "N/A");
-      }
+      // Create a MenuItemCard element for each menu item
+      const menuItemCard = new MenuItemCard(
+        item.name,
+        item.image_url,
+        item.description,
+        item.price,
+        item.id
+      ); // Directly pass parameters
 
       row.appendChild(menuItemCard);
     });
 
     // Add click event to toggle visibility
+    const categoryHeading = document.createElement("h2");
+    categoryHeading.textContent = category;
+    menuList.appendChild(categoryHeading);
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
     });
