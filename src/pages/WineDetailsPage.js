@@ -12,7 +12,9 @@ class WineDetailsPage extends HTMLElement {
   async fetchWineDetails(name) {
     try {
       const response = await fetch(
-        `./src/services/fetch_wine.php?name=${encodeURIComponent(name)}`
+        `./src/services/fetch_wine_selection.php?name=${encodeURIComponent(
+          name
+        )}`
       );
       const wine = await response.json();
 
