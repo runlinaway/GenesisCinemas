@@ -13,49 +13,45 @@ class BarPage extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
-            <style>
-                :host {
-                    display: block;
-                    padding: 0;
-                    color: #333;
-                    background-color: #1e1e1e;
-                }
-
-                .page-content {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 16px;
-                    padding: 0;
-                }
-
-                .page-content h1 {
-                    align-self: center; /* Centers only the h1 element */
-                    font-family: 'Italiana', serif;
-                    font-size: 3rem;
-                    font-weight: normal;
-                    margin-bottom: 10px;
-                    color: white;
-                    text-decoration: underline;
-                    text-decoration-color: white;
-                    text-decoration-thickness: 2px;
-                    border-radius: 10px;
-                }
-
-                .item-list, .food-list, .drink-list, .wine-list, .alcohol-list {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center; /* Center the rows within the menu list */
-                    width: 100%;
-                }
-
-                .item-row, .food-row, .drink-row, .wine-row, .alcohol-row {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 16px;
-                }
-            </style>
-
-            <div class="page-content">
+      <style>
+        :host {
+          display: block;
+          padding: 0;
+          color: #333;
+          background-color: #1e1e1e;
+        }
+        .page-content {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          padding: 0;
+        }
+        .page-content h1 {
+          align-self: center;
+          font-family: 'Italiana', serif;
+          font-size: 3rem;
+          font-weight: normal;
+          margin-bottom: 10px;
+          color: white;
+          text-decoration: underline;
+          text-decoration-color: white;
+          text-decoration-thickness: 2px;
+          border-radius: 10px;
+          cursor: pointer; /* Make the headers look clickable */
+        }
+        .item-list, .food-list, .drink-list, .wine-list, .alcohol-list {
+          display: none; /* Initially hide all lists */
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+        .item-row, .food-row, .drink-row, .wine-row, .alcohol-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 16px;
+        }
+      </style>
+      <div class="page-content">
         <wine-banner></wine-banner>
         <h1 class="toggle-header" data-target=".food-list">Food List</h1>
         <div class="food-list"></div>
