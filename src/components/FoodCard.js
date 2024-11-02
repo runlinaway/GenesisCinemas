@@ -1,12 +1,12 @@
 class FoodCard extends HTMLElement {
-  constructor(name, imageUrl, description, price) {
+  constructor(foodName, imageUrl, description, price) {
     super();
     this.attachShadow({ mode: "open" });
-    this.name = name;
+    this.foodName = foodName;
     // Constants for the food details
     const foodImgSrc = imageUrl;
-    const foodImgAlt = `${name} image`;
-    const foodNameText = name;
+    const foodImgAlt = `${foodName} image`;
+    const foodNameText = foodName;
     const foodDescText = description;
     const foodPriceText = `$${price}`;
     const imgPath = "./src/assets/images/";
@@ -32,6 +32,14 @@ class FoodCard extends HTMLElement {
     this.card.appendChild(this.infoOverlay);
 
     this.shadowRoot.append(this.card);
+
+    // Add click event listener to navigate to ItemDetailsPage.js
+    this.card.addEventListener("click", () => {
+      // Redirect to the ItemDetailsPage with the item name as a parameter in the URL hash
+      window.location.hash = `#ItemDetails/${encodeURIComponent(
+        this.foodName
+      )}`;
+    });
 
     this.styleCard(); // Call styleCard without parameters
   }
