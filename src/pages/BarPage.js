@@ -23,12 +23,6 @@ class BarPage extends HTMLElement {
             cursor: pointer; /* Make headings clickable */
           }
 
-          p {
-            color: #555;
-            font-size: 1rem;
-            line-height: 1.5;
-          }
-
           .menu-row {
             display: none; /* Hide menu items by default */
             flex-wrap: wrap;
@@ -77,10 +71,10 @@ class BarPage extends HTMLElement {
       console.log("Fetched Alcohol Items:", alcoholItems);
 
       // Render menu items for each category
-      this.renderMenuItems(foodItems.slice(0, 4), "Food");
-      this.renderMenuItems(drinkItems.slice(0, 4), "Drinks");
-      this.renderMenuItems(alcoholItems.slice(0, 4), "Alcohol");
-      this.renderMenuItems(wineItems.slice(0, 4), "Wine");
+      this.renderMenuItems(foodItems, "Food");
+      this.renderMenuItems(drinkItems, "Drinks");
+      this.renderMenuItems(alcoholItems, "Alcohol");
+      this.renderMenuItems(wineItems, "Wine");
     } catch (error) {
       console.error("Error fetching menu items:", error);
     }
@@ -99,16 +93,27 @@ class BarPage extends HTMLElement {
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
-    menuItems.forEach((item) => {
+    // Clear previous content in the row
+    row.innerHTML = "";
+
+    menuItems.forEach((item, index) => {
+      // Create a new row every 5 items
+      if (index % 5 === 0 && index !== 0) {
+        row = document.createElement("div");
+        row.classList.add("menu-row");
+        menuList.appendChild(row);
+      }
+
+      // Create a MenuItemCard element for each item
       const menuItemCard = document.createElement("menu-item-card");
       menuItemCard.setAttribute("name", item.name);
       menuItemCard.setAttribute("description", item.description);
       menuItemCard.setAttribute("price", item.price);
-      // Set the image URL dynamically
       menuItemCard.setAttribute(
         "image-url",
         `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
       );
+
       // Log the image URL to the console
       console.log(
         `Rendering ${category} item: ${
