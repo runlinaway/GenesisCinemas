@@ -3,7 +3,7 @@
 $conn = require '../utils/db_connection.php'; // Adjust the path as needed
 
 // Query to find all food items (adjust based on your database structure)
-$sql = "SELECT id, name, description, price, image_url FROM food LIMIT 4"; // Limiting to 4 items
+$sql = "SELECT id, name, description, price, image_url FROM food"; // Limiting to 4 items
 
 try {
     // Prepare and execute the query
