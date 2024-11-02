@@ -12,81 +12,33 @@ class WineDetailsPage extends HTMLElement {
 
   async fetchWineDetails(name) {
     try {
-      console.log(
-        "Fetching wine details from URL:",
-        `./src/services/fetch_wine.php?name=${encodeURIComponent(name)}`
-      );
       const response = await fetch(
         `./src/services/fetch_wine.php?name=${encodeURIComponent(name)}`
       );
-      console.log("Response from fetch:", response); // Log the response object
-
       const wine = await response.json();
-      console.log("Parsed Wine Data:", wine); // Log the parsed wine data
 
-      if (Array.isArray(wine) && wine.length > 0) {
-        const selectedWine = wine[0]; // Get the first item in the array
-        console.log("Selected Wine Data to Display:", selectedWine);
+      console.log("Parsed Wine Data:", wine); // Log full wine data
+
+      if (wine && !wine.error) {
+        // Log the image URL to verify it's correct
+        console.log("Wine Image URL:", wine.image_url);
+
         this.shadowRoot.innerHTML = `
-          <style>
-            .container {
-              display: flex;
-              flex-direction: column;
-              width: 100%;
-              color: white;
-              font-family: 'Kantumury Pro Thin', serif;
-            }
-            .image-container {
-              width: 100%;
-              overflow: hidden;
-            }
-            .wine-image {
-              width: 100%;
-              object-fit: cover;
-            }
-            .synopsis_container {
-              padding: 20px;
-            }
-            .synopsis_container h1 {
-              font-family: 'Italiana', serif;
-              font-size: 3rem;
-              text-decoration: underline;
-              text-decoration-color: white;
-              text-decoration-thickness: 2px;
-              border-radius: 10px;
-            }
-            .synopsis_container p {
-              font-size: 1.5rem;
-            }
-            .info_box {
-              border: 2px solid white;
-              border-radius: 10px;
-              padding: 20px;
-              margin-top: 20px;
-              background: #1e1e1e;
-              width: 100%;
-            }
-            .info_box div {
-              margin-bottom: 10px;
-              font-size: 1.5rem;
-            }
-          </style>
-          <div class="container">
-            <div class="image-container">
-              <img class="wine-image" src="./src/assets/images/${wine.image_url}" alt="${wine.name}">
-            </div>
-            <div class="synopsis_container">
-              <h1>${wine.name}</h1>
-              <p>${wine.description}</p>
-            </div>
-            <div class="info_box">
-              <div><strong>Type:</strong> ${wine.type}</div>
-              <div><strong>Price:</strong> $${wine.price}</div>
-              <div><strong>Year:</strong> ${wine.year}</div>
-            
-            </div>
-          </div>
-        `;
+                <div class="container">
+                    <div class="image-container">
+                        <img class="wine-image" src="./src/assets/images/${wine.image_url}" alt="${wine.name}">
+                    </div>
+                    <div class="synopsis_container">
+                        <h1>${wine.name}</h1>
+                        <p>${wine.description}</p>
+                    </div>
+                    <div class="info_box">
+                        <div><strong>Type:</strong> ${wine.type}</div>
+                        <div><strong>Price:</strong> $${wine.price}</div>
+                        <div><strong>Year:</strong> ${wine.year}</div>
+                    </div>
+                </div>
+            `;
       } else {
         this.shadowRoot.innerHTML = `<p>Wine not found or error fetching details.</p>`;
       }
