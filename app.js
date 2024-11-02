@@ -5,7 +5,7 @@ import "./src/pages/BarPage.js";
 import "./src/pages/SignupPage.js";
 import "./src/pages/MovieDetailsPage.js";
 import "./src/pages/CorporatePage.js";
-import "./src/pages/FAQPage.js";
+import "./src/pages/FaqPage.js";
 import "./src/pages/ItemDetailsPage.js";
 import "./src/components/Header.js";
 import "./src/components/Footer.js";
