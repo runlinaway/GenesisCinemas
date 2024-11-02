@@ -2,23 +2,32 @@
 // Include the database connection
 $conn = require '../utils/db_connection.php'; // Adjust the path as needed
 
-// Query to find all wine items (adjust based on your database structure)
-$sql = "SELECT id, name, vintage, region, description, price, image_url FROM wine LIMIT 4"; // Limiting to 4 items
+// Get the wine name from the query string
+$name = isset($_GET['name']) ? $_GET['name'] : null;
 
-try {
-    // Prepare and execute the query
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    
-    // Fetch results
-    $wineItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if ($name) {
+    // Prepare a SQL query to find the wine by name
+    $sql = "SELECT id, name, vintage, region, description, price, image_url FROM wine WHERE name = :name LIMIT 1"; // Limit to 1 item
 
-    // Return results as JSON
-    header('Content-Type: application/json');
-    echo json_encode($wineItems);
-} catch (PDOException $e) {
-    // Handle query error
-    echo json_encode(['error' => $e->getMessage()]);
+    try {
+        // Prepare and execute the query
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+        
+        // Fetch results
+        $wineItem = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Return results as JSON
+        header('Content-Type: application/json');
+        echo json_encode($wineItem ? $wineItem : ['error' => 'Wine not found']);
+    } catch (PDOException $e) {
+        // Handle query error
+        echo json_encode(['error' => $e->getMessage()]);
+    }
+} else {
+    // If no name is provided
+    echo json_encode(['error' => 'No wine name provided']);
 }
 
 // Close the connection (optional, as it's done automatically at the end of the script)
