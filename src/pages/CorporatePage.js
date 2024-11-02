@@ -1,3 +1,5 @@
+import "../components/StaticBanner.js";
+
 class CorporatePage extends HTMLElement {
   constructor() {
     super();
@@ -43,7 +45,6 @@ class CorporatePage extends HTMLElement {
         </style>
   
         <div class="page-content">
-
           <h2>Corporate Inquiry</h2>
           <p>Please fill out the form below for any corporate inquiries, and we'll get back to you as soon as possible.</p>
           <form id="corporate-form">
