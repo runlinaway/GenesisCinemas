@@ -1,6 +1,7 @@
 import "../components/WineBanner.js";
 import "../components/MenuItemCard.js"; // Ensure you have imported the MenuItemCard component
 import { MenuItemCard } from "../components/MenuItemCard.js";
+import { FoodCard } from "../components/FoodCard.js";
 
 class BarPage extends HTMLElement {
   constructor() {
@@ -107,7 +108,7 @@ class BarPage extends HTMLElement {
   }
 
   renderFoodItems(foodItems) {
-    const menuList = this.shadowRoot.querySelector(".menu-list");
+    const menuList = this.shadowRoot.querySelector(".food-list");
 
     // Create a heading for the category
     const categoryHeading = document.createElement("h2");
@@ -119,11 +120,11 @@ class BarPage extends HTMLElement {
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
-    const menuItemCard = new MenuItemCard(
-      menu.name,
-      menu.image_url,
-      menu.description,
-      menu.price
+    const menuItemCard = new FoodCard(
+      food.name,
+      food.image_url,
+      food.description,
+      food.price
     );
 
     row.appendChild(menuItemCard);
