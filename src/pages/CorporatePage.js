@@ -43,7 +43,7 @@ class CorporatePage extends HTMLElement {
         </style>
   
         <div class="page-content">
-          <h2>FAQ page Title</h2>
+          <h2>testing testing page Title</h2>
           <p>This is a stand-in template for a page. Add your content here.</p>
           <a href="#" class="cta-button">Learn More</a>
         </div>
