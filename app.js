@@ -91,7 +91,7 @@ function loadPage() {
         page = document.createElement("corporate-page");
         break;
       case "#FAQ":
-        page = document.createElement("Faq-page");
+        page = document.createElement("faq-page");
         break;
     }
   }
