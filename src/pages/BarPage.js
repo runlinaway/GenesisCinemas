@@ -139,7 +139,8 @@ class BarPage extends HTMLElement {
 
     // Add click event to toggle visibility
     categoryHeading.addEventListener("click", () => {
-      row.classList.toggle("expanded");
+      const isExpanded = row.classList.toggle("expanded");
+      row.style.display = isExpanded ? "flex" : "none";
     });
   }
 }
