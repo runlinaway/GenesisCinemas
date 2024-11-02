@@ -156,7 +156,6 @@ class ItemDetailsPage extends HTMLElement {
                     <div class="text-container">
                         <div class="description-container">
                             <h1>${item.name}</h1>
-                            <p>${description}</p>
                         </div>
                         <div class="info-box">
                             <div><strong>Price:</strong> $${price}</div>
