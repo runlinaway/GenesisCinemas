@@ -111,9 +111,8 @@ class WineDetailsPage extends HTMLElement {
                 <p>${wine.description}</p>
             </div>
             <div class="info_box">
-                <div><strong>Type:</strong> ${wine.type}</div>
                 <div><strong>Price:</strong> $${wine.price}</div>
-                <div><strong>Year:</strong> ${wine.year}</div>
+                <div><strong>Year:</strong> ${wine.vintage}</div>
             </div>
         </div>
     </div>
