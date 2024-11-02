@@ -3,23 +3,24 @@ class MenuItemCard extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.name = name;
-    this.imageUrl = imageUrl;
-    this.description = description;
-    this.price = price;
-    this.id = id;
+    // this.imageUrl = imageUrl;
+    // this.description = description;
+    // this.price = price;
+    // this.id = id;
 
     const imageSrc = imageUrl;
     const imageAlt = `${name} image`;
     const nameText = name;
-    const descriptionText = description;
+    const descriptionText = `Description:<br> ${description}`;
     const priceText = `$${price}`;
+    const imagePath = "./src/assets/images/";
 
     this.card = document.createElement("div");
     this.card.setAttribute("class", "card");
 
     this.image = document.createElement("img");
     this.image.setAttribute("class", "image");
-    this.image.setAttribute("src", imageSrc);
+    this.image.setAttribute("src", imagePath + imageSrc);
     this.image.setAttribute("alt", imageAlt);
 
     this.infoOverlay = document.createElement("div");

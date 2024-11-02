@@ -108,14 +108,13 @@ class BarPage extends HTMLElement {
         row.classList.add("menu-row");
         menuList.appendChild(row);
       }
-
+      // const menuItemCard = new MenuItemCard(item.ide);
       // Create a MenuItemCard element for each menu item
-      const menuItemCard = new MenuItemCard(
-        item.name,
-        item.image_url,
-        item.price,
-        item.id
-      ); // Directly pass parameters
+      const menuItemCard = document.createElement("menu-item-card");
+      menuItemCard.setAttribute("name", item.name);
+      menuItemCard.setAttribute("price", item.price);
+      menuItemCard.setAttribute("imageUrl", item.image_Url);
+      menuItemCard.setAttribute("id", item.id);
 
       // Conditional handling for description attribute
       if (category !== "Alcohol") {
