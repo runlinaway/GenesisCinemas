@@ -311,6 +311,10 @@ class FilterBar extends HTMLElement {
                 endpoint = './src/services/fetch_upcoming.php';
                 this.updateActiveLink('upcoming');
                 break;
+            case 'featured':
+                endpoint = './src/services/fetch_featured.php';
+                this.updateActiveLink('featured');
+                break;
             case 'now_showing':
                 endpoint = './src/services/fetch_now_showing.php';
                 this.updateActiveLink('nowshowing');
@@ -329,6 +333,7 @@ class FilterBar extends HTMLElement {
                 return;
             }
 
+            this.filteredMovies = movies; // Store the movies
             this.populateFilters(movies);
             
             const event = new CustomEvent('movies-updated', {

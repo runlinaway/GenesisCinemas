@@ -31,10 +31,9 @@ class MoviesPage extends HTMLElement {
         const locationId = urlParams.get('location');
         
         if (locationId) {
-            // Set timeout to ensure FilterBar is fully initialized
-            setTimeout(() => {
+            this.waitForFilterBar().then(() => {
                 this.filterBar.setLocation(locationId);
-            }, 0);
+            });
         }
 
         // Initial fetch based on URL
@@ -47,11 +46,32 @@ class MoviesPage extends HTMLElement {
             status = 'upcoming';
         } else if (hash.includes('#Movies/nowshowing')) {
             status = 'now_showing';
+        } else if (hash.includes('#Movies/featured')) {
+            status = 'featured';
         } else {
-            status = 'all';
+            status = 'now_showing'; // Default to now showing instead of 'all'
         }
         
+        // Wait for FilterBar to be fully initialized
+        await this.waitForFilterBar();
         this.filterBar.fetchMovies(status);
+    }
+
+    // Add helper method to wait for FilterBar
+    async waitForFilterBar() {
+        if (!this.filterBar) {
+            await new Promise(resolve => {
+                const checkFilterBar = () => {
+                    this.filterBar = this.shadowRoot.querySelector('filter-bar');
+                    if (this.filterBar) {
+                        resolve();
+                    } else {
+                        setTimeout(checkFilterBar, 50);
+                    }
+                };
+                checkFilterBar();
+            });
+        }
     }
 
     renderMovies(movies) {
