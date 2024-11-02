@@ -101,10 +101,6 @@ class FoodCard extends HTMLElement {
             }
         `;
     this.shadowRoot.append(style);
-
-    this.card.addEventListener("click", () => {
-      window.location.hash = `#FoodDetails/${encodeURIComponent(this.name)}`;
-    });
   }
 }
 
