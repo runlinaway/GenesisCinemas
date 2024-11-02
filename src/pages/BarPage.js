@@ -56,77 +56,168 @@ class BarPage extends HTMLElement {
   }
 
   connectedCallback() {
-    this.fetchMenuItems();
+    this.fetchFoodItems();
+    this.fetchDrinkItems();
+    this.fetchWineItems();
+    this.fetchAlcoholItems();
   }
 
-  async fetchMenuItems() {
+  async fetchFoodItems() {
     try {
-      const foodResponse = await fetch("./src/services/fetch_food.php");
-      const drinkResponse = await fetch("./src/services/fetch_drinks.php");
-      const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
-      const alcoholResponse = await fetch("./src/services/fetch_alcohol.php");
-
-      const foodItems = await foodResponse.json();
-      const drinkItems = await drinkResponse.json();
-      const wineItems = await wineResponse.json();
-      const alcoholItems = await alcoholResponse.json();
-
+      const response = await fetch("./src/services/fetch_food.php");
+      const foodItems = await response.json();
       console.log("Fetched Food Items:", foodItems);
-      console.log("Fetched Drink Items:", drinkItems);
-      console.log("Fetched Wine Items:", wineItems);
-      console.log("Fetched Alcohol Items:", alcoholItems);
-
-      this.renderMenuItems(foodItems, "Food");
-      this.renderMenuItems(drinkItems, "Drinks");
-      this.renderMenuItems(wineItems, "Wine");
-      this.renderMenuItems(alcoholItems, "Alcohol");
+      this.renderFoodItems(foodItems);
     } catch (error) {
-      console.error("Error fetching menu items:", error);
+      console.error("Error fetching food items:", error);
     }
   }
 
-  renderMenuItems(menuItems, category) {
+  async fetchDrinkItems() {
+    try {
+      const response = await fetch("./src/services/fetch_drinks.php");
+      const drinkItems = await response.json();
+      console.log("Fetched Drink Items:", drinkItems);
+      this.renderDrinkItems(drinkItems);
+    } catch (error) {
+      console.error("Error fetching drink items:", error);
+    }
+  }
+
+  async fetchWineItems() {
+    try {
+      const response = await fetch("./src/services/fetch_wine_drop.php");
+      const wineItems = await response.json();
+      console.log("Fetched Wine Items:", wineItems);
+      this.renderWineItems(wineItems);
+    } catch (error) {
+      console.error("Error fetching wine items:", error);
+    }
+  }
+
+  async fetchAlcoholItems() {
+    try {
+      const response = await fetch("./src/services/fetch_alcohol.php");
+      const alcoholItems = await response.json();
+      console.log("Fetched Alcohol Items:", alcoholItems);
+      this.renderAlcoholItems(alcoholItems);
+    } catch (error) {
+      console.error("Error fetching alcohol items:", error);
+    }
+  }
+
+  renderFoodItems(foodItems) {
     const menuList = this.shadowRoot.querySelector(".menu-list");
 
-    // Create a heading for each category
+    // Create a heading for the category
     const categoryHeading = document.createElement("h2");
-    categoryHeading.textContent = category;
+    categoryHeading.textContent = "Food";
     menuList.appendChild(categoryHeading);
 
     // Create a container for menu items
-    let row = document.createElement("div");
+    const row = document.createElement("div");
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
-    // Clear previous content in the row
-    row.innerHTML = "";
+    const menuItemCard = new MenuItemCard(
+      menu.name,
+      menu.image_url,
+      menu.description,
+      menu.price
+    );
 
-    menuItems.forEach((item, index) => {
-      // Create a new row every 5 menu items
-      if (index % 5 === 0 && index !== 0) {
-        row = document.createElement("div");
-        row.classList.add("menu-row");
-        menuList.appendChild(row);
-      }
-      // const menuItemCard = new MenuItemCard(item.ide);
-      // Create a MenuItemCard element for each menu item
+    row.appendChild(menuItemCard);
+  }
+
+  renderDrinkItems(drinkItems) {
+    const menuList = this.shadowRoot.querySelector(".menu-list");
+
+    // Create a heading for the category
+    const categoryHeading = document.createElement("h2");
+    categoryHeading.textContent = "Drinks";
+    menuList.appendChild(categoryHeading);
+
+    // Create a container for menu items
+    const row = document.createElement("div");
+    row.classList.add("menu-row");
+    menuList.appendChild(row);
+
+    drinkItems.forEach((item) => {
       const menuItemCard = document.createElement("menu-item-card");
       menuItemCard.setAttribute("name", item.name);
       menuItemCard.setAttribute("price", item.price);
-      menuItemCard.setAttribute("imageUrl", item.image_Url);
-      menuItemCard.setAttribute("id", item.id);
-
-      // Conditional handling for description attribute
-      if (category !== "Alcohol") {
-        menuItemCard.setAttribute("description", item.description);
-      }
-
+      menuItemCard.setAttribute(
+        "image-url",
+        `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
+      );
+      menuItemCard.setAttribute("description", item.description);
       row.appendChild(menuItemCard);
     });
 
-    // Add click event to toggle visibility
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
+      row.style.display = row.classList.contains("expanded") ? "flex" : "none";
+    });
+  }
+
+  renderWineItems(wineItems) {
+    const menuList = this.shadowRoot.querySelector(".menu-list");
+
+    // Create a heading for the category
+    const categoryHeading = document.createElement("h2");
+    categoryHeading.textContent = "Wine";
+    menuList.appendChild(categoryHeading);
+
+    // Create a container for menu items
+    const row = document.createElement("div");
+    row.classList.add("menu-row");
+    menuList.appendChild(row);
+
+    wineItems.forEach((item) => {
+      const menuItemCard = document.createElement("menu-item-card");
+      menuItemCard.setAttribute("name", item.name);
+      menuItemCard.setAttribute("price", item.price);
+      menuItemCard.setAttribute(
+        "image-url",
+        `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
+      );
+      menuItemCard.setAttribute("description", item.description);
+      row.appendChild(menuItemCard);
+    });
+
+    categoryHeading.addEventListener("click", () => {
+      row.classList.toggle("expanded");
+      row.style.display = row.classList.contains("expanded") ? "flex" : "none";
+    });
+  }
+
+  renderAlcoholItems(alcoholItems) {
+    const menuList = this.shadowRoot.querySelector(".menu-list");
+
+    // Create a heading for the category
+    const categoryHeading = document.createElement("h2");
+    categoryHeading.textContent = "Alcohol";
+    menuList.appendChild(categoryHeading);
+
+    // Create a container for menu items
+    const row = document.createElement("div");
+    row.classList.add("menu-row");
+    menuList.appendChild(row);
+
+    alcoholItems.forEach((item) => {
+      const menuItemCard = document.createElement("menu-item-card");
+      menuItemCard.setAttribute("name", item.name);
+      menuItemCard.setAttribute("price", item.price);
+      menuItemCard.setAttribute(
+        "image-url",
+        `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
+      );
+      row.appendChild(menuItemCard);
+    });
+
+    categoryHeading.addEventListener("click", () => {
+      row.classList.toggle("expanded");
+      row.style.display = row.classList.contains("expanded") ? "flex" : "none";
     });
   }
 }
