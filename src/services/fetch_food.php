@@ -13,13 +13,6 @@ try {
     // Fetch results
     $foodItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Debug output to check the fetched image URLs
-    foreach ($foodItems as $item) {
-        if (empty($item['image_url'])) {
-            echo json_encode(['error' => 'Image URL is empty for item ID ' . $item['id']]);
-            return;
-        }
-    }
     // Return results as JSON
     header('Content-Type: application/json');
     echo json_encode($foodItems);

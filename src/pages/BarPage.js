@@ -59,6 +59,7 @@ class BarPage extends HTMLElement {
 
   async fetchMenuItems() {
     try {
+      // Fetching menu items from different categories
       const foodResponse = await fetch("./src/services/fetch_food.php");
       const drinkResponse = await fetch("./src/services/fetch_drinks.php");
       const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
@@ -69,44 +70,17 @@ class BarPage extends HTMLElement {
       const wineItems = await wineResponse.json();
       const alcoholItems = await alcoholResponse.json();
 
-      // Log the items to check if image_url is correctly set
-      console.log("Food Items:", foodItems);
-      console.log("Drink Items:", drinkItems);
-      console.log("Wine Items:", wineItems);
-      console.log("Alcohol Items:", alcoholItems);
+      // Log the fetched items
+      console.log("Fetched Food Items:", foodItems);
+      console.log("Fetched Drink Items:", drinkItems);
+      console.log("Fetched Wine Items:", wineItems);
+      console.log("Fetched Alcohol Items:", alcoholItems);
 
-      // Base path for images
-      const imagePath = "src/assets/images/"; // Adjust path based on your folder structure
-
-      // Render menu items for each category with updated image URLs
-      this.renderMenuItems(
-        foodItems.slice(0, 4).map((item) => ({
-          ...item,
-          image_url: imagePath + item.image_url, // Prepend the path to the image URL
-        })),
-        "Food"
-      );
-      this.renderMenuItems(
-        drinkItems.slice(0, 4).map((item) => ({
-          ...item,
-          image_url: imagePath + item.image_url,
-        })),
-        "Drinks"
-      );
-      this.renderMenuItems(
-        alcoholItems.slice(0, 4).map((item) => ({
-          ...item,
-          image_url: imagePath + item.image_url,
-        })),
-        "Alcohol"
-      );
-      this.renderMenuItems(
-        wineItems.slice(0, 4).map((item) => ({
-          ...item,
-          image_url: imagePath + item.image_url,
-        })),
-        "Wine"
-      );
+      // Render menu items for each category
+      this.renderMenuItems(foodItems.slice(0, 4), "Food");
+      this.renderMenuItems(drinkItems.slice(0, 4), "Drinks");
+      this.renderMenuItems(alcoholItems.slice(0, 4), "Alcohol");
+      this.renderMenuItems(wineItems.slice(0, 4), "Wine");
     } catch (error) {
       console.error("Error fetching menu items:", error);
     }
