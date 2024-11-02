@@ -42,8 +42,12 @@ class ItemDetailsPage extends HTMLElement {
       }
 
       const item = await response.json();
-
       console.log("Parsed Item Data:", item); // Log the item data
+
+      // Find the specific item that matches the name
+      item = items.find(
+        (item) => item.name.toLowerCase() === name.toLowerCase()
+      );
 
       if (item && !item.error) {
         // Prepare content based on the category
