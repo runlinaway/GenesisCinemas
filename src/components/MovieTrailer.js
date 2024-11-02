@@ -43,11 +43,13 @@ class MovieTrailer extends HTMLElement {
                 }
                 
                 .title {
+                    margin-left:20px;
                     font-family: 'Queensides', serif;
                     font-size: 4rem;
                 }
                 
                 .details {
+                    margin-left:20px;
                     margin-top: 8px;
                     font-size: 1.25rem;
                 }

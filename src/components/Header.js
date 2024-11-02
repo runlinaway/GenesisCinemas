@@ -330,10 +330,8 @@ class AppHeader extends HTMLElement {
                         </g>
                     </g>
                 </svg>
-                <div class="dropdown-content">
-                    <a href="#">Location 1</a>
-                    <a href="#">Location 2</a>
-                    <a href="#">Location 3</a>
+                <div class="dropdown-content" id="locations-dropdown">
+                    <!-- Locations will be populated dynamically -->
                 </div>
             </li>
 
@@ -361,31 +359,69 @@ class AppHeader extends HTMLElement {
     `;
   }
 
-  connectedCallback() {
-    window.addEventListener('popstate', this.updateLoginLink.bind(this));
+  async connectedCallback() {
+    await this.fetchAndPopulateLocations();
+    this.setupSearch();
+    this.updateLoginLink();
     
-    // Add cookie change listener
+    window.addEventListener('popstate', this.updateLoginLink.bind(this));
     document.addEventListener('cookieChange', () => {
         this.updateLoginLink();
     });
+  }
 
-    this.updateLoginLink();
-
-    const dropdowns = this.shadowRoot.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-      const dropdownContent = dropdown.querySelector('.dropdown-content');
-      
-      dropdown.addEventListener('mouseenter', () => {
-        dropdownContent.classList.add('show');
-      });
-
-      dropdown.addEventListener('mouseleave', () => {
-        const dropdownContent = dropdown.querySelector('.dropdown-content');
-        dropdownContent.classList.remove('show');
-      });
-    });
-
-    this.setupSearch();
+  async fetchAndPopulateLocations() {
+    try {
+        const response = await fetch('./src/services/fetch_locations.php');
+        const locations = await response.json();
+        
+        if (!locations.error) {
+            const locationsDropdown = this.shadowRoot.querySelector('#locations-dropdown');
+            locationsDropdown.innerHTML = ''; // Clear existing locations
+            
+            // Add "All Locations" option
+            const allLocationsLink = document.createElement('a');
+            allLocationsLink.href = '#Movies/nowshowing';
+            allLocationsLink.textContent = 'All Locations';
+            allLocationsLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.hash = '#Movies/nowshowing';
+                // Dispatch event with a slight delay to ensure MoviesPage is mounted
+                setTimeout(() => {
+                    const event = new CustomEvent('location-selected', {
+                        detail: { locationId: '' },
+                        bubbles: true,
+                        composed: true
+                    });
+                    document.dispatchEvent(event);
+                }, 50);
+            });
+            locationsDropdown.appendChild(allLocationsLink);
+            
+            // Add locations from database
+            locations.forEach(location => {
+                const link = document.createElement('a');
+                link.href = `#Movies/nowshowing?location=${location.location_id}`;
+                link.textContent = location.name;
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = `#Movies/nowshowing?location=${location.location_id}`;
+                    // Dispatch event with a slight delay to ensure MoviesPage is mounted
+                    setTimeout(() => {
+                        const event = new CustomEvent('location-selected', {
+                            detail: { locationId: location.location_id },
+                            bubbles: true,
+                            composed: true
+                        });
+                        document.dispatchEvent(event);
+                    }, 50);
+                });
+                locationsDropdown.appendChild(link);
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching locations:', error);
+    }
   }
 
   setupSearch() {

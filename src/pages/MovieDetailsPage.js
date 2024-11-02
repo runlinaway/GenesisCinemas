@@ -1,4 +1,5 @@
 import '../components/MovieTrailer.js';
+import '../components/MovieShowtimes.js';
 
 class MovieDetailsPage extends HTMLElement {
     constructor() {
@@ -21,23 +22,31 @@ class MovieDetailsPage extends HTMLElement {
                     <style>
                         .container {
                             display: flex;
-                            flex-direction: column; /* Stack elements vertically */
-                            position: relative; /* Needed for absolute positioning of children */
-                            width: 100%; /* Use full width for proper positioning */
-                            position: relative; /* Needed for absolute positioning of children */
+                            flex-direction: column;
+                            width: 100%;
+                            position: relative;
                         }
 
                         .movie-trailer {
-                            width: 100%; /* Allow the trailer to take full width */
-                            overflow: hidden; /* Hide overflow to maintain the aspect ratio */
+                            width: 100%;
+                            overflow: hidden;
+                        }
+
+                        .content-row {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 40px;
+                            gap: 40px;
+                        }
+
+                        .left-column {
+                            flex: 1;
                         }
 
                         .synopsis_container {
-                            width: 422px; /* Set the width of the synopsis container */
-                            color: white; /* Set text color to white */
+                            width: 422px;
+                            color: white;
                             font-family: 'Kantumury Pro Thin', serif;
-                            margin-top: 10px; /* Space between trailer and synopsis */
-                            padding-left: 40px; /* Add padding from the left edge */
                         }
                         
                         .synopsis_container h1 {
@@ -58,7 +67,7 @@ class MovieDetailsPage extends HTMLElement {
                         }
 
                         .info_box {
-                            margin-left: 40px; /* Add padding from the left edge */
+                            
                             border: 2px solid white; /* White border */
                             border-radius: 10px; /* Rounded corners */
                             padding: 20px; /* Padding inside the box */
@@ -89,16 +98,22 @@ class MovieDetailsPage extends HTMLElement {
                             starring="${movie.cast}">
                         </movie-trailer>
                         
-                        <div class="synopsis_container">
-                            <h1>Synopsis</h1>
-                            <p>${movie.synopsis}</p>
-                        </div>
+                        <div class="content-row">
+                            <div class="left-column">
+                                <div class="synopsis_container">
+                                    <h1>Synopsis</h1>
+                                    <p>${movie.synopsis}</p>
+                                </div>
 
-                        <div class="info_box">
-                            <div><span>Genre:</span><br> ${movie.genre}</div>
-                            <div><span>Duration:</span><br> ${this.formatDuration(movie.duration)}</div>
-                            <div><span>Rating:</span><br> ${movie.rating}/5</div>
-                            <div><span>Release Date:</span><br> ${new Date(movie.release_date).toLocaleDateString()}</div>
+                                <div class="info_box">
+                                    <div><span>Genre:</span><br> ${movie.genre}</div>
+                                    <div><span>Duration:</span><br> ${this.formatDuration(movie.duration)}</div>
+                                    <div><span>Rating:</span><br> ${movie.rating}/5</div>
+                                    <div><span>Release Date:</span><br> ${new Date(movie.release_date).toLocaleDateString()}</div>
+                                </div>
+                            </div>
+
+                            <movie-showtimes show-id="${movie.show_id}"></movie-showtimes>
                         </div>
                     </div>
                 `;

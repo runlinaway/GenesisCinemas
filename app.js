@@ -46,13 +46,9 @@ function loadPage() {
         page.setAttribute('movie-id', movieId); // Pass the movie ID to the component
     } else if (hash.startsWith('#Movies')) {
         page = document.createElement('movies-page');
-        // You could pass the specific type (featured, now showing, upcoming) if needed
-        if (hash.includes('featured')) {
-            page.setAttribute('type', 'featured');
-        } else if (hash.includes('upcoming')) {
-            page.setAttribute('type', 'upcoming');
-        } else {
-            page.setAttribute('type', 'nowshowing'); // Default type
+        const params = new URLSearchParams(window.location.hash.split('?')[1]);
+        if (params.has('location')) {
+            page.setAttribute('location-id', params.get('location'));
         }
     } else {
         switch (hash) {
