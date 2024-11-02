@@ -25,8 +25,6 @@ class WineCard extends HTMLElement {
             <div class="name">${wineNameText}</div>
             <div class="description">${wineDescText}</div>
             <div class="price">${winePriceText}</div>
-            <div class="vintage">${vintage}</div> 
-            <div class="region">${region}</div> 
         `;
 
     // Append elements to card
