@@ -59,10 +59,9 @@ class BarPage extends HTMLElement {
 
   async fetchMenuItems() {
     try {
-      // Fetching menu items from different categories
       const foodResponse = await fetch("./src/services/fetch_food.php");
       const drinkResponse = await fetch("./src/services/fetch_drinks.php");
-      const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
+      const wineResponse = await fetch("./src/services/fetch_wine.php");
       const alcoholResponse = await fetch("./src/services/fetch_alcohol.php");
 
       const foodItems = await foodResponse.json();
@@ -70,8 +69,14 @@ class BarPage extends HTMLElement {
       const wineItems = await wineResponse.json();
       const alcoholItems = await alcoholResponse.json();
 
+      // Log the items to check if image_url is correctly set
+      console.log("Food Items:", foodItems);
+      console.log("Drink Items:", drinkItems);
+      console.log("Wine Items:", wineItems);
+      console.log("Alcohol Items:", alcoholItems);
+
       // Base path for images
-      const imagePath = "./src/assets/images/"; // Adjust this if necessary
+      const imagePath = "./src/assets/images/";
 
       // Render menu items for each category
       this.renderMenuItems(
@@ -125,7 +130,10 @@ class BarPage extends HTMLElement {
       menuItemCard.setAttribute("name", item.name);
       menuItemCard.setAttribute("description", item.description);
       menuItemCard.setAttribute("price", item.price);
-      menuItemCard.setAttribute("image_url", item.image_url);
+      menuItemCard.setAttribute(
+        "image_url",
+        item.image_url || "./src/assets/images/default_image.jpg"
+      );
 
       // Set additional attributes if applicable
       if (category === "Wine") {
