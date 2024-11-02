@@ -1,10 +1,12 @@
 import "../components/WineBanner.js";
-import "../components/MenuItemCard.js"; // Ensure you have imported the MenuItemCard component
 import "../components/FoodCard.js";
 import "../components/DrinksCard.js";
-import { MenuItemCard } from "../components/MenuItemCard.js";
+import "../components/AlcoholCard.js";
+import "../components/WineCard.js";
 import { FoodCard } from "../components/FoodCard.js";
 import { DrinksCard } from "../components/DrinksCard.js";
+import { AlcoholCard } from "../components/AlcoholCard.js";
+import { WineCard } from "../components/WineCard.js";
 
 class BarPage extends HTMLElement {
   constructor() {
@@ -37,36 +39,24 @@ class BarPage extends HTMLElement {
                     text-decoration-thickness: 2px;
                     border-radius: 10px;
                 }    
-                .food-list {
+                .item-list {
                   display: flex;
                   flex-direction: column;
                   align-items: center; /* Center the rows within the menu list */
                   width: 100%;
                 }
-                .food-row {
+                .item-row {
                     display: flex;
                     flex-wrap: wrap;
                     gap: 16px;
                 }
-                .drinks-list {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center; /* Center the rows within the menu list */
-                  width: 100%;
-                }
-                .drinks-row {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 16px;
-                }    
-            </style>
   
             <div class="page-content">
                 <wine-banner></wine-banner>
                 <h1>Food List</h1>
-                <div class="food-list"></div>
+                <div class="item-list"></div>
                 <h1>Drinks List</h1>
-                <div class="drinks-list"></div>
+                <div class="item-list"></div>
             </div>
         `;
   }
@@ -90,14 +80,14 @@ class BarPage extends HTMLElement {
   }
 
   renderFoodItems(foodItems) {
-    const foodList = this.shadowRoot.querySelector(".food-list");
+    const foodList = this.shadowRoot.querySelector(".item-list");
     foodList.innterHTML = "";
 
     let row;
     foodItems.forEach((food, index) => {
       if (index % 5 === 0) {
         row = document.createElement("div");
-        row.classList.add("food-row");
+        row.classList.add("item-row");
         foodList.appendChild(row);
       }
 
@@ -124,14 +114,14 @@ class BarPage extends HTMLElement {
   }
 
   renderDrinkItems(drinkItems) {
-    const drinkList = this.shadowRoot.querySelector(".drinks-list");
+    const drinkList = this.shadowRoot.querySelector(".item-list");
     drinkList.innterHTML = "";
 
     let row;
     drinkItems.forEach((drink, index) => {
       if (index % 5 === 0) {
         row = document.createElement("div");
-        row.classList.add("drinks-row");
+        row.classList.add("item-row");
         drinkList.appendChild(row);
       }
 
@@ -146,82 +136,73 @@ class BarPage extends HTMLElement {
     });
   }
 
-  // async fetchWineItems() {
-  //   try {
-  //     const response = await fetch("./src/services/fetch_wine_drop.php");
-  //     const wineItems = await response.json();
-  //     console.log("Fetched Wine Items:", wineItems);
-  //     this.renderWineItems(wineItems);
-  //   } catch (error) {
-  //     console.error("Error fetching wine items:", error);
-  //   }
-  // }
+  async fetchWineItems() {
+    try {
+      const response = await fetch("./src/services/fetch_wine_drop.php");
+      const wineItems = await response.json();
+      console.log("Fetched Wine Items:", wineItems);
+      this.renderWineItems(wineItems);
+    } catch (error) {
+      console.error("Error fetching wine items:", error);
+    }
+  }
 
-  // async fetchAlcoholItems() {
-  //   try {
-  //     const response = await fetch("./src/services/fetch_alcohol.php");
-  //     const alcoholItems = await response.json();
-  //     console.log("Fetched Alcohol Items:", alcoholItems);
-  //     this.renderAlcoholItems(alcoholItems);
-  //   } catch (error) {
-  //     console.error("Error fetching alcohol items:", error);
-  //   }
-  // }
+  renderWineItems(wineItems) {
+    const wineList = this.shadowRoot.querySelector(".item-list");
+    wineList.innterHTML = "";
 
-  // renderWineItems(wineItems) {
-  //   const menuList = this.shadowRoot.querySelector(".menu-list");
+    let row;
+    wineItems.forEach((wine, index) => {
+      if (index % 5 === 0) {
+        row = document.createElement("div");
+        row.classList.add("item-row");
+        wineList.appendChild(row);
+      }
 
-  //   // Create a heading for the category
-  //   const categoryHeading = document.createElement("h2");
-  //   categoryHeading.textContent = "Wine";
-  //   menuList.appendChild(categoryHeading);
+      const wineCard = new WineCard(
+        wine.name,
+        wine.image_url,
+        wine.description,
+        wine.price
+      );
 
-  //   // Create a container for menu items
-  //   const row = document.createElement("div");
-  //   row.classList.add("menu-row");
-  //   menuList.appendChild(row);
+      row.appendChild(wineCard);
+    });
+  }
 
-  //   wineItems.forEach((item) => {
-  //     const menuItemCard = document.createElement("menu-item-card");
-  //     menuItemCard.setAttribute("name", item.name);
-  //     menuItemCard.setAttribute("price", item.price);
-  //     menuItemCard.setAttribute(
-  //       "image-url",
-  //       `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
-  //     );
-  //     menuItemCard.setAttribute("description", item.description);
-  //     row.appendChild(menuItemCard);
-  //   });
+  async fetchAlcoholItems() {
+    try {
+      const response = await fetch("./src/services/fetch_alcohol.php");
+      const alcoholItems = await response.json();
+      console.log("Fetched Alcohol Items:", alcoholItems);
+      this.renderAlcoholItems(alcoholItems);
+    } catch (error) {
+      console.error("Error fetching alcohol items:", error);
+    }
+  }
 
-  //   categoryHeading.addEventListener("click", () => {
-  //     row.classList.toggle("expanded");
-  //     row.style.display = row.classList.contains("expanded") ? "flex" : "none";
-  //   });
-  // }
+  renderAlcoholItems(alcoholItems) {
+    const alcoholList = this.shadowRoot.querySelector(".item-list");
+    alcoholList.innterHTML = "";
 
-  // renderAlcoholItems(alcoholItems) {
-  //   const menuList = this.shadowRoot.querySelector(".menu-list");
+    let row;
+    alcoholItems.forEach((alcohol, index) => {
+      if (index % 5 === 0) {
+        row = document.createElement("div");
+        row.classList.add("item-row");
+        alcoholList.appendChild(row);
+      }
 
-  //   // Create a heading for the category
-  //   const categoryHeading = document.createElement("h2");
-  //   categoryHeading.textContent = "Alcohol";
-  //   menuList.appendChild(categoryHeading);
+      const alcoholCard = new AlcoholCard(
+        alcohol.name,
+        alcohol.image_url,
+        alcohol.description,
+        alcohol.price
+      );
 
-  //   // Create a container for menu items
-  //   const row = document.createElement("div");
-  //   row.classList.add("menu-row");
-  //   menuList.appendChild(row);
-
-  //   alcoholItems.forEach((item) => {
-  //     const menuItemCard = document.createElement("menu-item-card");
-  //     menuItemCard.setAttribute("name", item.name);
-  //     menuItemCard.setAttribute("price", item.price);
-  //     menuItemCard.setAttribute(
-  //       "image-url",
-  //       `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
-  //     );
-  //     row.appendChild(menuItemCard);
-  //   });
+      row.appendChild(alcoholCard);
+    });
+  }
 
   //   categoryHeading.addEventListener("click", () => {
   //     row.classList.toggle("expanded");
