@@ -338,7 +338,6 @@ INSERT INTO showtimes (show_id, location_id, show_date, price, seats_available) 
 INSERT INTO drinks (name, description, price, category, image_url) VALUES
 ('Coke', 'Classic Coca-Cola, refreshing and fizzy', 2.50, 'Drink', 'coke.jpg'),
 ('Sprite', 'Lemon-lime soda for a crisp, clean taste', 2.50, 'Drink', 'sprite.jpg'),
-('Fanta Grape', 'Bold and fruity grape soda', 2.50, 'Drink', 'fanta_grape.jpg'),
 ('Ice Water', 'Chilled purified water, perfect for hydration', 1.00, 'Drink', 'ice_water.jpg'),
 ('Coffee', 'Freshly brewed coffee for an energizing kick', 3.00, 'Drink', 'coffee.jpg'),
 ('Tea', 'Hot or iced tea, available in a variety of flavors', 2.50, 'Drink', 'tea.jpg');
@@ -348,7 +347,6 @@ INSERT INTO food (name, description, price, category, image_url) VALUES
 ('Nuggets', 'Crispy chicken nuggets served with dipping sauce', 4.00, 'Snack', 'nuggets.jpg'),
 ('Fries', 'Golden french fries, crispy and salted', 3.50, 'Snack', 'fries.jpg'),
 ('Nacho Chips', 'Crispy tortilla chips served with cheese sauce', 4.50, 'Snack', 'nacho_chips.jpg'),
-('Potato Chips', 'Crunchy and salty potato chips in assorted flavors', 2.50, 'Snack', 'potato_chips.jpg'),
 ('Pizza', 'Individual-sized pizza with a selection of toppings', 8.00, 'Snack', 'pizza.jpg'),
 ('Hotdogs', 'Classic hotdogs with ketchup and mustard', 4.00, 'Snack', 'hotdogs.jpg'),
 ('Ice Cream', 'Creamy ice cream, available in different flavors', 3.00, 'Snack', 'ice_cream.jpg'),
@@ -400,6 +398,5 @@ INSERT INTO wine (name, vintage, region, description, price, image_url, featured
 ('Chianti Classico Marchese Antinori Riserva', 2017, 'Tuscany, Italy', 'Complex Chianti with rich flavors of dark fruit and oak', 32.00, 'marchese_antinori.jpg', 0), -- Not Featured
 ('Châteauneuf-du-pape Vieilles Vignes', 2018, 'Rhône Valley, France', 'Powerful red wine with notes of blackberries and herbs', 40.00, 'chateauneuf_du_pape.jpg', 1), -- Featured
 ('Cloudy Bay Pinot Noir', 2021, 'Marlborough, New Zealand', 'Elegant Pinot Noir with flavors of cherry and spice', 35.00, 'cloudy_bay_pinot_noir.jpg', 0), -- Not Featured
-('Gamay', 2019, 'Beaujolais, France', 'Light and fruity red wine with flavors of raspberry and cherry', 18.00, 'gamay.jpg', 0), -- Not Featured
 ('Masseto', 2016, 'Tuscany, Italy', 'Exceptional Merlot with velvety texture and deep fruit flavors', 400.00, 'masseto.jpg', 1), -- Featured
 ('Brunello di Montalcino', 2017, 'Tuscany, Italy', 'Full-bodied red wine with notes of leather and dried cherry', 45.00, 'brunello_di_montalcino.jpg', 1); -- Featured
