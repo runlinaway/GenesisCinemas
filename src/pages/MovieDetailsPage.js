@@ -1,23 +1,25 @@
-import '../components/MovieTrailer.js';
+import "../components/MovieTrailer.js";
 
 class MovieDetailsPage extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  }
 
-    connectedCallback() {
-        const movieId = decodeURIComponent(this.getAttribute('movie-id'));
-        this.fetchMovieDetails(movieId);
-    }
+  connectedCallback() {
+    const movieId = decodeURIComponent(this.getAttribute("movie-id"));
+    this.fetchMovieDetails(movieId);
+  }
 
-    async fetchMovieDetails(title) {
-        try {
-            const response = await fetch(`./src/services/fetch_movie.php?title=${encodeURIComponent(title)}`);
-            const movie = await response.json();
+  async fetchMovieDetails(title) {
+    try {
+      const response = await fetch(
+        `./src/services/fetch_movie.php?title=${encodeURIComponent(title)}`
+      );
+      const movie = await response.json();
 
-            if (movie && !movie.error) {
-                this.shadowRoot.innerHTML = `
+      if (movie && !movie.error) {
+        this.shadowRoot.innerHTML = `
                     <style>
                         .container {
                             display: flex;
@@ -96,29 +98,31 @@ class MovieDetailsPage extends HTMLElement {
 
                         <div class="info_box">
                             <div><span>Genre:</span><br> ${movie.genre}</div>
-                            <div><span>Duration:</span><br> ${this.formatDuration(movie.duration)}</div>
-                            <div><span>Rating:</span><br> ${movie.rating}/5</div>
-                            <div><span>Release Date:</span><br> ${new Date(movie.release_date).toLocaleDateString()}</div>
+                            <div><span>Duration:</span><br> ${this.formatDuration(
+                              movie.duration
+                            )}</div>
+                            <div><span>Rating:</span><br> ${
+                              movie.rating
+                            }/5</div>
+                            <div><span>Release Date:</span><br> ${new Date(
+                              movie.release_date
+                            ).toLocaleDateString()}</div>
                         </div>
                     </div>
                 `;
-
-
-            } else {
-                this.shadowRoot.innerHTML = `<p>Movie not found or error fetching details.</p>`;
-            }
-        } catch (error) {
-            console.error('Error fetching movie details:', error);
-            this.shadowRoot.innerHTML = `<p>Error fetching movie details.</p>`;
-        }
+      } else {
+        this.shadowRoot.innerHTML = `<p>Movie not found or error fetching details.</p>`;
+      }
+    } catch (error) {
+      console.error("Error fetching movie details:", error);
+      this.shadowRoot.innerHTML = `<p>Error fetching movie details.</p>`;
     }
+  }
 
-    formatDuration(duration) {
-        const [hours, minutes] = duration.split(':');
-        return `${parseInt(hours)}hr ${parseInt(minutes)}mins`;
-    }
+  formatDuration(duration) {
+    const [hours, minutes] = duration.split(":");
+    return `${parseInt(hours)}hr ${parseInt(minutes)}mins`;
+  }
 }
 
-customElements.define('movie-details-page', MovieDetailsPage);
-
-  
+customElements.define("movie-details-page", MovieDetailsPage);
