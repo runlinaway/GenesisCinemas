@@ -52,6 +52,7 @@ class CorporatePage extends HTMLElement {
             <textarea id="message" name="message" placeholder="Your Message" required></textarea>
             <button type="submit">Submit</button>
           </form>
+          <a href="#" class="cta-button">Learn More</a>
         </div>
       `;
   }
