@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "./src/pages/HomePage.js";
 import "./src/pages/MoviesPage.js";
 import "./src/pages/LocationsPage.js";
@@ -9,6 +10,18 @@ import "./src/pages/FaqPage.js";
 import "./src/pages/ItemDetailsPage.js";
 import "./src/components/Header.js";
 import "./src/components/Footer.js";
+=======
+import './src/pages/HomePage.js';
+import './src/pages/MoviesPage.js';
+import './src/pages/LocationsPage.js';
+import './src/pages/BarPage.js';
+import './src/pages/SignupPage.js';
+import './src/pages/MovieDetailsPage.js';
+import './src/components/Header.js';
+import './src/components/Footer.js';
+import './src/pages/SeatSelectionPage.js';
+import './src/components/CinemaLayout.js';
+>>>>>>> 8ee30565789395ea7fc0c1684b80bcba675d12c5
 
 // Main App Initialization
 function init() {
@@ -43,6 +56,7 @@ function loadPage() {
   let page;
   const hash = window.location.hash;
 
+<<<<<<< HEAD
   if (hash.startsWith("#MovieDetails/")) {
     const movieId = hash.split("/")[1]; // Extract movie ID from the hash
     page = document.createElement("movie-details-page");
@@ -64,6 +78,37 @@ function loadPage() {
       page.setAttribute("type", "upcoming");
     } else {
       page.setAttribute("type", "nowshowing"); // Default type
+=======
+    if (hash.startsWith('#MovieDetails/')) {
+        const movieId = hash.split('/')[1]; // Extract movie ID from the hash
+        page = document.createElement('movie-details-page');
+        page.setAttribute('movie-id', movieId); // Pass the movie ID to the component
+    } else if (hash.startsWith('#Movies')) {
+        page = document.createElement('movies-page');
+        const params = new URLSearchParams(window.location.hash.split('?')[1]);
+        if (params.has('location')) {
+            page.setAttribute('location-id', params.get('location'));
+        }
+    }  else if (hash.startsWith('#SeatSelection')) {
+        page = document.createElement('seat-selection-page');
+    }
+    else {
+        switch (hash) {
+            case '#Locations':
+                page = document.createElement('locations-page');
+                break;
+            case '#Bar':
+                page = document.createElement('bar-page');
+                break;
+            case '#Signup':
+                page = document.createElement('signup-page');
+                break;
+            case '#Home':
+            default:
+                page = document.createElement('home-page');
+                break;
+        }
+>>>>>>> 8ee30565789395ea7fc0c1684b80bcba675d12c5
     }
   } else {
     switch (hash) {

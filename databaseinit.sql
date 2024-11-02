@@ -47,27 +47,7 @@ CREATE TABLE IF NOT EXISTS locations (
 );
 
 
-CREATE TABLE IF NOT EXISTS bookings (
-    booking_id INT AUTO_INCREMENT PRIMARY KEY,
-    member_id INT,
-    show_id INT NOT NULL,
-    booking_date DATETIME NOT NULL,
-    seats_booked INT NOT NULL,
-    seat_loc VARCHAR(50),
-    price FLOAT NOT NULL,
-    payment_status VARCHAR(50) CHECK (payment_status IN ('pending', 'failed', 'completed')),
-    FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE SET NULL,
-    FOREIGN KEY (show_id) REFERENCES shows(show_id) ON DELETE CASCADE
-);
 
-CREATE TABLE IF NOT EXISTS payments (
-    payment_id INT AUTO_INCREMENT PRIMARY KEY,
-    booking_id INT NOT NULL,
-    payment_date DATETIME NOT NULL,
-    amount FLOAT NOT NULL,
-    status VARCHAR(50) CHECK (status IN ('pending', 'failed', 'completed')),
-    FOREIGN KEY (booking_id) REFERENCES bookings(booking_id) ON DELETE CASCADE
-);
 
 CREATE TABLE IF NOT EXISTS showtimes (
     showtime_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -80,46 +60,39 @@ CREATE TABLE IF NOT EXISTS showtimes (
     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
 );
 
--- Create the wine table
-CREATE TABLE IF NOT EXISTS wine (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    vintage INT NOT NULL,
-    region VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    image_url VARCHAR(255) NOT NULL,
-    featured TINYINT(1) DEFAULT 0 -- Column to mark wine as featured (0 for not featured, 1 for featured)
+CREATE TABLE IF NOT EXISTS bookings (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    member_id INT,
+    showtime_id INT NOT NULL,
+    booking_date DATETIME NOT NULL,
+    seats_booked INT NOT NULL,
+    seat_loc VARCHAR(50),
+    price FLOAT NOT NULL,
+    payment_status VARCHAR(50) CHECK (payment_status IN ('pending', 'failed', 'completed')),
+    FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE SET NULL,
+    FOREIGN KEY (showtime_id) REFERENCES showtimes(showtime_id) ON DELETE CASCADE
 );
 
--- Create the alcohol table
-CREATE TABLE IF NOT EXISTS alcohol (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    image_url VARCHAR(255) NOT NULL
+CREATE TABLE IF NOT EXISTS payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT NOT NULL,
+    payment_date DATETIME NOT NULL,
+    amount FLOAT NOT NULL,
+    status VARCHAR(50) CHECK (status IN ('pending', 'failed', 'completed')),
+    FOREIGN KEY (booking_id) REFERENCES bookings(booking_id) ON DELETE CASCADE
 );
 
--- Create the food table
-CREATE TABLE IF NOT EXISTS food (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    category VARCHAR(50) NOT NULL,
-    image_url VARCHAR(255) NOT NULL
-);
+-- CREATE TABLE IF NOT EXISTS showtimes (
+--     showtime_id INT AUTO_INCREMENT PRIMARY KEY,
+--     show_id INT NOT NULL,
+--     location_id INT NOT NULL,
+--     show_date DATETIME NOT NULL,
+--     price FLOAT NOT NULL,
+--     seats_available INT NOT NULL,
+--     FOREIGN KEY (show_id) REFERENCES shows(show_id) ON DELETE CASCADE,
+--     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
+-- );
 
--- Create the drinks table
-CREATE TABLE IF NOT EXISTS drinks (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    category VARCHAR(50) NOT NULL,
-    image_url VARCHAR(255) NOT NULL
-);
 
 SHOW TABLES;
 
@@ -243,96 +216,50 @@ INSERT INTO locations (name, address, city, postcode, contact_number) VALUES
     '+65 63489545'
 );
 
-INSERT INTO showtimes (show_id, location_id, show_date, price, seats_available) VALUES 
-(1, 1, '2024-11-8 19:00:00', 10.00, 50),
+INSERT INTO showtimes (show_id, location_id, show_date, price, seats_available) VALUES
+(1, 1, '2024-11-08 10:00:00', 10.00, 50),
+(1, 1, '2024-11-08 13:00:00', 10.00, 50),
+(1, 1, '2024-11-08 16:00:00', 10.00, 50),
+(1, 1, '2024-11-08 19:00:00', 10.00, 50),
+(1, 2, '2024-11-08 11:00:00', 10.00, 50),
+(1, 2, '2024-11-08 14:30:00', 10.00, 50),
+(1, 2, '2024-11-08 18:00:00', 10.00, 50),
+(2, 1, '2024-11-08 09:30:00', 10.00, 50),
+(2, 1, '2024-11-08 12:45:00', 10.00, 50),
+(2, 1, '2024-11-08 15:45:00', 10.00, 50),
+(2, 3, '2024-11-08 17:15:00', 10.00, 50),
+(2, 3, '2024-11-08 20:30:00', 10.00, 50),
 
+(1, 1, '2024-11-15 10:00:00', 10.00, 50),
+(1, 1, '2024-11-15 13:00:00', 10.00, 50),
+(1, 1, '2024-11-15 16:00:00', 10.00, 50),
 (1, 1, '2024-11-15 19:00:00', 10.00, 50),
-
-(1, 1, '2024-11-22 19:00:00', 10.00, 50),
-
-(1, 1, '2024-11-8 11:00:00', 10.00, 50),
-
-(1, 1, '2024-11-15 11:00:00', 10.00, 50),
-
-(1, 1, '2024-11-22 11:00:00', 10.00, 50),
-
-(1, 1, '2024-11-8 15:00:00', 10.00, 50),
-
-(1, 1, '2024-11-15 15:00:00', 10.00, 50),
-
-(1, 1, '2024-11-22 15:00:00', 10.00, 50),
-
-(1, 2, '2024-11-8 19:00:00', 10.00, 50),
-
-(1, 2, '2024-11-15 19:00:00', 10.00, 50),
-
-(1, 2, '2024-11-22 19:00:00', 10.00, 50),
-
-(1, 2, '2024-11-8 11:00:00', 10.00, 50),
-
 (1, 2, '2024-11-15 11:00:00', 10.00, 50),
+(1, 2, '2024-11-15 14:30:00', 10.00, 50),
+(1, 2, '2024-11-15 18:00:00', 10.00, 50),
+(2, 1, '2024-11-15 09:30:00', 10.00, 50),
+(2, 1, '2024-11-15 12:45:00', 10.00, 50),
+(2, 1, '2024-11-15 15:45:00', 10.00, 50),
+(2, 3, '2024-11-15 17:15:00', 10.00, 50),
+(2, 3, '2024-11-15 20:30:00', 10.00, 50),
 
+(1, 1, '2024-11-22 10:00:00', 10.00, 50),
+(1, 1, '2024-11-22 13:00:00', 10.00, 50),
+(1, 1, '2024-11-22 16:00:00', 10.00, 50),
+(1, 1, '2024-11-22 19:00:00', 10.00, 50),
 (1, 2, '2024-11-22 11:00:00', 10.00, 50),
+(1, 2, '2024-11-22 14:30:00', 10.00, 50),
+(1, 2, '2024-11-22 18:00:00', 10.00, 50),
+(2, 1, '2024-11-22 09:30:00', 10.00, 50),
+(2, 1, '2024-11-22 12:45:00', 10.00, 50),
+(2, 1, '2024-11-22 15:45:00', 10.00, 50),
+(2, 3, '2024-11-22 17:15:00', 10.00, 50),
+(2, 3, '2024-11-22 20:30:00', 10.00, 50),
 
-(1, 2, '2024-11-8 15:00:00', 10.00, 50),
+(3, 1, '2024-11-08 19:00:00', 10.00, 50),
+(4, 1, '2024-11-08 19:00:00', 10.00, 50),
+(5, 1, '2024-11-08 19:00:00', 10.00, 50);
 
-(1, 2, '2024-11-15 15:00:00', 10.00, 50),
-
-(1, 2, '2024-11-22 15:00:00', 10.00, 50),
-
-(2, 1, '2024-11-8 19:00:00', 10.00, 50),
-
-(2, 1, '2024-11-15 19:00:00', 10.00, 50),
-
-(2, 1, '2024-11-22 19:00:00', 10.00, 50),
-
-(2, 1, '2024-11-8 11:00:00', 10.00, 50),
-
-(2, 1, '2024-11-15 11:00:00', 10.00, 50),
-
-(2, 1, '2024-11-22 11:00:00', 10.00, 50),
-
-(2, 1, '2024-11-8 15:00:00', 10.00, 50),
-
-(2, 1, '2024-11-15 15:00:00', 10.00, 50),
-
-(2, 1, '2024-11-22 15:00:00', 10.00, 50),
-
-(2, 2, '2024-11-8 19:00:00', 10.00, 50),
-
-(2, 2, '2024-11-15 19:00:00', 10.00, 50),
-
-(2, 2, '2024-11-22 19:00:00', 10.00, 50),
-
-(2, 2, '2024-11-8 11:00:00', 10.00, 50),
-
-(2, 2, '2024-11-15 11:00:00', 10.00, 50),
-
-(2, 2, '2024-11-22 11:00:00', 10.00, 50),
-
-(2, 2, '2024-11-8 15:00:00', 10.00, 50),
-
-(2, 2, '2024-11-15 15:00:00', 10.00, 50),
-
-(2, 2, '2024-11-22 15:00:00', 10.00, 50),
-
-(2, 3, '2024-11-8 19:00:00', 10.00, 50),
-
-(2, 3, '2024-11-15 19:00:00', 10.00, 50),
-
-(2, 3, '2024-11-22 19:00:00', 10.00, 50),
-
-(2, 3, '2024-11-8 11:00:00', 10.00, 50),
-
-(2, 3, '2024-11-15 11:00:00', 10.00, 50),
-
-(2, 3, '2024-11-22 11:00:00', 10.00, 50),
-
-(2, 3, '2024-11-8 15:00:00', 10.00, 50),
-
-(2, 3, '2024-11-15 15:00:00', 10.00, 50),
-
-(2, 3, '2024-11-22 15:00:00', 10.00, 50);
 
 -- Inserting Drinks
 INSERT INTO drinks (name, description, price, category, image_url) VALUES

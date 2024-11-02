@@ -23,62 +23,63 @@ class MovieDetailsPage extends HTMLElement {
                     <style>
                         .container {
                             display: flex;
-                            flex-direction: column; /* Stack elements vertically */
-                            position: relative; /* Needed for absolute positioning of children */
-                            width: 100%; /* Use full width for proper positioning */
-                            position: relative; /* Needed for absolute positioning of children */
+                            flex-direction: column;
+                            position: relative;
+                            width: 100%;
+                        }
+
+                        .content-wrapper {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 0 40px;
+                            margin-top: 10px;
+                        }
+
+                        .left-column {
+                            width: 422px;
                         }
 
                         .movie-trailer {
-                            width: 100%; /* Allow the trailer to take full width */
-                            overflow: hidden; /* Hide overflow to maintain the aspect ratio */
+                            width: 100%;
+                            overflow: hidden;
                         }
 
                         .synopsis_container {
-                            width: 422px; /* Set the width of the synopsis container */
-                            color: white; /* Set text color to white */
+                            color: white;
                             font-family: 'Kantumury Pro Thin', serif;
-                            margin-top: 10px; /* Space between trailer and synopsis */
-                            padding-left: 40px; /* Add padding from the left edge */
                         }
                         
                         .synopsis_container h1 {
                             font-family: 'Italiana', serif;
-                            font-size: 3rem; /* Italiana size 3rem */
+                            font-size: 3rem;
                             font-weight: normal;
-                            margin-bottom: 10px; /* Space below the heading */
-                            text-decoration: underline; /* Underline the title */
-                            text-decoration-color: white; /* Underline color */
-                            text-decoration-thickness: 2px; /* Thickness of the underline */
-                            border-radius: 10px; /* Rounded underline */
+                            margin-bottom: 10px;
+                            text-decoration: underline;
+                            text-decoration-color: white;
+                            text-decoration-thickness: 2px;
+                            border-radius: 10px;
                         }
                         
                         .synopsis_container p {
                             font-family: 'Kantumury Pro Thin', serif;
-                            font-size: 1.5rem; /* Synopsis text size */
-                            margin: 0; /* Remove default margins */
+                            font-size: 1.5rem;
+                            margin: 0;
                         }
 
                         .info_box {
-                            margin-left: 40px; /* Add padding from the left edge */
-                            border: 2px solid white; /* White border */
-                            border-radius: 10px; /* Rounded corners */
-                            padding: 20px; /* Padding inside the box */
-                            margin-top: 40px; /* Space between synopsis and info box */
-                            background:#1e1e1e; 
-                            width: 378px; /* Match width with synopsis container */
-                            color: white; /* Text color */
+                            border: 2px solid white;
+                            border-radius: 10px;
+                            padding: 20px;
+                            margin-top: 40px;
+                            background: #1e1e1e;
+                            width: 378px;
+                            color: white;
                             font-family: 'Kantumury Pro Thin', serif;
-
                         }
 
                         .info_box div {
-                            margin-bottom: 10px; /* Space between each info item */
-                            font-size: 1.5rem; /* Set font size for info items */
-                        }
-
-                        .info_box div span {
-                             /* Bold label for each info item */
+                            margin-bottom: 10px;
+                            font-size: 1.5rem;
                         }
                     </style>
 
@@ -91,10 +92,12 @@ class MovieDetailsPage extends HTMLElement {
                             starring="${movie.cast}">
                         </movie-trailer>
                         
-                        <div class="synopsis_container">
-                            <h1>Synopsis</h1>
-                            <p>${movie.synopsis}</p>
-                        </div>
+                        <div class="content-wrapper">
+                            <div class="left-column">
+                                <div class="synopsis_container">
+                                    <h1>Synopsis</h1>
+                                    <p>${movie.synopsis}</p>
+                                </div>
 
                         <div class="info_box">
                             <div><span>Genre:</span><br> ${movie.genre}</div>
