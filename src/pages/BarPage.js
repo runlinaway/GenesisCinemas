@@ -76,6 +76,12 @@ class BarPage extends HTMLElement {
           targetElement.style.display === "none" ? "flex" : "none";
       });
     });
+
+    // Fetch items for each category
+    this.fetchFoodItems();
+    this.fetchDrinkItems();
+    this.fetchWineItems();
+    this.fetchAlcoholItems();
   }
 
   async fetchFoodItems() {
