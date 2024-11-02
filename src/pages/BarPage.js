@@ -40,9 +40,9 @@ class BarPage extends HTMLElement {
           }
 
           .menu-item {
-            flex: 1;
+            flex: 1 1 calc(25% - 20px); /* 4 items in a row with margin */
             margin: 10px;
-            min-width: 200px;
+            max-width: 200px; /* Set max width to prevent overflow */
           }
         </style>
 
@@ -74,7 +74,7 @@ class BarPage extends HTMLElement {
       this.renderMenuItems(foodItems, "Food");
       this.renderMenuItems(drinkItems, "Drinks");
       this.renderMenuItems(alcoholItems, "Alcohol");
-      this.renderMenuItems(wineItems, "Wine Selection");
+      this.renderMenuItems(wineItems, "Wine");
     } catch (error) {
       console.error("Error fetching menu items:", error);
     }
@@ -93,8 +93,9 @@ class BarPage extends HTMLElement {
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
-    // Show only the first 4 items for each category
-    const itemsToShow = menuItems.slice(0, 4);
+    // Shuffle items and show only the first 4 items for each category
+    const shuffledItems = this.shuffleArray(menuItems);
+    const itemsToShow = shuffledItems.slice(0, 4);
 
     itemsToShow.forEach((item) => {
       const menuItemCard = document.createElement("menu-item-card");
@@ -105,7 +106,7 @@ class BarPage extends HTMLElement {
       menuItemCard.setAttribute("image-url", item.image_url);
 
       // Set additional attributes if applicable
-      if (category === "Wine Selection") {
+      if (category === "Wine") {
         menuItemCard.setAttribute("vintage", item.vintage || "N/A");
         menuItemCard.setAttribute("region", item.region || "N/A");
       } else if (category === "Alcohol") {
@@ -119,6 +120,14 @@ class BarPage extends HTMLElement {
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
     });
+  }
+
+  shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+    return array;
   }
 }
 
