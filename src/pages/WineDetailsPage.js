@@ -12,6 +12,10 @@ class WineDetailsPage extends HTMLElement {
 
   async fetchWineDetails(name) {
     try {
+      console.log(
+        "Fetching wine details from URL:",
+        `./src/services/fetch_wine.php?name=${encodeURIComponent(name)}`
+      );
       const response = await fetch(
         `./src/services/fetch_wine.php?name=${encodeURIComponent(name)}`
       );
@@ -20,8 +24,9 @@ class WineDetailsPage extends HTMLElement {
       const wine = await response.json();
       console.log("Parsed Wine Data:", wine); // Log the parsed wine data
 
-      if (wine && !wine.error) {
-        console.log("Wine Data to Display:", wine); // Log the data being displayed
+      if (Array.isArray(wine) && wine.length > 0) {
+        const selectedWine = wine[0]; // Get the first item in the array
+        console.log("Selected Wine Data to Display:", selectedWine);
         this.shadowRoot.innerHTML = `
           <style>
             .container {
