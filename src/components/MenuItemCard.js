@@ -5,25 +5,42 @@ class MenuItemCard extends HTMLElement {
     this.render();
   }
 
+  static get observedAttributes() {
+    return ["name", "description", "price", "image_url"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this.render();
+  }
+
   render() {
-    const container = document.createElement("div");
+    const name = this.getAttribute("name");
+    const description = this.getAttribute("description");
+    const price = this.getAttribute("price");
+    const imageUrl = this.getAttribute("image_url");
 
-    const img = document.createElement("img");
-    img.src = this.getAttribute("image-url");
-    img.alt = this.getAttribute("name");
-    img.style.width = "100%"; // Adjust as needed
-
-    const name = document.createElement("h3");
-    name.textContent = this.getAttribute("name");
-
-    const price = document.createElement("p");
-    price.textContent = `$${this.getAttribute("price")}`;
-
-    container.appendChild(img);
-    container.appendChild(name);
-    container.appendChild(price);
-
-    this.shadowRoot.appendChild(container);
+    this.shadowRoot.innerHTML = `
+            <style>
+                .card {
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                    margin: 10px;
+                    text-align: center;
+                    border-radius: 5px;
+                }
+                img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 5px;
+                }
+            </style>
+            <div class="card">
+                <img src="${imageUrl}" alt="${name}">
+                <h3>${name}</h3>
+                <p>${description}</p>
+                <p>${price}</p>
+            </div>
+        `;
   }
 }
 
