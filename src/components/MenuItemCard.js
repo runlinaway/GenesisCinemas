@@ -6,7 +6,7 @@ class MenuItemCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["name", "description", "price", "imageUrl"];
+    return ["name", "description", "price", "image_Url"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -17,7 +17,7 @@ class MenuItemCard extends HTMLElement {
     const name = this.getAttribute("name");
     const description = this.getAttribute("description");
     const price = this.getAttribute("price");
-    const imageUrl = this.getAttribute("image");
+    const image_Url = this.getAttribute("image_Url");
 
     this.shadowRoot.innerHTML = `
             <style>
@@ -35,7 +35,7 @@ class MenuItemCard extends HTMLElement {
                 }
             </style>
             <div class="card">
-    <img src="${imageUrl}" alt="${name}">
+    <img src="${image_Url}" alt="${name}">
     <h3>${name}</h3>
     <p>${description}</p>
     <p>${price}</p>

@@ -98,7 +98,7 @@ class BarPage extends HTMLElement {
       menuItemCard.setAttribute("name", item.name);
       menuItemCard.setAttribute("description", item.description);
       menuItemCard.setAttribute("price", item.price);
-      menuItemCard.setAttribute("image", item.image_url);
+      menuItemCard.setAttribute("image_url", item.image_url);
 
       // Set additional attributes if applicable
       if (category === "Wine") {
