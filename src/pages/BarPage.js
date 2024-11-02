@@ -62,7 +62,7 @@ class BarPage extends HTMLElement {
       // Fetching menu items from different categories
       const foodResponse = await fetch("./src/services/fetch_food.php");
       const drinkResponse = await fetch("./src/services/fetch_drinks.php");
-      const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
+      const wineResponse = await fetch("./src/services/fetch_wine.php");
       const alcoholResponse = await fetch("./src/services/fetch_alcohol.php");
 
       const foodItems = await foodResponse.json();
@@ -70,11 +70,38 @@ class BarPage extends HTMLElement {
       const wineItems = await wineResponse.json();
       const alcoholItems = await alcoholResponse.json();
 
+      // Base path for images
+      const imagePath = "./assets/images/";
+
       // Render menu items for each category
-      this.renderMenuItems(foodItems.slice(0, 4), "Food");
-      this.renderMenuItems(drinkItems.slice(0, 4), "Drinks");
-      this.renderMenuItems(alcoholItems.slice(0, 4), "Alcohol");
-      this.renderMenuItems(wineItems.slice(0, 4), "Wine");
+      this.renderMenuItems(
+        foodItems.slice(0, 4).map((item) => ({
+          ...item,
+          image_url: imagePath + item.image_url,
+        })),
+        "Food"
+      );
+      this.renderMenuItems(
+        drinkItems.slice(0, 4).map((item) => ({
+          ...item,
+          image_url: imagePath + item.image_url,
+        })),
+        "Drinks"
+      );
+      this.renderMenuItems(
+        alcoholItems.slice(0, 4).map((item) => ({
+          ...item,
+          image_url: imagePath + item.image_url,
+        })),
+        "Alcohol"
+      );
+      this.renderMenuItems(
+        wineItems.slice(0, 4).map((item) => ({
+          ...item,
+          image_url: imagePath + item.image_url,
+        })),
+        "Wine"
+      );
     } catch (error) {
       console.error("Error fetching menu items:", error);
     }
