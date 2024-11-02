@@ -6,41 +6,57 @@ class ItemDetailsPage extends HTMLElement {
 
   connectedCallback() {
     const itemName = decodeURIComponent(this.getAttribute("item-name"));
-    const itemCategory = decodeURIComponent(this.getAttribute("item-category"));
-    this.fetchItemDetails(itemName, itemCategory);
+
+    // Call the method to fetch item details using the item name
+    this.fetchItemDetails(itemName);
   }
 
-  async fetchItemDetails(name, category) {
+  async fetchItemDetails(name) {
     try {
-      // Determine the correct PHP script based on the category
-      let scriptName;
+      // Define a mapping of categories to their respective PHP scripts
+      const itemToScriptMapping = {
+        wine: "fetch_wine_drop.php",
+        food: "fetch_food.php",
+        drinks: "fetch_drinks.php",
+        alcohol: "fetch_alcohol.php",
+      };
 
-      // Map categories to their respective PHP scripts
-      switch (category) {
-        case "wine":
-          scriptName = "fetch_wine_drop.php"; // Use fetch_wine_drop.php for the wine category
-          break;
-        case "alcohol":
-          scriptName = "fetch_alcohol.php"; // Use fetch_alcohol.php for the alcohol category
-          break;
-        case "drinks":
-          scriptName = "fetch_drinks.php"; // Use fetch_drinks.php for the drinks category
-          break;
-        case "food":
-          scriptName = "fetch_food.php"; // Use fetch_food.php for the food category
-          break;
-        default:
-          throw new Error("Unknown category"); // Handle unknown categories gracefully
+      let scriptName;
+      for (const [key, value] of Object.entries(itemToScriptMapping)) {
+        if (name.toLowerCase().includes(key)) {
+          scriptName = value;
+          break; // Stop once we find a match
+        }
+      }
+
+      // Check if a script name was found
+      if (!scriptName) {
+        throw new Error("Unknown category based on item name."); // If no match found
       }
 
       const response = await fetch(
         `./src/services/${scriptName}?name=${encodeURIComponent(name)}`
       );
+
       const item = await response.json();
 
       console.log("Parsed Item Data:", item); // Log the item data
+
+      if (scriptName === "fetch_wine_drop.php") {
+        category = "wine";
+      } else if (scriptName === "fetch_food.php") {
+        category = "food";
+      } else if (scriptName === "fetch_drinks.php") {
+        category = "drinks";
+      } else if (scriptName === "fetch_alcohol.php") {
+        category = "alcohol";
+      } else {
+        throw new Error("Unknown category");
+      }
+
       if (item && !item.error) {
         // Prepare content based on the category
+        this.renderItemDetails(item);
         let imageUrl = item.image_url;
         let price = item.price;
         let extraDetail = ""; // Extra detail, such as vintage for wine or other info for food
@@ -51,11 +67,7 @@ class ItemDetailsPage extends HTMLElement {
           extraDetail = `<div><strong>Year:</strong> ${item.vintage}</div>`;
           extraDetail2 = `<div><strong>Region:</strong> ${item.region}</div>`;
         } else if (category !== "alcohol") {
-          // Changed the condition to "not equal to alcohol"
-          // Example: Add generic details for items that are not alcohol
-          extraDetail = `<div><strong>Description:</strong> ${
-            item.description || "N/A"
-          } </div>`;
+          extraDetail = `<div><strong>Description:</strong> ${item.description}</div>`;
         }
 
         this.shadowRoot.innerHTML = `
