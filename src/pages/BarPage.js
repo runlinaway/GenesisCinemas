@@ -113,7 +113,6 @@ class BarPage extends HTMLElement {
       const menuItemCard = new MenuItemCard(
         item.name,
         item.image_url,
-        item.description,
         item.price,
         item.id
       ); // Directly pass parameters
