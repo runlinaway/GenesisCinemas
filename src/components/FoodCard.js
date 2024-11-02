@@ -35,10 +35,10 @@ class FoodCard extends HTMLElement {
 
     // Add click event listener to navigate to ItemDetailsPage.js
     this.card.addEventListener("click", () => {
-      // Redirect to the ItemDetailsPage with the item name as a parameter in the URL hash
+      // Redirect to the ItemDetailsPage with the item name and category as parameters in the URL hash
       window.location.hash = `#ItemDetails/${encodeURIComponent(
         this.foodName
-      )}`;
+      )}/food`; // Include category 'food'
     });
 
     this.styleCard(); // Call styleCard without parameters

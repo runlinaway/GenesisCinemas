@@ -5,8 +5,12 @@ class ItemDetailsPage extends HTMLElement {
   }
 
   connectedCallback() {
-    const itemName = decodeURIComponent(this.getAttribute("item-name"));
-    const itemCategory = decodeURIComponent(this.getAttribute("item-category")); // Ensure this attribute is passed correctly
+    const hash = window.location.hash.split("/"); // Split hash to get name and category
+    const itemName = decodeURIComponent(hash[1]); // Get item name from the second segment
+    const itemCategory = hash[2] ? decodeURIComponent(hash[2]) : ""; // Get item category from the third segment
+
+    console.log("Item Name:", itemName); // Log item name
+    console.log("Item Category:", itemCategory); // Log item category
 
     // Call the method to fetch item details using the item name and category
     this.fetchItemDetails(itemName, itemCategory);
