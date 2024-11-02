@@ -71,6 +71,7 @@ class BarPage extends HTMLElement {
 
       // Log the items to check if image_url is correctly set
       console.log("Food Items:", foodItems);
+      console.log("image_url:", image_url);
       console.log("Drink Items:", drinkItems);
       console.log("Wine Items:", wineItems);
       console.log("Alcohol Items:", alcoholItems);
