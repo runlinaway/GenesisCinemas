@@ -61,7 +61,7 @@ class BarPage extends HTMLElement {
     try {
       const foodResponse = await fetch("./src/services/fetch_food.php");
       const drinkResponse = await fetch("./src/services/fetch_drinks.php");
-      const wineResponse = await fetch("./src/services/fetch_wine.php");
+      const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
       const alcoholResponse = await fetch("./src/services/fetch_alcohol.php");
 
       const foodItems = await foodResponse.json();
