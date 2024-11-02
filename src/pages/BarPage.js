@@ -15,47 +15,37 @@ class BarPage extends HTMLElement {
             color: #333;
             background-color: #f5f5f5;
           }
-  
+
           h2 {
             color: #333;
             font-size: 2rem;
             margin: 0 0 10px;
             cursor: pointer; /* Make headings clickable */
           }
-  
+
           p {
             color: #555;
             font-size: 1rem;
             line-height: 1.5;
           }
-  
+
           .menu-row {
-            display: flex;
+            display: none; /* Hide menu items by default */
             flex-wrap: wrap;
             margin-bottom: 20px;
-            display: none; /* Hide menu items by default */
           }
-  
+
           .menu-row.expanded {
             display: flex; /* Show menu items when expanded */
           }
 
-          .cta-button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            background-color: #1e1e1e;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-          }
-  
-          .cta-button:hover {
-            background-color: #333;
+          .menu-item {
+            flex: 1;
+            margin: 10px;
+            min-width: 200px;
           }
         </style>
-  
+
         <div class="page-content">
           <wine-banner></wine-banner>
           <div class="menu-list"></div>
@@ -69,7 +59,7 @@ class BarPage extends HTMLElement {
 
   async fetchMenuItems() {
     try {
-      // Adjusting the fetch calls to get food, drinks, and wine separately
+      // Fetching menu items from different categories
       const foodResponse = await fetch("./src/services/fetch_food.php");
       const drinkResponse = await fetch("./src/services/fetch_drinks.php");
       const wineResponse = await fetch("./src/services/fetch_wine.php");
@@ -80,12 +70,7 @@ class BarPage extends HTMLElement {
       const wineItems = await wineResponse.json();
       const alcoholItems = await alcoholResponse.json();
 
-      console.log("Fetched Food Items:", foodItems);
-      console.log("Fetched Drink Items:", drinkItems);
-      console.log("Fetched Wine Items:", wineItems);
-      console.log("Fetched Alcohol Items:", alcoholItems);
-
-      // Render all items in the menu
+      // Render menu items for each category
       this.renderMenuItems(foodItems, "Food");
       this.renderMenuItems(drinkItems, "Drinks");
       this.renderMenuItems(alcoholItems, "Alcohol");
@@ -108,11 +93,12 @@ class BarPage extends HTMLElement {
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
-    // Show only the first 4 items for each category initially
+    // Show only the first 4 items for each category
     const itemsToShow = menuItems.slice(0, 4);
 
     itemsToShow.forEach((item) => {
       const menuItemCard = document.createElement("menu-item-card");
+      menuItemCard.classList.add("menu-item");
       menuItemCard.setAttribute("name", item.name);
       menuItemCard.setAttribute("description", item.description);
       menuItemCard.setAttribute("price", item.price);
@@ -120,10 +106,10 @@ class BarPage extends HTMLElement {
 
       // Set additional attributes if applicable
       if (category === "Wine Selection") {
-        menuItemCard.setAttribute("vintage", item.vintage);
-        menuItemCard.setAttribute("region", item.region);
+        menuItemCard.setAttribute("vintage", item.vintage || "N/A");
+        menuItemCard.setAttribute("region", item.region || "N/A");
       } else if (category === "Alcohol") {
-        menuItemCard.setAttribute("description", item.type);
+        menuItemCard.setAttribute("description", item.type || "N/A");
       }
 
       row.appendChild(menuItemCard);
