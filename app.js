@@ -5,7 +5,7 @@ import "./src/pages/BarPage.js";
 import "./src/pages/SignupPage.js";
 import "./src/pages/MovieDetailsPage.js";
 import "./src/pages/CorporatePage.js";
-import "./src/pages/FaqPage.js";
+import "./src/pages/FAQPage.js";
 import "./src/pages/ItemDetailsPage.js";
 import "./src/components/Header.js";
 import "./src/components/Footer.js";
@@ -86,8 +86,11 @@ function loadPage() {
       default:
         page = document.createElement("home-page");
         break;
-      case "Corporate":
+      case "#Corporate":
         page = document.createElement("corporate-page");
+        break;
+      case "#FAQ":
+        page = document.createElement("FAQ-page");
         break;
     }
   }

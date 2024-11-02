@@ -1,4 +1,4 @@
-class FaqPage extends HTMLElement {
+class FAQPage extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -51,4 +51,4 @@ class FaqPage extends HTMLElement {
   }
 }
 
-customElements.define("faq-page", FaqPage);
+customElements.define("FAQ-page", FAQPage);
