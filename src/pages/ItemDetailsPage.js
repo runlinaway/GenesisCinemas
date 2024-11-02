@@ -5,7 +5,7 @@ class ItemDetailsPage extends HTMLElement {
   }
 
   connectedCallback() {
-    const itemName = decodeURIComponent(this.getAttribute("item-name"));
+    const itemName = decodeURIComponent(this.getAttribute("name"));
 
     // Call the method to fetch item details using the item name
     this.fetchItemDetails(itemName);
