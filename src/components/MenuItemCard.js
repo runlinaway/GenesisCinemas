@@ -5,32 +5,29 @@ class MenuItemCard extends HTMLElement {
     this.render(); // Initial render call
   }
 
-  async fetchItems(category) {
-    try {
-      // Define the categories to fetch from
-      const category = ["food", "drinks", "alcohol", "wine"];
-
-      const response = await fetch(`../services/fetch_${category}.php`); // Adjust this to point to your PHP files
-
-      // Check if the response is ok (status in the range 200-299)
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      // Parse the JSON response
-      return await response.json();
-    } catch (error) {
-      console.error(`Failed to fetch ${category} items: ${error.message}`);
-      return []; // Return an empty array or handle the error as needed
+  async fetchMenuItems() {
+    const items = await this.fetchItems(); // Your fetch method
+    console.log("Fetched items:", items); // Log fetched items
+    // Check if items is an array
+    if (!Array.isArray(items)) {
+      console.error("Fetched items is not an array:", items);
+      return []; // Return an empty array if it's not an array
     }
+    return items;
   }
 
   async render() {
+    const menuItems = await this.fetchMenuItems();
     // Create main container
-    const container = document.createElement("div");
+    const itemContainer = this.shadowRoot.querySelector(".item-container"); // Example selector
 
     // Define the categories to fetch from
     const categories = ["food", "drinks", "alcohol", "wine"];
+
+    if (!Array.isArray(menuItems) || menuItems.length === 0) {
+      itemContainer.innerHTML = "<p>No items available</p>";
+      return;
+    }
 
     // Loop through each category to fetch and display items
     for (const category of categories) {
@@ -92,7 +89,10 @@ class MenuItemCard extends HTMLElement {
   }
 
   getRandomItems(items, count) {
-    // Shuffle items and return a subset of the specified count
+    if (!Array.isArray(items)) {
+      console.error("Input to getRandomItems is not an array:", items);
+      return []; // Return empty if the input is not an array
+    }
     const shuffled = items.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
