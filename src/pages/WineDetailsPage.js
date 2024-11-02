@@ -6,6 +6,7 @@ class WineDetailsPage extends HTMLElement {
 
   connectedCallback() {
     const wineName = decodeURIComponent(this.getAttribute("wine-name"));
+    console.log("Wine Name from attribute:", wineName); // Log the wine name
     this.fetchWineDetails(wineName);
   }
 
@@ -14,9 +15,13 @@ class WineDetailsPage extends HTMLElement {
       const response = await fetch(
         `./src/services/fetch_wine.php?name=${encodeURIComponent(name)}`
       );
+      console.log("Response from fetch:", response); // Log the response object
+
       const wine = await response.json();
+      console.log("Parsed Wine Data:", wine); // Log the parsed wine data
 
       if (wine && !wine.error) {
+        console.log("Wine Data to Display:", wine); // Log the data being displayed
         this.shadowRoot.innerHTML = `
           <style>
             .container {
