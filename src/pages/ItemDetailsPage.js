@@ -5,13 +5,14 @@ class ItemDetailsPage extends HTMLElement {
   }
 
   connectedCallback() {
-    const itemName = decodeURIComponent(this.getAttribute("name"));
+    const itemName = decodeURIComponent(this.getAttribute("item-name"));
+    const itemCategory = decodeURIComponent(this.getAttribute("item-category")); // Ensure this attribute is passed correctly
 
-    // Call the method to fetch item details using the item name
-    this.fetchItemDetails(itemName);
+    // Call the method to fetch item details using the item name and category
+    this.fetchItemDetails(itemName, itemCategory);
   }
 
-  async fetchItemDetails(name) {
+  async fetchItemDetails(name, category) {
     try {
       // Define a mapping of categories to their respective PHP scripts
       const itemToScriptMapping = {
@@ -21,56 +22,52 @@ class ItemDetailsPage extends HTMLElement {
         alcohol: "fetch_alcohol.php",
       };
 
-      let scriptName;
-      for (const [key, value] of Object.entries(itemToScriptMapping)) {
-        if (name.toLowerCase().includes(key)) {
-          scriptName = value;
-          break; // Stop once we find a match
-        }
-      }
-
-      // Check if a script name was found
+      // Check if the category provided is valid
+      const scriptName = itemToScriptMapping[category.toLowerCase()];
       if (!scriptName) {
-        throw new Error("Unknown category based on item name."); // If no match found
+        throw new Error("Unknown category based on item name.");
       }
 
       const response = await fetch(
         `./src/services/${scriptName}?name=${encodeURIComponent(name)}`
       );
 
+      // Check if the response is ok (status 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       const item = await response.json();
 
       console.log("Parsed Item Data:", item); // Log the item data
 
-      if (scriptName === "fetch_wine_drop.php") {
-        category = "wine";
-      } else if (scriptName === "fetch_food.php") {
-        category = "food";
-      } else if (scriptName === "fetch_drinks.php") {
-        category = "drinks";
-      } else if (scriptName === "fetch_alcohol.php") {
-        category = "alcohol";
-      } else {
-        throw new Error("Unknown category");
-      }
-
       if (item && !item.error) {
         // Prepare content based on the category
-        this.renderItemDetails(item);
-        let imageUrl = item.image_url;
-        let price = item.price;
-        let extraDetail = ""; // Extra detail, such as vintage for wine or other info for food
-        let extraDetail2 = ""; // Extra detail, such as vintage for wine or other info for food
+        this.renderItemDetails(item, category);
+      } else {
+        this.shadowRoot.innerHTML = `<p>Item not found or error fetching details.</p>`;
+      }
+    } catch (error) {
+      console.error("Error fetching item details:", error);
+      this.shadowRoot.innerHTML = `<p>Error fetching item details: ${error.message}</p>`;
+    }
+  }
 
-        // Customize extra detail based on category
-        if (category === "wine") {
-          extraDetail = `<div><strong>Year:</strong> ${item.vintage}</div>`;
-          extraDetail2 = `<div><strong>Region:</strong> ${item.region}</div>`;
-        } else if (category !== "alcohol") {
-          extraDetail = `<div><strong>Description:</strong> ${item.description}</div>`;
-        }
+  renderItemDetails(item, category) {
+    let extraDetail = ""; // Extra detail based on category
+    let extraDetail2 = ""; // Additional detail if needed
+    let imageUrl = item.image_url;
+    let price = item.price;
+    let description = item.description || "No description available."; // Ensure description is defined
 
-        this.shadowRoot.innerHTML = `
+    // Customize extra detail based on category
+    if (category === "wine") {
+      extraDetail = `<div><strong>Year:</strong> ${item.vintage}</div>`;
+      extraDetail2 = `<div><strong>Region:</strong> ${item.region}</div>`;
+    } else if (category !== "alcohol") {
+      extraDetail = `<div><strong>Description:</strong> ${item.description}</div>`;
+    }
+    this.shadowRoot.innerHTML = `
         <style>
           .container {
               display: flex;
@@ -160,13 +157,6 @@ class ItemDetailsPage extends HTMLElement {
                   </div>
               </div>
             `;
-      } else {
-        this.shadowRoot.innerHTML = `<p>Item not found or error fetching details.</p>`;
-      }
-    } catch (error) {
-      console.error("Error fetching item details:", error);
-      this.shadowRoot.innerHTML = `<p>Error fetching item details.</p>`;
-    }
   }
 }
 
