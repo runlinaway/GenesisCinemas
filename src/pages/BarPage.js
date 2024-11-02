@@ -56,24 +56,30 @@ class BarPage extends HTMLElement {
             </style>
 
             <div class="page-content">
-                <wine-banner></wine-banner>
-                <h1>Food List</h1>
-                <div class="food-list"></div>
-                <h1>Drinks List</h1>
-                <div class="drink-list"></div>
-                <h1>Wine List</h1>
-                <div class="wine-list"></div>
-                <h1>Alcohol List</h1>
-                <div class="alcohol-list"></div>
-            </div>
-        `;
+        <wine-banner></wine-banner>
+        <h1 class="toggle-header" data-target=".food-list">Food List</h1>
+        <div class="food-list"></div>
+        <h1 class="toggle-header" data-target=".drink-list">Drinks List</h1>
+        <div class="drink-list"></div>
+        <h1 class="toggle-header" data-target=".wine-list">Wine List</h1>
+        <div class="wine-list"></div>
+        <h1 class="toggle-header" data-target=".alcohol-list">Alcohol List</h1>
+        <div class="alcohol-list"></div>
+      </div>
+    `;
   }
 
   connectedCallback() {
-    this.fetchFoodItems();
-    this.fetchDrinkItems();
-    this.fetchWineItems();
-    this.fetchAlcoholItems();
+    // Add event listeners to toggle the visibility of each section
+    const headers = this.shadowRoot.querySelectorAll(".toggle-header");
+    headers.forEach((header) => {
+      header.addEventListener("click", () => {
+        const targetSelector = header.getAttribute("data-target");
+        const targetElement = this.shadowRoot.querySelector(targetSelector);
+        targetElement.style.display =
+          targetElement.style.display === "none" ? "flex" : "none";
+      });
+    });
   }
 
   async fetchFoodItems() {
