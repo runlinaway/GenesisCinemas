@@ -35,11 +35,11 @@ class MenuItemCard extends HTMLElement {
                 }
             </style>
             <div class="card">
-                <img src="${imageUrl}" alt="${name}">
-                <h3>${name}</h3>
-                <p>${description}</p>
-                <p>${price}</p>
-            </div>
+    <img src="${imageUrl}" alt="${name}">
+    <h3>${name}</h3>
+    <p>${description}</p>
+    <p>${price}</p>
+</div>
         `;
   }
 }
