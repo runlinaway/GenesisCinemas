@@ -364,6 +364,11 @@ class AppHeader extends HTMLElement {
   connectedCallback() {
     window.addEventListener('popstate', this.updateLoginLink.bind(this));
     
+    // Add cookie change listener
+    document.addEventListener('cookieChange', () => {
+        this.updateLoginLink();
+    });
+
     this.updateLoginLink();
 
     const dropdowns = this.shadowRoot.querySelectorAll('.dropdown');
@@ -504,6 +509,7 @@ class AppHeader extends HTMLElement {
 
   disconnectedCallback() {
     window.removeEventListener('popstate', this.updateLoginLink.bind(this));
+    document.removeEventListener('cookieChange', this.updateLoginLink.bind(this));
   }
 }
 
