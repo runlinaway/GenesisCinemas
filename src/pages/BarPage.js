@@ -62,7 +62,7 @@ class BarPage extends HTMLElement {
       // Fetching menu items from different categories
       const foodResponse = await fetch("./src/services/fetch_food.php");
       const drinkResponse = await fetch("./src/services/fetch_drinks.php");
-      const wineResponse = await fetch("./src/services/fetch_wine.php");
+      const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
       const alcoholResponse = await fetch("./src/services/fetch_alcohol.php");
 
       const foodItems = await foodResponse.json();
@@ -71,7 +71,7 @@ class BarPage extends HTMLElement {
       const alcoholItems = await alcoholResponse.json();
 
       // Base path for images
-      const imagePath = "./assets/images/";
+      const imagePath = "../assets/images/";
 
       // Render menu items for each category
       this.renderMenuItems(
