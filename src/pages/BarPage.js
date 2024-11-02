@@ -25,13 +25,6 @@ class BarPage extends HTMLElement {
                     gap: 16px;
                     padding: 0;
                 }
-                    
-                .food-list {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center; /* Center the rows within the menu list */
-                  width: 100%;
-                }
                 .page-content h1 {
                     align-self: center; /* Centers only the h1 element */
                     font-family: 'Italiana', serif;
@@ -43,18 +36,37 @@ class BarPage extends HTMLElement {
                     text-decoration-color: white;
                     text-decoration-thickness: 2px;
                     border-radius: 10px;
+                }    
+                .food-list {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center; /* Center the rows within the menu list */
+                  width: 100%;
                 }
                 .food-row {
                     display: flex;
                     flex-wrap: wrap;
                     gap: 16px;
                 }
+                .drinks-list {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center; /* Center the rows within the menu list */
+                  width: 100%;
+                }
+                .drinks-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 16px;
+                }    
             </style>
   
             <div class="page-content">
                 <wine-banner></wine-banner>
                 <h1>Food List</h1>
                 <div class="food-list"></div>
+                <h1>Drinks List</h1>
+                <div class="drinks-list"></div>
             </div>
         `;
   }
@@ -112,14 +124,14 @@ class BarPage extends HTMLElement {
   }
 
   renderDrinkItems(drinkItems) {
-    const drinkList = this.shadowRoot.querySelector(".drink-list");
+    const drinkList = this.shadowRoot.querySelector(".drinks-list");
     drinkList.innterHTML = "";
 
     let row;
     drinkItems.forEach((drink, index) => {
       if (index % 5 === 0) {
         row = document.createElement("div");
-        row.classList.add("food-row");
+        row.classList.add("drinks-row");
         drinkList.appendChild(row);
       }
 
