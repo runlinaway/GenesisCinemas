@@ -56,49 +56,4 @@ class CorporatePage extends HTMLElement {
   }
 }
 
-connectedCallback();
-{
-  this.shadowRoot
-    .querySelector("#corporate-form")
-    .addEventListener("submit", (event) => {
-      event.preventDefault();
-      this.sendEmail();
-    });
-}
-
-sendEmail();
-{
-  const name = this.shadowRoot.querySelector("#name").value;
-  const email = this.shadowRoot.querySelector("#email").value;
-  const message = this.shadowRoot.querySelector("#message").value;
-
-  // Construct the email content
-  const emailContent = `
-      Name: ${name}
-      Email: ${email}
-      Message: ${message}
-    `;
-
-  // Email sending logic
-  fetch("your_email_sending_endpoint", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      subject: "Corporate Inquiry",
-      body: emailContent,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data);
-      alert("Your message has been sent successfully!");
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      alert("There was an error sending your message. Please try again later.");
-    });
-}
-
 customElements.define("corporate-page", CorporatePage);
