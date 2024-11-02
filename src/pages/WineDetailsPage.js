@@ -65,17 +65,17 @@ class WineDetailsPage extends HTMLElement {
           </style>
           <div class="container">
             <div class="image-container">
-              <img class="wine-image" src="./src/assets/images/${wine.image_url}" alt="${wine.name}">
+              <img class="wine-image" src="./src/assets/images/${wine_selection.image_url}" alt="${wine_selection.name}">
             </div>
             <div class="synopsis_container">
-              <h1>${wine.name}</h1>
-              <p>${wine.description}</p>
+              <h1>${wine_selection.name}</h1>
+              <p>${wine_selection.description}</p>
             </div>
             <div class="info_box">
-              <div><strong>Type:</strong> ${wine.type}</div>
-              <div><strong>Price:</strong> $${wine.price}</div>
-              <div><strong>Year:</strong> ${wine.year}</div>
-              <div><strong>Rating:</strong> ${wine.rating}/5</div>
+              <div><strong>Type:</strong> ${wine_selection.type}</div>
+              <div><strong>Price:</strong> $${wine_selection.price}</div>
+              <div><strong>Year:</strong> ${wine_selection.year}</div>
+            
             </div>
           </div>
         `;
