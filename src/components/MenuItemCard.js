@@ -6,7 +6,7 @@ class MenuItemCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["name", "description", "price", "image_url"];
+    return ["name", "description", "price", "imageUrl"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
