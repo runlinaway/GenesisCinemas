@@ -76,50 +76,70 @@ class BarPage extends HTMLElement {
   }
 
   connectedCallback() {
-    this.fetchMenuItems();
+    this.fetchFoodItems();
+    this.fetchDrinkItems();
+    this.fetchWineItems();
+    this.fetchAlcoholItems();
   }
 
-  async fetchMenuItems() {
+  async fetchFoodItems() {
     try {
-      const foodResponse = await fetch("./src/services/fetch_food.php");
-      const drinkResponse = await fetch("./src/services/fetch_drinks.php");
-      const wineResponse = await fetch("./src/services/fetch_wine_drop.php");
-      const alcoholResponse = await fetch("./src/services/fetch_alcohol.php");
-
-      const foodItems = await foodResponse.json();
-      const drinkItems = await drinkResponse.json();
-      const wineItems = await wineResponse.json();
-      const alcoholItems = await alcoholResponse.json();
-
+      const response = await fetch("./src/services/fetch_food.php");
+      const foodItems = await response.json();
       console.log("Fetched Food Items:", foodItems);
-      console.log("Fetched Drink Items:", drinkItems);
-      console.log("Fetched Wine Items:", wineItems);
-      console.log("Fetched Alcohol Items:", alcoholItems);
-
       this.renderMenuItems(foodItems, "Food");
+    } catch (error) {
+      console.error("Error fetching food items:", error);
+    }
+  }
+
+  async fetchDrinkItems() {
+    try {
+      const response = await fetch("./src/services/fetch_drinks.php");
+      const drinkItems = await response.json();
+      console.log("Fetched Drink Items:", drinkItems);
       this.renderMenuItems(drinkItems, "Drinks");
+    } catch (error) {
+      console.error("Error fetching drink items:", error);
+    }
+  }
+
+  async fetchWineItems() {
+    try {
+      const response = await fetch("./src/services/fetch_wine_drop.php");
+      const wineItems = await response.json();
+      console.log("Fetched Wine Items:", wineItems);
       this.renderMenuItems(wineItems, "Wine");
+    } catch (error) {
+      console.error("Error fetching wine items:", error);
+    }
+  }
+
+  async fetchAlcoholItems() {
+    try {
+      const response = await fetch("./src/services/fetch_alcohol.php");
+      const alcoholItems = await response.json();
+      console.log("Fetched Alcohol Items:", alcoholItems);
       this.renderMenuItems(alcoholItems, "Alcohol");
     } catch (error) {
-      console.error("Error fetching menu items:", error);
+      console.error("Error fetching alcohol items:", error);
     }
   }
 
   renderMenuItems(menuItems, category) {
     const menuList = this.shadowRoot.querySelector(".menu-list");
+    menuList.innerHTML = ""; // Clear previous content
 
-    // Create a heading for each category
-    const categoryHeading = document.createElement("h2");
-    categoryHeading.textContent = category;
-    menuList.appendChild(categoryHeading);
+    let row;
+    menuItems.forEach((item, index) => {
+      // Create a new row every 5 items
+      if (index % 5 === 0) {
+        row = document.createElement("div");
+        row.classList.add("menu-row");
+        menuList.appendChild(row);
+      }
 
-    // Create a container for menu items
-    const row = document.createElement("div");
-    row.classList.add("menu-row");
-    menuList.appendChild(row);
-
-    menuItems.forEach((item) => {
-      // Create a MenuItemCard element for each menu item
+      // Create a MenuItemCard element for each item
       const menuItemCard = document.createElement("menu-item-card");
 
       // Set attributes individually after element creation
@@ -137,6 +157,9 @@ class BarPage extends HTMLElement {
     });
 
     // Add click event to toggle visibility
+    const categoryHeading = document.createElement("h2");
+    categoryHeading.textContent = category;
+    menuList.appendChild(categoryHeading);
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
       row.style.display = row.classList.contains("expanded") ? "flex" : "none";
