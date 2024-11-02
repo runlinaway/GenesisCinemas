@@ -41,7 +41,7 @@ class BarPage extends HTMLElement {
                     border-radius: 10px;
                 }
                 .menu-row {
-                    display: flex;
+                    display: none; /* Hide menu items by default */
                     flex-wrap: wrap;
                     gap: 16px;
                 }
@@ -110,13 +110,19 @@ class BarPage extends HTMLElement {
       }
 
       // Create a MenuItemCard element for each menu item
-      const menuItemCard = new MenuItemCard(
-        item.name,
-        item.image_url,
-        item.description,
-        item.price,
-        item.id
-      ); // Directly pass parameters
+      const menuItemCard = document.createElement("menu-item-card");
+      menuItemCard.setAttribute("name", item.name);
+      menuItemCard.setAttribute("price", item.price);
+      menuItemCard.setAttribute(
+        "image-url",
+        `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
+      );
+      menuItemCard.setAttribute("id", item.id);
+
+      // Conditional handling for description attribute
+      if (category !== "Alcohol") {
+        menuItemCard.setAttribute("description", item.description);
+      }
 
       row.appendChild(menuItemCard);
     });
@@ -124,6 +130,11 @@ class BarPage extends HTMLElement {
     // Add click event to toggle visibility
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
+      if (row.classList.contains("expanded")) {
+        row.style.display = "flex";
+      } else {
+        row.style.display = "none";
+      }
     });
   }
 }
