@@ -51,4 +51,4 @@ class FaqPage extends HTMLElement {
   }
 }
 
-customElements.define("FAQ-page", FaqPage);
+customElements.define("Faq-page", FaqPage);
