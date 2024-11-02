@@ -51,4 +51,4 @@ class CorporatePage extends HTMLElement {
   }
 }
 
-customElements.define("Corporate-page", CorporatePage);
+customElements.define("corporate-page", CorporatePage);
