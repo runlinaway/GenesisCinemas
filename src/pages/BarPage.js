@@ -37,15 +37,15 @@ class BarPage extends HTMLElement {
           text-decoration-color: white;
           text-decoration-thickness: 2px;
           border-radius: 10px;
-          cursor: pointer; /* Make the headers look clickable */
+          cursor: pointer;
         }
-        .item-list, .food-list, .drink-list, .wine-list, .alcohol-list {
+        .item-list {
           display: none; /* Initially hide all lists */
           flex-direction: column;
           align-items: center;
           width: 100%;
         }
-        .item-row, .food-row, .drink-row, .wine-row, .alcohol-row {
+        .item-row {
           display: flex;
           flex-wrap: wrap;
           gap: 16px;
@@ -54,13 +54,13 @@ class BarPage extends HTMLElement {
       <div class="page-content">
         <wine-banner></wine-banner>
         <h1 class="toggle-header" data-target=".food-list">Food List</h1>
-        <div class="food-list"></div>
+        <div class="food-list item-list"></div>
         <h1 class="toggle-header" data-target=".drink-list">Drinks List</h1>
-        <div class="drink-list"></div>
+        <div class="drink-list item-list"></div>
         <h1 class="toggle-header" data-target=".wine-list">Wine List</h1>
-        <div class="wine-list"></div>
+        <div class="wine-list item-list"></div>
         <h1 class="toggle-header" data-target=".alcohol-list">Alcohol List</h1>
-        <div class="alcohol-list"></div>
+        <div class="alcohol-list item-list"></div>
       </div>
     `;
   }
@@ -72,8 +72,13 @@ class BarPage extends HTMLElement {
       header.addEventListener("click", () => {
         const targetSelector = header.getAttribute("data-target");
         const targetElement = this.shadowRoot.querySelector(targetSelector);
-        targetElement.style.display =
-          targetElement.style.display === "none" ? "flex" : "none";
+
+        // Check if the element is hidden or visible
+        if (window.getComputedStyle(targetElement).display === "none") {
+          targetElement.style.display = "flex"; // Show the section
+        } else {
+          targetElement.style.display = "none"; // Hide the section
+        }
       });
     });
 
