@@ -17,7 +17,7 @@ class MenuItemCard extends HTMLElement {
     const name = this.getAttribute("name");
     const description = this.getAttribute("description");
     const price = this.getAttribute("price");
-    const imageUrl = this.getAttribute("image_url");
+    const imageUrl = this.getAttribute("image");
 
     this.shadowRoot.innerHTML = `
             <style>
