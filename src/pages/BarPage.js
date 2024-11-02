@@ -132,9 +132,8 @@ class BarPage extends HTMLElement {
       menuItemCard.setAttribute("price", item.price);
       menuItemCard.setAttribute(
         "image-url",
-        `http://localhost/GenesisCinemas/${item.image_url}`
-      ); // Updated URL
-
+        "http://localhost/GenesisCinemas/src/assets/images/nuggets.jpg"
+      );
       // Log the image URL to the console
       console.log(
         `Rendering ${category} item:`,
