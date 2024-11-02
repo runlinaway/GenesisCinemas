@@ -76,7 +76,7 @@ class BarPage extends HTMLElement {
       console.log("Alcohol Items:", alcoholItems);
 
       // Base path for images
-      const imagePath = "./src/assets/images/"; // Adjust path based on your folder structure
+      const imagePath = "src/assets/images/"; // Adjust path based on your folder structure
 
       // Render menu items for each category with updated image URLs
       this.renderMenuItems(
@@ -132,7 +132,7 @@ class BarPage extends HTMLElement {
       menuItemCard.setAttribute("price", item.price);
       menuItemCard.setAttribute(
         "image-url",
-        `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
+        `http://localhost/GenesisCinemas/${item.image_url}`
       ); // Updated URL
 
       // Log the image URL to the console
