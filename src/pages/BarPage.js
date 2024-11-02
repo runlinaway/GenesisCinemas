@@ -71,10 +71,10 @@ class BarPage extends HTMLElement {
       const alcoholItems = await alcoholResponse.json();
 
       // Render menu items for each category
-      this.renderMenuItems(foodItems, "Food");
-      this.renderMenuItems(drinkItems, "Drinks");
-      this.renderMenuItems(alcoholItems, "Alcohol");
-      this.renderMenuItems(wineItems, "Wine");
+      this.renderMenuItems(foodItems.slice(0, 4), "Food");
+      this.renderMenuItems(drinkItems.slice(0, 4), "Drinks");
+      this.renderMenuItems(alcoholItems.slice(0, 4), "Alcohol");
+      this.renderMenuItems(wineItems.slice(0, 4), "Wine");
     } catch (error) {
       console.error("Error fetching menu items:", error);
     }
@@ -93,13 +93,8 @@ class BarPage extends HTMLElement {
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
-    // Shuffle items and show only the first 4 items for each category
-    const shuffledItems = this.shuffleArray(menuItems);
-    const itemsToShow = shuffledItems.slice(0, 4);
-
-    itemsToShow.forEach((item) => {
+    menuItems.forEach((item) => {
       const menuItemCard = document.createElement("menu-item-card");
-      menuItemCard.classList.add("menu-item");
       menuItemCard.setAttribute("name", item.name);
       menuItemCard.setAttribute("description", item.description);
       menuItemCard.setAttribute("price", item.price);
@@ -120,14 +115,6 @@ class BarPage extends HTMLElement {
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
     });
-  }
-
-  shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-    }
-    return array;
   }
 }
 
