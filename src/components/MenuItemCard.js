@@ -7,6 +7,9 @@ class MenuItemCard extends HTMLElement {
 
   async fetchItems(category) {
     try {
+      // Define the categories to fetch from
+      const category = ["food", "drinks", "alcohol", "wine"];
+
       const response = await fetch(`../services/fetch_${category}.php`); // Adjust this to point to your PHP files
 
       // Check if the response is ok (status in the range 200-299)
