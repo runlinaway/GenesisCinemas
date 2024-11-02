@@ -76,13 +76,13 @@ class BarPage extends HTMLElement {
       console.log("Alcohol Items:", alcoholItems);
 
       // Base path for images
-      const imagePath = "./src/assets/images/";
+      const imagePath = "./src/assets/images/"; // Adjust path based on your folder structure
 
-      // Render menu items for each category
+      // Render menu items for each category with updated image URLs
       this.renderMenuItems(
         foodItems.slice(0, 4).map((item) => ({
           ...item,
-          image_url: imagePath + item.image_url, // Ensure this path is correct
+          image_url: imagePath + item.image_url, // Prepend the path to the image URL
         })),
         "Food"
       );
