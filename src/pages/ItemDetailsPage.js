@@ -45,7 +45,7 @@ class ItemDetailsPage extends HTMLElement {
       console.log("Parsed Item Data:", item); // Log the item data
 
       // Find the specific item that matches the name
-      item = items.find(
+      item = item.find(
         (item) => item.name.toLowerCase() === name.toLowerCase()
       );
 
