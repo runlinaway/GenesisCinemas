@@ -71,13 +71,13 @@ class BarPage extends HTMLElement {
       const alcoholItems = await alcoholResponse.json();
 
       // Base path for images
-      const imagePath = "../assets/images/";
+      const imagePath = "./src/assets/images/"; // Adjust this if necessary
 
       // Render menu items for each category
       this.renderMenuItems(
         foodItems.slice(0, 4).map((item) => ({
           ...item,
-          image_url: imagePath + item.image_url,
+          image_url: imagePath + item.image_url, // Ensure this path is correct
         })),
         "Food"
       );
