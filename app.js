@@ -9,6 +9,7 @@ import "./src/pages/FaqPage.js";
 import "./src/pages/ItemDetailsPage.js";
 import "./src/components/Header.js";
 import "./src/components/Footer.js";
+import "./src/components/StaticBanner.js";
 
 // Main App Initialization
 function init() {
