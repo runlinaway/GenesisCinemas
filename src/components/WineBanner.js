@@ -38,7 +38,7 @@ class WineBanner extends HTMLElement {
 
       // Create an anchor element for navigation (if applicable)
       const link = document.createElement("a");
-      link.href = `#WineDetails/${encodeURIComponent(wine.name)}`; // Use the wine name for the link
+      link.href = `#WineDetails/${encodeURIComponent(wine.name)}`; // Use encodeURIComponent to handle spaces/special characters
       link.style.textDecoration = "none"; // Remove underline for link text
 
       const bannerImage = document.createElement("img");
