@@ -86,6 +86,9 @@ function loadPage() {
       default:
         page = document.createElement("home-page");
         break;
+      case "Corporate":
+        page = document.createElement("corporate-page");
+        break;
     }
   }
 
