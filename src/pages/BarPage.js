@@ -1,8 +1,10 @@
 import "../components/WineBanner.js";
 import "../components/MenuItemCard.js"; // Ensure you have imported the MenuItemCard component
 import "../components/FoodCard.js";
+import "../components/DrinksCard.js";
 import { MenuItemCard } from "../components/MenuItemCard.js";
 import { FoodCard } from "../components/FoodCard.js";
+import { DrinksCard } from "../components/DrinksCard.js";
 
 class BarPage extends HTMLElement {
   constructor() {
@@ -59,9 +61,9 @@ class BarPage extends HTMLElement {
 
   connectedCallback() {
     this.fetchFoodItems();
-    // this.fetchDrinkItems();
-    // this.fetchWineItems();
-    // this.fetchAlcoholItems();
+    this.fetchDrinkItems();
+    this.fetchWineItems();
+    this.fetchAlcoholItems();
   }
 
   async fetchFoodItems() {
@@ -98,16 +100,39 @@ class BarPage extends HTMLElement {
     });
   }
 
-  // async fetchDrinkItems() {
-  //   try {
-  //     const response = await fetch("./src/services/fetch_drinks.php");
-  //     const drinkItems = await response.json();
-  //     console.log("Fetched Drink Items:", drinkItems);
-  //     this.renderDrinkItems(drinkItems);
-  //   } catch (error) {
-  //     console.error("Error fetching drink items:", error);
-  //   }
-  // }
+  async fetchDrinkItems() {
+    try {
+      const response = await fetch("./src/services/fetch_drinks.php");
+      const drinkItems = await response.json();
+      console.log("Fetched Drink Items:", drinkItems);
+      this.renderDrinkItems(drinkItems);
+    } catch (error) {
+      console.error("Error fetching drink items:", error);
+    }
+  }
+
+  renderDrinkItems(drinkItems) {
+    const drinkList = this.shadowRoot.querySelector(".drink-list");
+    drinkList.innterHTML = "";
+
+    let row;
+    drinkItems.forEach((drink, index) => {
+      if (index % 5 === 0) {
+        row = document.createElement("div");
+        row.classList.add("food-row");
+        drinkList.appendChild(row);
+      }
+
+      const drinkCard = new DrinksCard(
+        drink.name,
+        drink.image_url,
+        drink.description,
+        drink.price
+      );
+
+      row.appendChild(drinkCard);
+    });
+  }
 
   // async fetchWineItems() {
   //   try {
@@ -129,37 +154,6 @@ class BarPage extends HTMLElement {
   //   } catch (error) {
   //     console.error("Error fetching alcohol items:", error);
   //   }
-  // }
-
-  // renderDrinkItems(drinkItems) {
-  //   const menuList = this.shadowRoot.querySelector(".menu-list");
-
-  //   // Create a heading for the category
-  //   const categoryHeading = document.createElement("h2");
-  //   categoryHeading.textContent = "Drinks";
-  //   menuList.appendChild(categoryHeading);
-
-  //   // Create a container for menu items
-  //   const row = document.createElement("div");
-  //   row.classList.add("menu-row");
-  //   menuList.appendChild(row);
-
-  //   drinkItems.forEach((item) => {
-  //     const menuItemCard = document.createElement("menu-item-card");
-  //     menuItemCard.setAttribute("name", item.name);
-  //     menuItemCard.setAttribute("price", item.price);
-  //     menuItemCard.setAttribute(
-  //       "image-url",
-  //       `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
-  //     );
-  //     menuItemCard.setAttribute("description", item.description);
-  //     row.appendChild(menuItemCard);
-  //   });
-
-  //   categoryHeading.addEventListener("click", () => {
-  //     row.classList.toggle("expanded");
-  //     row.style.display = row.classList.contains("expanded") ? "flex" : "none";
-  //   });
   // }
 
   // renderWineItems(wineItems) {
