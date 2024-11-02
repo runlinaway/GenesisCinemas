@@ -1,4 +1,3 @@
-// app.js
 import "./src/pages/HomePage.js";
 import "./src/pages/MoviesPage.js";
 import "./src/pages/LocationsPage.js";
@@ -47,11 +46,18 @@ function loadPage() {
     const movieId = hash.split("/")[1]; // Extract movie ID from the hash
     page = document.createElement("movie-details-page");
     page.setAttribute("movie-id", movieId); // Pass the movie ID to the component
+  } else if (hash.startsWith("#Movies")) {
+    page = document.createElement("movies-page");
+    // You could pass the specific type (featured, now showing, upcoming) if needed
+    if (hash.includes("featured")) {
+      page.setAttribute("type", "featured");
+    } else if (hash.includes("upcoming")) {
+      page.setAttribute("type", "upcoming");
+    } else {
+      page.setAttribute("type", "nowshowing"); // Default type
+    }
   } else {
     switch (hash) {
-      case "#Movies":
-        page = document.createElement("movies-page");
-        break;
       case "#Locations":
         page = document.createElement("locations-page");
         break;
@@ -73,6 +79,7 @@ function loadPage() {
         break;
     }
   }
+
   pageContainer.appendChild(page);
 }
 

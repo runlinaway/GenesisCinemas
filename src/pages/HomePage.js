@@ -12,7 +12,7 @@ class HomePage extends HTMLElement {
                     display: block;
                     padding: 0;
                     color: #333;
-                    background-color: #f5f5f5;
+                    background-color: #1e1e1e;
                 }
 
                 .page-content {
@@ -21,7 +21,25 @@ class HomePage extends HTMLElement {
                     gap: 16px;
                     padding: 0;
                 }
-
+                    
+                .movie-list {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center; /* Center the rows within the movie list */
+                  width: 100%;
+                }
+                .page-content h1 {
+                    align-self: center; /* Centers only the h1 element */
+                    font-family: 'Italiana', serif;
+                    font-size: 3rem;
+                    font-weight: normal;
+                    margin-bottom: 10px;
+                    color:white;
+                    text-decoration: underline;
+                    text-decoration-color: white;
+                    text-decoration-thickness: 2px;
+                    border-radius: 10px;
+                }
                 .movie-row {
                     display: flex;
                     flex-wrap: wrap;
@@ -31,6 +49,7 @@ class HomePage extends HTMLElement {
   
             <div class="page-content">
                 <movie-banner></movie-banner>
+                <h1>Now Showing</h1>
                 <div class="movie-list"></div>
             </div>
         `;

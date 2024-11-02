@@ -230,7 +230,7 @@ updateBannerPosition() {
             }
 
             .movie-title {
-                font-family: 'Kantumury Pro Thin', serif;
+                font-family: 'Queensides', serif;
                 font-size: 50px;
                 font-weight: normal;
                 white-space: nowrap; /* Prevent text from wrapping */

@@ -3,7 +3,7 @@
 $conn = require '../utils/db_connection.php'; // Adjust the path as needed
 
 // Query to find all entries where banner is not null
-$sql = "SELECT show_id, title, synopsis, banner_url FROM shows WHERE banner_url IS NOT NULL";
+$sql = "SELECT show_id, title, synopsis, banner_url, poster_url, director, cast FROM shows WHERE banner_url IS NOT NULL";
 
 try {
     // Prepare and execute the query

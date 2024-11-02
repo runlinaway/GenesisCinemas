@@ -12,6 +12,14 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Queensides';
+    src: url('../assets/fonts/QueensidesMedium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 body {
     margin: 0; /* Remove default margin */
     padding: 0; /* Optionally remove default padding */

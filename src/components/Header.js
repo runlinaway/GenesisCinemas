@@ -1,7 +1,6 @@
 class AppHeader extends HTMLElement {
   constructor() {
       super();
-      // Attach shadow DOM to the element
       this.attachShadow({ mode: 'open' });
       this.shadowRoot.innerHTML = `
       <style>
@@ -85,30 +84,35 @@ class AppHeader extends HTMLElement {
         }
 
         .dropdown-content {
-            display: none; /* Hide by default */
+            display: none;
             position: absolute;
             background-color: #444;
             box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
             min-width: 160px;
-            z-index: 1;
-            transform: translateY(-5px); /* Start 5px above its normal position */
-            opacity: 0; /* Start hidden */
-            transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for position and visibility */
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .dropdown-content.show {
-            display: block; /* Show the dropdown content */
-            transform: translateY(0); /* Move to its original position */
-            opacity: 1; /* Fully visible */
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .dropdown-content a {
-            color: white;
+            color: #b3b3b3;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            position: relative; /* Position for pseudo-element */
-            transition: background-color 0.2s; /* Smooth background color transition */
+            transition: color 0.2s, background-color 0.2s;
+            font-size: 1.2rem;
+        }
+
+        .dropdown-content a:hover {
+            color: #f0f0f0;
+            background-color: #555;
         }
 
         .dropdown-content a::after {
@@ -123,17 +127,15 @@ class AppHeader extends HTMLElement {
             bottom: 0px; /* Adjusted position closer to the text */
         }
 
-        .dropdown-content a:hover {
-            background-color: #555;
-        }
-
         .dropdown-content a:hover::after {
             width: 100%; /* Extend underline on hover */
         }
 
         /* Show the dropdown content when hovering over .dropdown */
         .dropdown:hover .dropdown-content {
-            display: block; /* Show the dropdown content */
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
 
@@ -148,11 +150,6 @@ class AppHeader extends HTMLElement {
         .dropdown:hover .dropdown-chevron {
             color: white; /* Change color on hover */
             transition: color 0.2s; /* Smooth transition */
-        }
-
-        /* Show the dropdown content when hovering over .dropdown */
-        .dropdown:hover .dropdown-content {
-            display: block;
         }
 
         /* Style for the login link */
@@ -212,6 +209,85 @@ class AppHeader extends HTMLElement {
             line-height: 1.2; /* Adjust line height for spacing */
             font-weight: normal;
         }
+
+        .navbar-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 24px;
+            transition: width 0.3s ease;
+            height: 100%; /* Match parent height */
+            margin-top: 0px; /* Align with other navbar items */
+        }
+
+        .navbar-search:hover {
+            width: 200px;
+        }
+
+        .search-input {
+            position: absolute;
+            left: 24px;
+            padding: 8px;
+            border: 1px solid #b3b3b3;
+            border-radius: 4px;
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            font-size: 1rem;
+            width: 0;
+            opacity: 0;
+            transition: width 0.3s ease, opacity 0.3s ease;
+            cursor: pointer;
+            height: 20px; /* Match height with other navbar items */
+        }
+
+        .navbar-search:hover .search-input {
+            width: calc(100% - 24px);
+            opacity: 1;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            color: #b3b3b3; /* This controls the stroke color through currentColor */
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.2s; /* Match other hover transitions */
+        }
+
+        .navbar-search:hover .search-icon {
+            color: #f0f0f0; /* Change color on hover to match other elements */
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 24px;
+            width: calc(100% - 24px);
+            background-color: #2d2d2d;
+            border: 1px solid #b3b3b3;
+            border-radius: 4px;
+            margin-top: 4px;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .search-dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: #b3b3b3;
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s;
+            font-size: 1.2rem;
+        }
+
+        .search-dropdown a:hover {
+            background-color: #444;
+            color: #f0f0f0;
+        }
     </style>
 
     <div class="header-wrapper">
@@ -227,7 +303,7 @@ class AppHeader extends HTMLElement {
     <nav class="navbar">
         <ul class="navbar-links">
             <li class="dropdown">
-                <a href="#Movies" class="dropbtn">Movies</a>
+                <a href="#Movies/nowshowing" class="dropbtn">Movies</a>
                 <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="dropdown-chevron">
                         <title>Chevron Down</title>
                         <g id="Complete">
@@ -238,9 +314,9 @@ class AppHeader extends HTMLElement {
                 </svg>
 
                 <div class="dropdown-content">
-                    <a href="#">Featured</a>
-                    <a href="#">Upcoming</a>
-                    <a href="#">Now Showing</a>
+                    <a href="#Movies/featured">Featured</a>
+                    <a href="#Movies/upcoming">Upcoming</a>
+                    <a href="#Movies/nowshowing">Now Showing</a>
                 </div>
             </li>
 
@@ -267,10 +343,17 @@ class AppHeader extends HTMLElement {
 
             <li>
                 <div class="navbar-search">
-                    <input type="text" class="search-input" placeholder="Search...">
-                    <button class="search-btn">
-                        <i class="fas fa-search"></i> <!-- Font Awesome icon, requires external link -->
-                    </button>
+                    <input type="text" class="search-input" placeholder="Search">
+                    <div class="search-dropdown"></div>
+                    <svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="search-icon">
+                        <title>Search</title>
+                        <g id="Complete">
+                            <g id="Search">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" fill="none"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                            </g>
+                        </g>
+                    </svg>
                 </div>
             </li>
         </ul>
@@ -278,17 +361,21 @@ class AppHeader extends HTMLElement {
     `;
   }
 
-  // Use the connectedCallback lifecycle method to add event listeners
   connectedCallback() {
-    // Add event listener for popstate
     window.addEventListener('popstate', this.updateLoginLink.bind(this));
     
+    // Add cookie change listener
+    document.addEventListener('cookieChange', () => {
+        this.updateLoginLink();
+    });
+
     this.updateLoginLink();
 
     const dropdowns = this.shadowRoot.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
+      const dropdownContent = dropdown.querySelector('.dropdown-content');
+      
       dropdown.addEventListener('mouseenter', () => {
-        const dropdownContent = dropdown.querySelector('.dropdown-content');
         dropdownContent.classList.add('show');
       });
 
@@ -297,49 +384,133 @@ class AppHeader extends HTMLElement {
         dropdownContent.classList.remove('show');
       });
     });
+
+    this.setupSearch();
+  }
+
+  setupSearch() {
+    const searchInput = this.shadowRoot.querySelector('.search-input');
+    const searchDropdown = this.shadowRoot.querySelector('.search-dropdown');
+    const searchContainer = this.shadowRoot.querySelector('.navbar-search');
+    let debounceTimeout;
+    let isHovering = false;
+
+    // Track hover state for both container and dropdown
+    const handleMouseEnter = () => {
+      isHovering = true;
+      if (searchInput.value.trim()) {
+        searchDropdown.style.display = 'block';
+      }
+    };
+
+    const handleMouseLeave = () => {
+      isHovering = false;
+      // Small timeout to check if we've moved to the other element
+      setTimeout(() => {
+        if (!isHovering) {
+          searchDropdown.style.display = 'none';
+          searchInput.value = '';
+          searchInput.blur();
+        }
+      }, 100);
+    };
+
+    // Add hover behavior to both elements
+    searchContainer.addEventListener('mouseenter', handleMouseEnter);
+    searchContainer.addEventListener('mouseleave', handleMouseLeave);
+    searchDropdown.addEventListener('mouseenter', handleMouseEnter);
+    searchDropdown.addEventListener('mouseleave', handleMouseLeave);
+
+    searchInput.addEventListener('input', (event) => {
+      clearTimeout(debounceTimeout);
+      const query = event.target.value.trim();
+
+      if (!query) {
+        searchDropdown.style.display = 'none';
+        return;
+      }
+
+      debounceTimeout = setTimeout(async () => {
+        const results = await this.searchMovies(query);
+        this.updateSearchDropdown(results, searchDropdown);
+      }, 300);
+    });
+
+    searchInput.addEventListener('focus', () => {
+      searchInput.placeholder = '';
+    });
+
+    searchInput.addEventListener('blur', () => {
+      searchInput.placeholder = 'Search';
+    });
+  }
+
+  async searchMovies(query) {
+    try {
+      const response = await fetch(`./src/services/search_movies.php?search=${encodeURIComponent(query)}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching movies:', error);
+      return [];
+    }
+  }
+
+  updateSearchDropdown(results, dropdown) {
+    dropdown.innerHTML = '';
+    
+    if (results.length > 0) {
+      results.forEach(movie => {
+        const link = document.createElement('a');
+        link.href = `#MovieDetails/${encodeURIComponent(movie.title)}`;
+        link.textContent = movie.title;
+        link.addEventListener('click', () => {
+          this.shadowRoot.querySelector('.search-input').value = '';
+          dropdown.style.display = 'none';
+        });
+        dropdown.appendChild(link);
+      });
+      dropdown.style.display = 'block';
+    } else {
+      const noResults = document.createElement('a');
+      noResults.textContent = 'No results found';
+      noResults.style.cursor = 'default';
+      noResults.style.pointerEvents = 'none';
+      dropdown.appendChild(noResults);
+      dropdown.style.display = 'block';
+    }
   }
 
   updateLoginLink() {
     const getCookie = (name) => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
     };
 
     const userCookie = getCookie('user');
-    console.log('User Cookie:', userCookie); // Debugging: Log the cookie
-
     if (userCookie) {
-        try {
-            // Decode the cookie value before parsing
-            const decodedCookie = decodeURIComponent(userCookie);
-            const userData = JSON.parse(decodedCookie);
-            console.log('User Data:', userData); // Debugging: Log parsed user data
-    
-            if (userData.email) {
-                const memberLink = this.shadowRoot.querySelector('.login-link a');
-                memberLink.textContent = userData.email; // Set the text to the member's email
-                memberLink.setAttribute('href', '#Signup'); 
-                console.log('Updated login link to:', userData.email); // Debugging: Confirm update
-            }
-        } catch (e) {
-            console.error('Error parsing user cookie:', e); // Debugging: Log parsing error
+      try {
+        const decodedCookie = decodeURIComponent(userCookie);
+        const userData = JSON.parse(decodedCookie);
+        if (userData.email) {
+          const memberLink = this.shadowRoot.querySelector('.login-link a');
+          memberLink.textContent = userData.email;
+          memberLink.setAttribute('href', '#Signup');
         }
-    } else {
-        console.log('No user cookie found.'); // Debugging: Log when cookie is not found
+      } catch (e) {
+        console.error('Error parsing user cookie:', e);
+      }
     }
-    
-}
+  }
 
-disconnectedCallback() {
-    // Remove event listener to prevent memory leaks
+  disconnectedCallback() {
     window.removeEventListener('popstate', this.updateLoginLink.bind(this));
+    document.removeEventListener('cookieChange', this.updateLoginLink.bind(this));
+  }
 }
 
-
-
-
-}
-
-// Define the custom element
 customElements.define('app-header', AppHeader);
