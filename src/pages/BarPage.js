@@ -87,12 +87,23 @@ class BarPage extends HTMLElement {
 
   renderMenuItems(menuItems, category) {
     const menuList = this.shadowRoot.querySelector(".menu-list");
-    menuList.innerHTML = ""; // Clear previous content
 
-    let row;
+    // Create a heading for each category
+    const categoryHeading = document.createElement("h2");
+    categoryHeading.textContent = category;
+    menuList.appendChild(categoryHeading);
+
+    // Create a container for menu items
+    let row = document.createElement("div");
+    row.classList.add("menu-row");
+    menuList.appendChild(row);
+
+    // Clear previous content in the row
+    row.innerHTML = "";
+
     menuItems.forEach((item, index) => {
       // Create a new row every 5 menu items
-      if (index % 5 === 0) {
+      if (index % 5 === 0 && index !== 0) {
         row = document.createElement("div");
         row.classList.add("menu-row");
         menuList.appendChild(row);
@@ -111,9 +122,6 @@ class BarPage extends HTMLElement {
     });
 
     // Add click event to toggle visibility
-    const categoryHeading = document.createElement("h2");
-    categoryHeading.textContent = category;
-    menuList.appendChild(categoryHeading);
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
     });
