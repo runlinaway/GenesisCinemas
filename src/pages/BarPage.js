@@ -23,10 +23,10 @@ class BarPage extends HTMLElement {
                 }
                     
                 .menu-list {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center; /* Center the rows within the menu list */
-                  width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center; /* Center the rows within the menu list */
+                    width: 100%;
                 }
                 .page-content h1 {
                     align-self: center; /* Centers only the h1 element */
@@ -121,6 +121,8 @@ class BarPage extends HTMLElement {
     menuItems.forEach((item) => {
       // Create a MenuItemCard element for each menu item
       const menuItemCard = document.createElement("menu-item-card");
+
+      // Set attributes
       menuItemCard.setAttribute("name", item.name);
       menuItemCard.setAttribute("price", item.price);
       menuItemCard.setAttribute(
@@ -139,8 +141,12 @@ class BarPage extends HTMLElement {
 
     // Add click event to toggle visibility
     categoryHeading.addEventListener("click", () => {
-      const isExpanded = row.classList.toggle("expanded");
-      row.style.display = isExpanded ? "flex" : "none";
+      row.classList.toggle("expanded");
+      if (row.classList.contains("expanded")) {
+        row.style.display = "flex";
+      } else {
+        row.style.display = "none";
+      }
     });
   }
 }
