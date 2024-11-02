@@ -130,13 +130,16 @@ class BarPage extends HTMLElement {
       menuItemCard.setAttribute("name", item.name);
       menuItemCard.setAttribute("description", item.description);
       menuItemCard.setAttribute("price", item.price);
-      menuItemCard.setAttribute("image-url", item.image_url); // Update to use image-url
+      menuItemCard.setAttribute(
+        "image-url",
+        `src/assets/images/${item.image_url}`
+      ); // Updated URL
 
       // Log the image URL to the console
       console.log(
         `Rendering ${category} item:`,
         item.name,
-        `Image URL: ${item.image_url}`
+        `Image URL: ${menuItemCard.getAttribute("image-url")}`
       );
 
       // Set additional attributes if applicable
