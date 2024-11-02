@@ -6,7 +6,7 @@ import "./src/pages/SignupPage.js";
 import "./src/pages/MovieDetailsPage.js";
 import "./src/pages/CorporatePage.js";
 import "./src/pages/FaqPage.js";
-import "./src/pages/WineDetailsPage.js";
+import "./src/pages/ItemDetailsPage.js";
 import "./src/components/Header.js";
 import "./src/components/Footer.js";
 
@@ -47,10 +47,14 @@ function loadPage() {
     const movieId = hash.split("/")[1]; // Extract movie ID from the hash
     page = document.createElement("movie-details-page");
     page.setAttribute("movie-id", movieId); // Pass the movie ID to the component
-  } else if (hash.startsWith("#WineDetails/")) {
-    const wineName = hash.split("/")[1]; // Extract wine name from the hash
-    page = document.createElement("wine-details-page");
-    page.setAttribute("wine-name", wineName); // Pass the wine name to the component
+  } else if (hash.startsWith("#ItemDetails/")) {
+    const itemDetails = hash.split("/")[1].split(";"); // Extract item name and category from the hash
+    const itemName = decodeURIComponent(itemDetails[0]); // Decode item name
+    const itemCategory = decodeURIComponent(itemDetails[1]); // Decode item category
+
+    page = document.createElement("item-details-page");
+    page.setAttribute("item-name", itemName); // Pass the item name to the component
+    page.setAttribute("item-category", itemCategory); // Pass the item category to the component
   } else if (hash.startsWith("#Movies")) {
     page = document.createElement("movies-page");
     // You could pass the specific type (featured, now showing, upcoming) if needed
