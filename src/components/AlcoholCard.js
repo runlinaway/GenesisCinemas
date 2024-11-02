@@ -33,6 +33,12 @@ class AlcoholCard extends HTMLElement {
 
     this.shadowRoot.append(this.card);
 
+    this.card.addEventListener("click", () => {
+      window.location.hash = `#ItemDetails/${encodeURIComponent(
+        this.alcoholName
+      )}/alcohol`;
+    });
+
     this.styleCard(); // Call styleCard without parameters
   }
 

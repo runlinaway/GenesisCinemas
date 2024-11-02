@@ -31,6 +31,12 @@ class WineCard extends HTMLElement {
     this.card.appendChild(this.image);
     this.card.appendChild(this.infoOverlay);
 
+    this.card.addEventListener("click", () => {
+      window.location.hash = `#ItemDetails/${encodeURIComponent(
+        this.wineName
+      )}/wine`;
+    });
+
     this.shadowRoot.append(this.card);
 
     this.styleCard(); // Call styleCard without parameters
