@@ -114,7 +114,7 @@ class BarPage extends HTMLElement {
     menuList.appendChild(categoryHeading);
 
     // Create a container for menu items
-    let row = document.createElement("div");
+    const row = document.createElement("div");
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
@@ -122,18 +122,15 @@ class BarPage extends HTMLElement {
       // Create a MenuItemCard element for each menu item
       const menuItemCard = document.createElement("menu-item-card");
 
-      // Set attributes
-      menuItemCard.setAttribute("name", item.name);
-      menuItemCard.setAttribute("price", item.price);
-      menuItemCard.setAttribute(
-        "image-url",
-        `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`
-      );
-      menuItemCard.setAttribute("id", item.id);
+      // Set attributes individually after element creation
+      menuItemCard.name = item.name;
+      menuItemCard.price = item.price;
+      menuItemCard.imageUrl = `http://localhost/GenesisCinemas/src/assets/images/${item.image_url}`;
+      menuItemCard.id = item.id;
 
       // Conditional handling for description attribute
       if (category !== "Alcohol") {
-        menuItemCard.setAttribute("description", item.description);
+        menuItemCard.description = item.description;
       }
 
       row.appendChild(menuItemCard);
@@ -142,11 +139,7 @@ class BarPage extends HTMLElement {
     // Add click event to toggle visibility
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
-      if (row.classList.contains("expanded")) {
-        row.style.display = "flex";
-      } else {
-        row.style.display = "none";
-      }
+      row.style.display = row.classList.contains("expanded") ? "flex" : "none";
     });
   }
 }
