@@ -33,6 +33,7 @@ class DrinksCard extends HTMLElement {
 
     this.shadowRoot.append(this.card);
 
+    // Add click event listener
     this.card.addEventListener("click", () => {
       window.location.hash = `#ItemDetails/${encodeURIComponent(
         this.drinksName
