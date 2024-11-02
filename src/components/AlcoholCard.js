@@ -33,14 +33,6 @@ class AlcoholCard extends HTMLElement {
 
     this.shadowRoot.append(this.card);
 
-    // Add click event listener to navigate to ItemDetailsPage.js
-    this.card.addEventListener("click", () => {
-      // Redirect to the ItemDetailsPage with the item name and category as parameters in the URL hash
-      window.location.hash = `#ItemDetails/${encodeURIComponent(
-        this.alcoholName
-      )}/alcohol`; // Include category 'alcohol'
-    });
-
     this.styleCard(); // Call styleCard without parameters
   }
 

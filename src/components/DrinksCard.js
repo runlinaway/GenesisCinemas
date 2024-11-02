@@ -31,15 +31,13 @@ class DrinksCard extends HTMLElement {
     this.card.appendChild(this.image);
     this.card.appendChild(this.infoOverlay);
 
-    this.shadowRoot.append(this.card);
-
-    // Add click event listener to navigate to ItemDetailsPage.js
     this.card.addEventListener("click", () => {
-      // Redirect to the ItemDetailsPage with the item name and category as parameters in the URL hash
       window.location.hash = `#ItemDetails/${encodeURIComponent(
-        this.drinkName
-      )}/drinks`; // Include category 'drinks'
+        this.drinksName
+      )}/drinks`;
     });
+
+    this.shadowRoot.append(this.card);
 
     this.styleCard(); // Call styleCard without parameters
   }
