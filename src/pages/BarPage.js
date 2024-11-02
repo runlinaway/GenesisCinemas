@@ -118,7 +118,7 @@ class BarPage extends HTMLElement {
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
-    menuItems.forEach((item, index) => {
+    menuItems.forEach((item) => {
       // Create a MenuItemCard element for each menu item
       const menuItemCard = document.createElement("menu-item-card");
       menuItemCard.setAttribute("name", item.name);
