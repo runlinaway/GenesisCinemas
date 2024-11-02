@@ -20,78 +20,65 @@ class WineDetailsPage extends HTMLElement {
 
       if (wine && !wine.error) {
         this.shadowRoot.innerHTML = `
-                    <style>
-                        .container {
-                            display: flex;
-                            flex-direction: column;
-                            width: 100%;
-                        }
-
-                        .wine-image {
-                            width: 100%;
-                            object-fit: cover;
-                            max-height: 600px;
-                            overflow: hidden;
-                        }
-
-                        .details-container {
-                            width: 422px;
-                            color: white;
-                            font-family: 'Kantumury Pro Thin', serif;
-                            margin-top: 10px;
-                            padding-left: 40px;
-                        }
-                        
-                        .details-container h1 {
-                            font-family: 'Italiana', serif;
-                            font-size: 3rem;
-                            margin-bottom: 10px;
-                            text-decoration: underline;
-                            text-decoration-color: white;
-                            text-decoration-thickness: 2px;
-                            border-radius: 10px;
-                        }
-                        
-                        .details-container p {
-                            font-family: 'Kantumury Pro Thin', serif;
-                            font-size: 1.5rem;
-                            margin: 0;
-                        }
-
-                        .info-box {
-                            margin-left: 40px;
-                            border: 2px solid white;
-                            border-radius: 10px;
-                            padding: 20px;
-                            margin-top: 40px;
-                            background: #1e1e1e;
-                            width: 378px;
-                            color: white;
-                            font-family: 'Kantumury Pro Thin', serif;
-                        }
-
-                        .info-box div {
-                            margin-bottom: 10px;
-                            font-size: 1.5rem;
-                        }
-                    </style>
-
-                    <div class="container">
-                        <img class="wine-image" src="./src/assets/images/${wine.image_url}" alt="${wine.name}">
-
-                        <div class="details-container">
-                            <h1>${wine.name}</h1>
-                            <p>${wine.description}</p>
-                        </div>
-
-                        <div class="info-box">
-                            <div><span>Type:</span> ${wine.type}</div>
-                            <div><span>Vintage:</span> ${wine.vintage}</div>
-                            <div><span>Rating:</span> ${wine.rating}/5</div>
-                            <div><span>Price:</span> $${wine.price}</div>
-                        </div>
-                    </div>
-                `;
+          <style>
+            .container {
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              color: white;
+              font-family: 'Kantumury Pro Thin', serif;
+            }
+            .image-container {
+              width: 100%;
+              overflow: hidden;
+            }
+            .wine-image {
+              width: 100%;
+              object-fit: cover;
+            }
+            .synopsis_container {
+              padding: 20px;
+            }
+            .synopsis_container h1 {
+              font-family: 'Italiana', serif;
+              font-size: 3rem;
+              text-decoration: underline;
+              text-decoration-color: white;
+              text-decoration-thickness: 2px;
+              border-radius: 10px;
+            }
+            .synopsis_container p {
+              font-size: 1.5rem;
+            }
+            .info_box {
+              border: 2px solid white;
+              border-radius: 10px;
+              padding: 20px;
+              margin-top: 20px;
+              background: #1e1e1e;
+              width: 100%;
+            }
+            .info_box div {
+              margin-bottom: 10px;
+              font-size: 1.5rem;
+            }
+          </style>
+          <div class="container">
+            <div class="image-container">
+              <img class="wine-image" src="./src/assets/images/${wine.image_url}" alt="${wine.name}">
+            </div>
+            <div class="synopsis_container">
+              <h1>${wine.name}</h1>
+              <p>${wine.description}</p>
+            </div>
+            <div class="info_box">
+              <div><strong>Type:</strong> ${wine.type}</div>
+              <div><strong>Price:</strong> $${wine.price}</div>
+              <div><strong>Year:</strong> ${wine.year}</div>
+              <div><strong>Rating:</strong> ${wine.rating}/5</div>
+            </div>
+          </div>
+        `;
       } else {
         this.shadowRoot.innerHTML = `<p>Wine not found or error fetching details.</p>`;
       }
