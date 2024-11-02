@@ -27,7 +27,7 @@ class WineDetailsPage extends HTMLElement {
                       <style>
     .container {
         display: flex;
-        flex-direction: column; /* Stack elements vertically (for the main container) */
+        flex-direction: column; /* Stack elements vertically for the container */
         position: relative; /* Needed for absolute positioning of children */
         width: 100%; /* Use full width for proper positioning */
     }
@@ -39,17 +39,18 @@ class WineDetailsPage extends HTMLElement {
     }
 
     .image-container {
-        width: 40%; /* Set the width for the image */
+        width: 30%; /* Set a smaller width for the image */
         overflow: hidden; /* Hide overflow */
     }
 
     .wine-image {
         width: 100%; /* Make image take full width of container */
-        object-fit: cover; /* Maintain aspect ratio */
+        height: auto; /* Maintain aspect ratio */
+        max-width: 200px; /* Set a maximum width for the image */
     }
 
     .synopsis_container {
-        width: 422px; /* Set the width of the synopsis container */
+        width: 60%; /* Set the width of the synopsis container */
         color: white; /* Set text color to white */
         font-family: 'Kantumury Pro Thin', serif;
         margin-left: 20px; /* Space between image and synopsis */
@@ -74,12 +75,12 @@ class WineDetailsPage extends HTMLElement {
     }
 
     .info_box {
-        margin-left: 20px; /* Space between synopsis and info box */
+        margin-top: 20px; /* Space between synopsis and info box */
         border: 2px solid white; /* White border */
         border-radius: 10px; /* Rounded corners */
         padding: 20px; /* Padding inside the box */
         background: #1e1e1e; 
-        width: 378px; /* Match width with synopsis container */
+        width: 100%; /* Match width to the parent container */
         color: white; /* Text color */
         font-family: 'Kantumury Pro Thin', serif;
     }
@@ -94,7 +95,7 @@ class WineDetailsPage extends HTMLElement {
     }
 </style>
 
-                <div class="container">
+ <div class="container">
     <div class="content-wrapper">
         <div class="image-container">
             <img class="wine-image" src="./src/assets/images/${wine.image_url}" alt="${wine.name}">
@@ -103,11 +104,11 @@ class WineDetailsPage extends HTMLElement {
             <h1>${wine.name}</h1>
             <p>${wine.description}</p>
         </div>
-        <div class="info_box">
-            <div><strong>Type:</strong> ${wine.type}</div>
-            <div><strong>Price:</strong> $${wine.price}</div>
-            <div><strong>Year:</strong> ${wine.year}</div>
-        </div>
+    </div>
+    <div class="info_box">
+        <div><strong>Type:</strong> ${wine.type}</div>
+        <div><strong>Price:</strong> $${wine.price}</div>
+        <div><strong>Year:</strong> ${wine.year}</div>
     </div>
 </div>
             `;
