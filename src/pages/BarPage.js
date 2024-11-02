@@ -67,9 +67,7 @@ class BarPage extends HTMLElement {
       // Adjusting the fetch calls to get food, drinks, and wine separately
       const foodResponse = await fetch("./src/services/fetch_food.php"); // Fetch food items
       const drinkResponse = await fetch("./src/services/fetch_drinks.php"); // Fetch drink items
-      const wineResponse = await fetch(
-        "./src/services/fetch_wine_selection.php"
-      ); // Fetch wine items
+      const wineResponse = await fetch("./src/services/fetch_wine.php"); // Fetch wine items
       const alcoholResponse = await fetch("./src/services/fetch_alcohol.php"); // Fetch alcohol items
 
       const foodItems = await foodResponse.json();

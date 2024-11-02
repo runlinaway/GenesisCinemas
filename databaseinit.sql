@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS shows;
 DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS members;
 
-DROP TABLE IF EXISTS wine_selection;
+DROP TABLE IF EXISTS wine;
 DROP TABLE IF EXISTS alcohol;
 DROP TABLE IF EXISTS food;
 DROP TABLE IF EXISTS drinks;
@@ -80,8 +80,8 @@ CREATE TABLE IF NOT EXISTS showtimes (
     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
 );
 
--- Create the wine_selection table
-CREATE TABLE IF NOT EXISTS wine_selection (
+-- Create the wine table
+CREATE TABLE IF NOT EXISTS wine (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     vintage INT NOT NULL,
@@ -386,7 +386,7 @@ INSERT INTO alcohol (name, type, price, image_url) VALUES
 
 
 -- Insert Wines
-INSERT INTO wine_selection (name, vintage, region, description, price, image_url, featured) VALUES
+INSERT INTO wine (name, vintage, region, description, price, image_url, featured) VALUES
 ('Cloudy Bay Sauvignon Blanc', 2021, 'Marlborough, New Zealand', 'Crisp and vibrant Sauvignon Blanc with citrus and tropical notes', 25.00, 'cloudy_bay_sauvignon_blanc.jpg', 1), -- Featured
 ('Cabernet Sauvignon', 2020, 'Napa Valley, USA', 'Rich and full-bodied with flavors of dark fruit and oak', 30.00, 'cabernet_sauvignon.jpg', 0), -- Not Featured
 ('Catena Zapata', 2019, 'Mendoza, Argentina', 'Elegant red wine with notes of dark berries and spice', 35.00, 'catena_zapata.jpg', 1), -- Featured

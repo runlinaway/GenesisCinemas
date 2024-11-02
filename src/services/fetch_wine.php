@@ -3,7 +3,7 @@
 $conn = require '../utils/db_connection.php'; // Adjust the path as needed
 
 // Query to find all wine items (adjust based on your database structure)
-$sql = "SELECT id, name, vintage, region, description, price, image_url FROM wine_selection LIMIT 4"; // Limiting to 4 items
+$sql = "SELECT id, name, vintage, region, description, price, image_url FROM wine LIMIT 4"; // Limiting to 4 items
 
 try {
     // Prepare and execute the query

@@ -26,7 +26,7 @@ class MenuItemCard extends HTMLElement {
     // Creating main container
     const container = document.createElement("div");
 
-    const sections = ["food", "drinks", "alcohol", "wine_selection"];
+    const sections = ["food", "drinks", "alcohol", "wine"];
 
     for (const section of sections) {
       const items = await this.fetchItems(section);
@@ -51,7 +51,7 @@ class MenuItemCard extends HTMLElement {
         card.setAttribute("image-url", item.image_url);
 
         // Set category-specific attributes
-        if (section === "wine_selection") {
+        if (section === "wine") {
           card.setAttribute("vintage", item.vintage); // Include vintage for wines
           card.setAttribute("region", item.region); // Include region for wines
         } else if (section === "alcohol") {
