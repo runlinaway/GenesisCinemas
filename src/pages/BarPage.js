@@ -217,7 +217,6 @@ class BarPage extends HTMLElement {
       const alcoholCard = new AlcoholCard(
         alcohol.name,
         alcohol.image_url,
-        alcohol.description,
         alcohol.price
       );
 

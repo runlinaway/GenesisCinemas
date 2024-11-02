@@ -1,5 +1,5 @@
 class AlcoholCard extends HTMLElement {
-  constructor(alcoholName, imageUrl, description, price) {
+  constructor(alcoholName, imageUrl, price, description) {
     super();
     this.attachShadow({ mode: "open" });
     this.alcoholName = alcoholName;
