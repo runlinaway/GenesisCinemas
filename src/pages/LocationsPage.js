@@ -51,5 +51,5 @@
     }
   }
   
-  customElements.define('locaations-page', LocationsPage);
+  customElements.define('locations-page', LocationsPage);
   

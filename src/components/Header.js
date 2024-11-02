@@ -211,6 +211,72 @@ class AppHeader extends HTMLElement {
             margin: 0; /* Remove any default margin */
             line-height: 1.2; /* Adjust line height for spacing */
             font-weight: normal;
+<<<<<<< HEAD
+=======
+        }
+
+        .navbar-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 24px;
+            transition: width 0.3s ease;
+            height: 100%; /* Match parent height */
+            margin-top: 0px; /* Align with other navbar items */
+        }
+
+        .navbar-search:hover {
+            width: 200px;
+        }
+
+        .search-input {
+            position: absolute;
+            left: 24px;
+            padding: 8px;
+            border: 1px solid #b3b3b3;
+            border-radius: 4px;
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            font-size: 1rem;
+            width: 0;
+            opacity: 0;
+            transition: width 0.3s ease, opacity 0.3s ease;
+            cursor: pointer;
+            height: 20px; /* Match height with other navbar items */
+        }
+
+        .navbar-search:hover .search-input {
+            width: calc(100% - 24px);
+            opacity: 1;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            color: #b3b3b3; /* This controls the stroke color through currentColor */
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.2s; /* Match other hover transitions */
+        }
+
+        .navbar-search:hover .search-icon {
+            color: #f0f0f0; /* Change color on hover to match other elements */
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 24px;
+            width: calc(100% - 24px);
+            background-color: #2d2d2d;
+            border: 1px solid #b3b3b3;
+            border-radius: 4px;
+            margin-top: 4px;
+            z-index: 1000;
+>>>>>>> 0aa2735 (Recommit - search function added)
         }
     </style>
 
@@ -227,7 +293,7 @@ class AppHeader extends HTMLElement {
     <nav class="navbar">
         <ul class="navbar-links">
             <li class="dropdown">
-                <a href="#Movies" class="dropbtn">Movies</a>
+                <a href="#Movies/nowshowing" class="dropbtn">Movies</a>
                 <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="dropdown-chevron">
                         <title>Chevron Down</title>
                         <g id="Complete">
@@ -238,9 +304,9 @@ class AppHeader extends HTMLElement {
                 </svg>
 
                 <div class="dropdown-content">
-                    <a href="#">Featured</a>
-                    <a href="#">Upcoming</a>
-                    <a href="#">Now Showing</a>
+                    <a href="#Movies/featured">Featured</a>
+                    <a href="#Movies/upcoming">Upcoming</a>
+                    <a href="#Movies/nowshowing">Now Showing</a>
                 </div>
             </li>
 
@@ -267,10 +333,17 @@ class AppHeader extends HTMLElement {
 
             <li>
                 <div class="navbar-search">
-                    <input type="text" class="search-input" placeholder="Search...">
-                    <button class="search-btn">
-                        <i class="fas fa-search"></i> <!-- Font Awesome icon, requires external link -->
-                    </button>
+                    <input type="text" class="search-input" placeholder="Search">
+                    <div class="search-dropdown"></div>
+                    <svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="search-icon">
+                        <title>Search</title>
+                        <g id="Complete">
+                            <g id="Search">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" fill="none"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                            </g>
+                        </g>
+                    </svg>
                 </div>
             </li>
         </ul>
@@ -297,7 +370,68 @@ class AppHeader extends HTMLElement {
         dropdownContent.classList.remove('show');
       });
     });
+
+    // Add this line to initialize the search functionality
+    this.setupSearch();
   }
+
+  setupSearch() {
+        const searchInput = this.shadowRoot.querySelector('.search-input');
+        const searchDropdown = this.shadowRoot.querySelector('.search-dropdown');
+
+        // Add input event listener to the search input
+        searchInput.addEventListener('input', async (event) => {
+            const query = event.target.value.trim();
+            if (query) {
+                const results = await this.searchMovies(query); // Fetch movie results
+                this.updateSearchDropdown(results, searchDropdown);
+            } else {
+                searchDropdown.innerHTML = ''; // Clear dropdown if no query
+                searchDropdown.classList.remove('show'); // Hide dropdown
+            }
+        });
+
+        // Remove placeholder on focus and restore on blur if empty
+        searchInput.addEventListener('focus', () => {
+            searchInput.placeholder = '';
+        });
+
+        searchInput.addEventListener('blur', () => {
+            if (!searchInput.value) {
+                searchInput.placeholder = 'Search';
+            }
+        });
+    }
+
+    async searchMovies(query) {
+        try {
+            const response = await fetch(`./src/services/search_movies.php?search=${encodeURIComponent(query)}`); // Ensure this points to the correct PHP file
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data; // Return data directly
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+            return []; // Return empty array on error
+        }
+    }
+
+    updateSearchDropdown(results, dropdown) {
+        dropdown.innerHTML = ''; // Clear previous results
+        if (results.length > 0) {
+            results.forEach(movie => {
+                const link = document.createElement('a');
+                link.href = `#MovieDetails/${encodeURIComponent(movie.title)}`; // Update link to movie details
+                link.textContent = movie.title; // Movie title
+                dropdown.appendChild(link);
+            });
+            dropdown.classList.add('show'); // Show dropdown
+        } else {
+            dropdown.classList.remove('show'); // Hide if no results
+        }
+    }
+
 
   updateLoginLink() {
     const getCookie = (name) => {

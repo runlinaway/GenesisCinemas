@@ -43,6 +43,7 @@ class MovieDetailsPage extends HTMLElement {
                         .synopsis_container h1 {
                             font-family: 'Italiana', serif;
                             font-size: 3rem; /* Italiana size 3rem */
+                            font-weight: normal;
                             margin-bottom: 10px; /* Space below the heading */
                             text-decoration: underline; /* Underline the title */
                             text-decoration-color: white; /* Underline color */

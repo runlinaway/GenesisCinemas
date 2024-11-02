@@ -1,11 +1,11 @@
 <?php
-// fetch_now_showing.php
+// fetch_upcoming.php
 
 // Include the database connection
 $conn = require '../utils/db_connection.php';
 
 try {
-    // Prepare the SQL query to fetch required columns where release_date is earlier than today
+    // Prepare the SQL query to fetch required columns where release_date is in the future
     $stmt = $conn->prepare("SELECT title, poster_url, director, cast 
                             FROM shows 
                             WHERE release_date > NOW()");
