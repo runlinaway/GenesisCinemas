@@ -41,11 +41,11 @@ class ItemDetailsPage extends HTMLElement {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const item = await response.json();
-      console.log("Parsed Item Data:", item); // Log the item data
+      const items = await response.json();
+      console.log("Parsed Item Data:", items); // Log the item data
 
       // Find the specific item that matches the name
-      item = item.find(
+      const item = items.find(
         (item) => item.name.toLowerCase() === name.toLowerCase()
       );
 
@@ -75,96 +75,98 @@ class ItemDetailsPage extends HTMLElement {
     } else if (category !== "alcohol") {
       extraDetail = `<div><strong>Description:</strong> ${item.description}</div>`;
     }
+
     this.shadowRoot.innerHTML = `
-        <style>
-          .container {
-              display: flex;
-              flex-direction: column;
-              width: 100%;
-          }
+            <style>
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                }
 
-          .content-wrapper {
-              display: flex;
-              align-items: flex-start;
-              margin-top: 20px;
-          }
+                .content-wrapper {
+                    display: flex;
+                    align-items: flex-start;
+                    margin-top: 20px;
+                }
 
-          .image-container {
-              width: 30%;
-              overflow: hidden;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-          }
+                .image-container {
+                    width: 30%;
+                    overflow: hidden;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
 
-          .item-image {
-              width: 100%;
-              max-width: 200px;
-              height: auto;
-          }
+                .item-image {
+                    width: 100%;
+                    max-width: 200px;
+                    height: auto;
+                }
 
-          .text-container {
-              width: 70%;
-              padding-left: 20px;
-          }
+                .text-container {
+                    width: 70%;
+                    padding-left: 20px;
+                }
 
-          .description-container {
-              color: white;
-              font-family: 'Kantumury Pro Thin', serif;
-              margin-bottom: 20px;
-          }
-          
-          .description-container h1 {
-              font-family: 'Italiana', serif;
-              font-size: 3rem;
-              font-weight: normal;
-              margin-bottom: 10px;
-              text-decoration: underline;
-              text-decoration-color: white;
-              text-decoration-thickness: 2px;
-              border-radius: 10px;
-          }
-          
-          .description-container p {
-              font-family: 'Kantumury Pro Thin', serif;
-              font-size: 1.5rem;
-              margin: 0;
-          }
+                .description-container {
+                    color: white;
+                    font-family: 'Kantumury Pro Thin', serif;
+                    margin-bottom: 20px;
+                }
+                
+                .description-container h1 {
+                    font-family: 'Italiana', serif;
+                    font-size: 3rem;
+                    font-weight: normal;
+                    margin-bottom: 10px;
+                    text-decoration: underline;
+                    text-decoration-color: white;
+                    text-decoration-thickness: 2px;
+                    border-radius: 10px;
+                }
+                
+                .description-container p {
+                    font-family: 'Kantumury Pro Thin', serif;
+                    font-size: 1.5rem;
+                    margin: 0;
+                }
 
-          .info-box {
-              border: 2px solid white;
-              border-radius: 10px;
-              padding: 20px;
-              background: #1e1e1e;
-              color: white;
-              font-family: 'Kantumury Pro Thin', serif;
-              width: 300px;
-          }
+                .info-box {
+                    border: 2px solid white;
+                    border-radius: 10px;
+                    padding: 20px;
+                    background: #1e1e1e;
+                    color: white;
+                    font-family: 'Kantumury Pro Thin', serif;
+                    width: 300px;
+                }
 
-          .info-box div {
-              margin-bottom: 10px;
-              font-size: 1.5rem;
-          }
-      </style>
+                .info-box div {
+                    margin-bottom: 10px;
+                    font-size: 1.5rem;
+                }
+            </style>
 
-              <div class="container">
-                  <div class="content-wrapper">
-                      <div class="image-container">
-                          <img class="item-image" src="./src/assets/images/${imageUrl}" alt="${item.name}">
-                      </div>
-                      <div class="text-container">
-                          <div class="description-container">
-                              <h1>${item.name}</h1>
-                              <p>${description}</p>
-                          </div>
-                          <div class="info-box">
-                              <div><strong>Price:</strong> $${price}</div>
-                              ${extraDetail}
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            `;
+            <div class="container">
+                <div class="content-wrapper">
+                    <div class="image-container">
+                        <img class="item-image" src="./src/assets/images/${imageUrl}" alt="${item.name}">
+                    </div>
+                    <div class="text-container">
+                        <div class="description-container">
+                            <h1>${item.name}</h1>
+                            <p>${description}</p>
+                        </div>
+                        <div class="info-box">
+                            <div><strong>Price:</strong> $${price}</div>
+                            ${extraDetail}
+                            ${extraDetail2}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
   }
 }
 
