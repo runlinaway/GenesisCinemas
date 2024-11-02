@@ -31,13 +31,13 @@ class DrinksCard extends HTMLElement {
     this.card.appendChild(this.image);
     this.card.appendChild(this.infoOverlay);
 
+    this.shadowRoot.append(this.card);
+
     this.card.addEventListener("click", () => {
       window.location.hash = `#ItemDetails/${encodeURIComponent(
         this.drinksName
       )}/drinks`;
     });
-
-    this.shadowRoot.append(this.card);
 
     this.styleCard(); // Call styleCard without parameters
   }
