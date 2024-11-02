@@ -40,10 +40,30 @@ class BarPage extends HTMLElement {
                     text-decoration-thickness: 2px;
                     border-radius: 10px;
                 }
+                h2 {
+                    cursor: pointer; /* Make category headings clickable */
+                    color: #fff;
+                    background-color: #333;
+                    padding: 10px;
+                    width: 100%;
+                    text-align: center;
+                    margin: 0;
+                    border-radius: 4px;
+                    transition: background-color 0.3s;
+                }
+
+                h2:hover {
+                    background-color: #444;
+                }
+
                 .menu-row {
                     display: none; /* Hide menu items by default */
                     flex-wrap: wrap;
                     gap: 16px;
+                }
+
+                .menu-row.expanded {
+                    display: flex; /* Show menu items when expanded */
                 }
             </style>
   
@@ -98,17 +118,7 @@ class BarPage extends HTMLElement {
     row.classList.add("menu-row");
     menuList.appendChild(row);
 
-    // Clear previous content in the row
-    row.innerHTML = "";
-
     menuItems.forEach((item, index) => {
-      // Create a new row every 5 menu items
-      if (index % 5 === 0 && index !== 0) {
-        row = document.createElement("div");
-        row.classList.add("menu-row");
-        menuList.appendChild(row);
-      }
-
       // Create a MenuItemCard element for each menu item
       const menuItemCard = document.createElement("menu-item-card");
       menuItemCard.setAttribute("name", item.name);
@@ -130,11 +140,6 @@ class BarPage extends HTMLElement {
     // Add click event to toggle visibility
     categoryHeading.addEventListener("click", () => {
       row.classList.toggle("expanded");
-      if (row.classList.contains("expanded")) {
-        row.style.display = "flex";
-      } else {
-        row.style.display = "none";
-      }
     });
   }
 }
