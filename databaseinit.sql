@@ -1,7 +1,10 @@
 DROP TABLE IF EXISTS payments;
-DROP TABLE IF EXISTS bookings; -- Drop dependent tables first
+DROP TABLE IF EXISTS bookings;
+DROP TABLE IF EXISTS showtimes;
 DROP TABLE IF EXISTS shows;
+DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS members;
+
 
 
 CREATE TABLE IF NOT EXISTS members (
@@ -28,6 +31,17 @@ CREATE TABLE IF NOT EXISTS shows (
     banner_url VARCHAR(255) NULL
 );
 
+
+CREATE TABLE IF NOT EXISTS locations (
+    location_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    address TEXT,
+    city VARCHAR(50),
+    postcode VARCHAR(20),
+    contact_number VARCHAR(20)
+);
+
+
 CREATE TABLE IF NOT EXISTS bookings (
     booking_id INT AUTO_INCREMENT PRIMARY KEY,
     member_id INT,
@@ -48,6 +62,17 @@ CREATE TABLE IF NOT EXISTS payments (
     amount FLOAT NOT NULL,
     status VARCHAR(50) CHECK (status IN ('pending', 'failed', 'completed')),
     FOREIGN KEY (booking_id) REFERENCES bookings(booking_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS showtimes (
+    showtime_id INT AUTO_INCREMENT PRIMARY KEY,
+    show_id INT NOT NULL,
+    location_id INT NOT NULL,
+    show_date DATETIME NOT NULL,
+    price FLOAT NOT NULL,
+    seats_available INT NOT NULL,
+    FOREIGN KEY (show_id) REFERENCES shows(show_id) ON DELETE CASCADE,
+    FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
 );
 
 SHOW TABLES;
@@ -77,7 +102,8 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     '2024-09-12 00:00:00', 
     'tfone.jpg', 
     'https://www.youtube.com/watch?v=u2NuUWuwPCM&ab_channel=ParamountPictures',
-    'tfone_banner.jpeg'),
+    'tfone_banner.jpeg'
+),
 (
     'Alien: Romulus',
     'The sci-fi/horror-thriller takes the phenomenally successful “Alien” franchise back to its roots: While scavenging the deep ends of a derelict space station, a group of young space colonizers come face to face with the most terrifying life form in the universe.',
@@ -116,7 +142,151 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     'itendswithus.jpg',
     'https://www.youtube.com/watch?v=DLET_u31M4M&ab_channel=SonyPicturesEntertainment',
     NULL
+),
+(
+    'Red One',
+    'After Santa Claus (code name: Red One) is kidnapped, the North Pole''s Head of Security (Dwayne Johnson) must team up with the world''s most infamous bounty hunter (Chris Evans) in a globe-trotting, action-packed mission to save Christmas.',
+    'Dwayne Johnson, Chris Evans, Lucy Liu, J. K. Simmons',
+    'Hiram Garcia',
+    'Action, Adventure, Comedy, Fantasy, Mystery',
+    '2:03:00',
+    3.5,
+    '2024-11-15 00:00:00',
+    'redone.jpg',
+    'https://www.youtube.com/watch?v=U8XH3W0cMss&ab_channel=AmazonMGMStudios',
+    NULL
+),
+(
+    'Gladiator II',
+    'After his home is conquered by the tyrannical emperors who now lead Rome, Lucius is forced to enter the Colosseum and must look to his past to find strength to return the glory of Rome to its people.',
+    'Paul Mescal, Pedro Pascal, Joseph Quinn, Fred Hechinger',
+    'Ridley Scott',
+    'Action, Adventure, Drama',
+    '2:28:00',
+    4.5,
+    '2024-11-14 00:00:00',
+    'gladiator2.jpg',
+    'https://www.youtube.com/watch?v=4rgYUipGJNo&ab_channel=ParamountPictures',
+    'gladiator2_banner.jpg'
 );
+
+
+
+INSERT INTO locations (name, address, city, postcode, contact_number) VALUES
+(
+    'The Lido',
+    '350, Orchard Road, Shaw House, 5th/6th Floor',
+    'Singapore',
+    '238868',
+    '+65 612345667'
+),
+
+(
+    'nex',
+    '23, Serangoon Central, nex, #04-64',
+    'Singapore',
+    '556083',
+    '+65 62983557'
+),
+
+(
+    'PLQ',
+    '10 Paya Lebar Road, Paya Lebar Quarter, PLQ Mall, #05-02',
+    'Singapore',
+    '409057',
+    '+65 63489545'
+);
+
+INSERT INTO showtimes (show_id, location_id, show_date, price, seats_available) VALUES 
+(1, 1, '2024-11-8 19:00:00', 10.00, 50),
+
+(1, 1, '2024-11-15 19:00:00', 10.00, 50),
+
+(1, 1, '2024-11-22 19:00:00', 10.00, 50),
+
+(1, 1, '2024-11-8 11:00:00', 10.00, 50),
+
+(1, 1, '2024-11-15 11:00:00', 10.00, 50),
+
+(1, 1, '2024-11-22 11:00:00', 10.00, 50),
+
+(1, 1, '2024-11-8 15:00:00', 10.00, 50),
+
+(1, 1, '2024-11-15 15:00:00', 10.00, 50),
+
+(1, 1, '2024-11-22 15:00:00', 10.00, 50),
+
+(1, 2, '2024-11-8 19:00:00', 10.00, 50),
+
+(1, 2, '2024-11-15 19:00:00', 10.00, 50),
+
+(1, 2, '2024-11-22 19:00:00', 10.00, 50),
+
+(1, 2, '2024-11-8 11:00:00', 10.00, 50),
+
+(1, 2, '2024-11-15 11:00:00', 10.00, 50),
+
+(1, 2, '2024-11-22 11:00:00', 10.00, 50),
+
+(1, 2, '2024-11-8 15:00:00', 10.00, 50),
+
+(1, 2, '2024-11-15 15:00:00', 10.00, 50),
+
+(1, 2, '2024-11-22 15:00:00', 10.00, 50),
+
+(2, 1, '2024-11-8 19:00:00', 10.00, 50),
+
+(2, 1, '2024-11-15 19:00:00', 10.00, 50),
+
+(2, 1, '2024-11-22 19:00:00', 10.00, 50),
+
+(2, 1, '2024-11-8 11:00:00', 10.00, 50),
+
+(2, 1, '2024-11-15 11:00:00', 10.00, 50),
+
+(2, 1, '2024-11-22 11:00:00', 10.00, 50),
+
+(2, 1, '2024-11-8 15:00:00', 10.00, 50),
+
+(2, 1, '2024-11-15 15:00:00', 10.00, 50),
+
+(2, 1, '2024-11-22 15:00:00', 10.00, 50),
+
+(2, 2, '2024-11-8 19:00:00', 10.00, 50),
+
+(2, 2, '2024-11-15 19:00:00', 10.00, 50),
+
+(2, 2, '2024-11-22 19:00:00', 10.00, 50),
+
+(2, 2, '2024-11-8 11:00:00', 10.00, 50),
+
+(2, 2, '2024-11-15 11:00:00', 10.00, 50),
+
+(2, 2, '2024-11-22 11:00:00', 10.00, 50),
+
+(2, 2, '2024-11-8 15:00:00', 10.00, 50),
+
+(2, 2, '2024-11-15 15:00:00', 10.00, 50),
+
+(2, 2, '2024-11-22 15:00:00', 10.00, 50),
+
+(2, 3, '2024-11-8 19:00:00', 10.00, 50),
+
+(2, 3, '2024-11-15 19:00:00', 10.00, 50),
+
+(2, 3, '2024-11-22 19:00:00', 10.00, 50),
+
+(2, 3, '2024-11-8 11:00:00', 10.00, 50),
+
+(2, 3, '2024-11-15 11:00:00', 10.00, 50),
+
+(2, 3, '2024-11-22 11:00:00', 10.00, 50),
+
+(2, 3, '2024-11-8 15:00:00', 10.00, 50),
+
+(2, 3, '2024-11-15 15:00:00', 10.00, 50),
+
+(2, 3, '2024-11-22 15:00:00', 10.00, 50);
 
 
 
