@@ -218,6 +218,7 @@ updateBannerPosition() {
                 right: 300px; /* Position to the right */
                 min-width: 355px; /* Minimum width */
                 max-width: calc(100% - 20px); /* Set a maximum width */
+                min-height: 300px;
                 background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
                 color: white;
                 padding: 10px;
@@ -231,12 +232,14 @@ updateBannerPosition() {
             .movie-title {
                 font-family: 'Kantumury Pro Thin', serif;
                 font-size: 50px;
+                font-weight: normal;
                 white-space: nowrap; /* Prevent text from wrapping */
                 overflow: hidden; /* Hide overflow text */
                 text-overflow: ellipsis; /* Show ellipsis if text is too long */
                 padding-left: 10px; /* Add left padding */
                 padding-right: 10px; /* Add right padding */
                 padding-bottom: 10px; /* Add right padding */
+
 
             }
 
@@ -247,6 +250,7 @@ updateBannerPosition() {
                 margin-top: 5px; /* Add spacing between title and synopsis */
                 flex-grow: 1; /* Allow synopsis to grow and take remaining space */
                 max-width: 400px;
+                min-height: 160px;
                 padding-left: 10px; /* Add left padding */
                 padding-right: 10px; /* Add right padding */
             }

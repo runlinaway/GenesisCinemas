@@ -7,8 +7,8 @@ class MovieCard extends HTMLElement {
         const posterSrc = posterUrl;
         const posterAlt = `${movieTitle} poster`;
         const titleText = movieTitle;
-        const directorText = `Director: ${directorName}`;
-        const castText = `Cast: ${castMembers}`;
+        const directorText = `Director:<br>${directorName}`;
+        const castText = `Cast:<br>${castMembers}`;
         const posterPath = './src/assets/images/';
         // Create elements
         this.card = document.createElement('div');
@@ -45,7 +45,8 @@ class MovieCard extends HTMLElement {
             .card {
                 position: relative;
                 display: inline-block;
-                width: 200px;
+                width: 198px;
+                height: 300px;
                 cursor: pointer;
                 border: 1px solid #ccc;
                 border-radius: 8px;
@@ -59,14 +60,18 @@ class MovieCard extends HTMLElement {
 
             .poster {
                 width: 100%;
-                height: auto;
+                height: 100%;
+                object-fit: cover; /* Ensures the image fills the container while preserving aspect ratio */
+                border-radius: 8px; /* Maintain rounded edges for the image */
             }
 
             .title {
                 padding: 10px;
                 text-align: center;
-                font-weight: bold;
+                font-size: 1.5rem;
             }
+
+
 
             .info-overlay {
                 position: absolute;
@@ -81,12 +86,25 @@ class MovieCard extends HTMLElement {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+                text-align: center; /* Center the text within each div */
                 transition: opacity 0.3s;
+                border-radius: 8px; /* Maintain rounded edges for the overlay */
+                font-family: 'Kantumury Pro Thin', serif;
+                font-size: 1.5rem;
             }
 
+            .director{
+                font-size: 1rem;
+                padding:5px
+            }
+
+            .cast{
+                font-size: 0.8rem;
+            }
             .card:hover .info-overlay {
                 opacity: 1;
             }
+
         `;
         this.shadowRoot.append(style);
 

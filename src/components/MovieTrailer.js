@@ -44,7 +44,6 @@ class MovieTrailer extends HTMLElement {
                 
                 .title {
                     font-size: 4rem;
-                    font-weight: bold;
                 }
                 
                 .details {

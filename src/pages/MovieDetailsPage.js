@@ -35,7 +35,7 @@ class MovieDetailsPage extends HTMLElement {
                         .synopsis_container {
                             width: 422px; /* Set the width of the synopsis container */
                             color: white; /* Set text color to white */
-                            font-family: 'Kantumury Pro', serif; /* Ensure font is set correctly */
+                            font-family: 'Kantumury Pro Thin', serif;
                             margin-top: 10px; /* Space between trailer and synopsis */
                             padding-left: 40px; /* Add padding from the left edge */
                         }
@@ -75,7 +75,7 @@ class MovieDetailsPage extends HTMLElement {
                         }
 
                         .info_box div span {
-                            font-weight: bold; /* Bold label for each info item */
+                             /* Bold label for each info item */
                         }
                     </style>
 

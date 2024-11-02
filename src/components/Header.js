@@ -210,6 +210,7 @@ class AppHeader extends HTMLElement {
             padding: 0; /* Remove any padding */
             margin: 0; /* Remove any default margin */
             line-height: 1.2; /* Adjust line height for spacing */
+            font-weight: normal;
         }
     </style>
 
