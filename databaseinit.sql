@@ -228,7 +228,73 @@ INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, rel
     'gladiator2.jpg',
     'https://www.youtube.com/watch?v=4rgYUipGJNo&ab_channel=ParamountPictures',
     'gladiator2_banner.jpg'
+),
+(
+    'Cars',
+    'Lightning McQueen, a hotshot rookie race car driven to succeed, discovers that life is about the journey, not the finish line, when he finds himself unexpectedly detoured in the sleepy Route 66 town of Radiator Springs.',
+    'Owen Wilson, Paul Newman, Bonnie Hunt, Larry the Cable Guy, Cheech Marin, Michael Keaton, Tony Shalhoub, John Ratzenberger, Paul Dooley, George Carlin',
+    'John Lasseter',
+    'Animation, Comedy, Family',
+    '1:57:00',
+    4.5,
+    '2006-06-09 00:00:00',
+    'cars.jpg',
+    'https://www.youtube.com/watch?v=W_H7_tDHFE8&ab_channel=RottenTomatoesClassicTrailers',
+    NULL
+),
+(
+    'Wall-E',
+    'In the distant future, a small waste-collecting robot inadvertently embarks on a space journey that will ultimately decide the fate of mankind.',
+    'Ben Burtt, Elissa Knight, Jeff Garlin, Fred Willard, John Ratzenberger, Kathy Najimy, Bill Irwin, Sigourney Weaver, Bob Peterson',
+    'Andrew Stanton',
+    'Animation, Adventure, Family',
+    '1:38:00',
+    4.5,
+    '2008-06-27 00:00:00',
+    'wall-e.jpg',
+    'https://www.youtube.com/watch?v=CZ1CATNbXg0&ab_channel=RottenTomatoesClassicTrailers',
+    NULL
+),
+(
+    'Spirited Away',
+    'In this animated feature by noted Japanese director Hayao Miyazaki, 10-year-old Chihiro and her parents move to a new town to start a new business. After her father becomes spellbound and wanders away, Chihiro embarks on a quest to save him from a menacing witch who seeks to exploit the young girl''s supernatural abilities.',
+    'Rumi Hiiragi, Miyu Irino, Mari Natsuki, Takashi Naitô, Yasuko Sawaguchi, Tsunehiko Kamijo, Akihiro Miwa, Tōru Furuya, Yōji Matsuda, Yuriko Ishida',
+    'Hayao Miyazaki',
+    'Animation, Adventure, Family',
+    '1:57:00',
+    4.5,
+    '2001-07-20 00:00:00',
+    'spiritedaway.jpg',
+    'https://www.youtube.com/watch?v=ByXuk9QqQkk&ab_channel=CrunchyrollStoreAustralia',
+    NULL
+),
+(
+    'Ready Player One',
+    'In a world where the population is over 90% and the environment is devastated, a man finds refuge in a virtual reality game called the "OASIS".',
+    'Tye Sheridan, Olivia Cooke, Ben Barnes, Lena Waithe, T.J. Miller, Simon Pegg, Mark Rylance, Anthony Hopkins',
+    'Steven Spielberg',
+    'Action, Adventure, Science Fiction',
+    '2:00:00',
+    4.5,
+    '2018-03-10 00:00:00',
+    'readyplayerone.jpg',
+    'https://www.youtube.com/watch?v=cSp1dM2Vj48&ab_channel=WarnerBros.Pictures',
+    NULL
+),
+(
+    'The Transformers: The Movie',
+    'In The Transformers: The Movie (1986), the iconic battle between the Autobots and Decepticons reaches new heights. With the arrival of the planet-devouring Unicron, the Autobots must rally together, embracing new allies and facing unimaginable odds to save their world from annihilation.',
+    'Frank Welker, Kirby Morrow, Casey Kasem, Dan Gilvezan, Leonard Nimoy, Leonard Whiting, Roddy McDowall, Robert Stack, Leonard Nimoy, Leonard Whiting, Roddy McDowall, Robert Stack',
+    'Nelson Shin',
+    'Action, Adventure, Science Fiction',
+    '1:37:00',
+    4.5,
+    '1986-08-08 00:00:00',
+    'transformersmovie.jpg',
+    'https://www.youtube.com/watch?v=KKb_93r41zw&ab_channel=JohnnyFrickinRico',
+    'transformersmovie_banner.jpg'
 );
+
 
 
 
@@ -258,50 +324,73 @@ INSERT INTO locations (name, address, city, postcode, contact_number) VALUES
 );
 
 INSERT INTO showtimes (show_id, location_id, show_date, price, seats_available) VALUES
-(1, 1, '2024-11-08 10:00:00', 10.00, 50),
-(1, 1, '2024-11-08 13:00:00', 10.00, 50),
-(1, 1, '2024-11-08 16:00:00', 10.00, 50),
-(1, 1, '2024-11-08 19:00:00', 10.00, 50),
-(1, 2, '2024-11-08 11:00:00', 10.00, 50),
-(1, 2, '2024-11-08 14:30:00', 10.00, 50),
-(1, 2, '2024-11-08 18:00:00', 10.00, 50),
-(2, 1, '2024-11-08 09:30:00', 10.00, 50),
-(2, 1, '2024-11-08 12:45:00', 10.00, 50),
-(2, 1, '2024-11-08 15:45:00', 10.00, 50),
-(2, 3, '2024-11-08 17:15:00', 10.00, 50),
-(2, 3, '2024-11-08 20:30:00', 10.00, 50),
+-- Shows for November 8th
+(1, 1, '2024-11-08 10:00:00', 10.00, 50),  -- Akira showing all dates
+(1, 2, '2024-11-08 13:00:00', 10.00, 50),
+(1, 3, '2024-11-08 16:00:00', 10.00, 50),
+(2, 1, '2024-11-08 11:00:00', 10.00, 50),  -- Transformers One showing all dates
+(2, 2, '2024-11-08 14:00:00', 10.00, 50),
+(2, 3, '2024-11-08 17:00:00', 10.00, 50),
+(3, 1, '2024-11-08 10:30:00', 12.00, 50),  -- Alien showing only Nov 8
+(3, 2, '2024-11-08 13:30:00', 12.00, 50),
+(3, 3, '2024-11-08 16:30:00', 12.00, 50),
+(8, 1, '2024-11-08 15:00:00', 12.00, 50),  -- Cars showing Nov 8 and 22
+(8, 2, '2024-11-08 18:00:00', 12.00, 50),
+(8, 3, '2024-11-08 21:00:00', 12.00, 50),
+(10, 1, '2024-11-08 12:00:00', 12.00, 50), -- Spirited Away showing Nov 8 and 15
+(10, 2, '2024-11-08 15:00:00', 12.00, 50),
+(10, 3, '2024-11-08 18:00:00', 12.00, 50),
+(11, 1, '2024-11-08 11:30:00', 12.00, 50), -- Ready Player One showing all dates
+(11, 2, '2024-11-08 14:30:00', 12.00, 50),
+(11, 3, '2024-11-08 17:30:00', 12.00, 50),
+(12, 1, '2024-11-08 13:30:00', 12.00, 50), -- Transformers Movie showing Nov 8 and 22
+(12, 2, '2024-11-08 16:30:00', 12.00, 50),
+(12, 3, '2024-11-08 19:30:00', 12.00, 50),
 
+-- Shows for November 15th
 (1, 1, '2024-11-15 10:00:00', 10.00, 50),
-(1, 1, '2024-11-15 13:00:00', 10.00, 50),
-(1, 1, '2024-11-15 16:00:00', 10.00, 50),
-(1, 1, '2024-11-15 19:00:00', 10.00, 50),
-(1, 2, '2024-11-15 11:00:00', 10.00, 50),
-(1, 2, '2024-11-15 14:30:00', 10.00, 50),
-(1, 2, '2024-11-15 18:00:00', 10.00, 50),
-(2, 1, '2024-11-15 09:30:00', 10.00, 50),
-(2, 1, '2024-11-15 12:45:00', 10.00, 50),
-(2, 1, '2024-11-15 15:45:00', 10.00, 50),
-(2, 3, '2024-11-15 17:15:00', 10.00, 50),
-(2, 3, '2024-11-15 20:30:00', 10.00, 50),
+(1, 2, '2024-11-15 13:00:00', 10.00, 50),
+(1, 3, '2024-11-15 16:00:00', 10.00, 50),
+(2, 1, '2024-11-15 11:00:00', 10.00, 50),
+(2, 2, '2024-11-15 14:00:00', 10.00, 50),
+(2, 3, '2024-11-15 17:00:00', 10.00, 50),
+(4, 1, '2024-11-15 11:00:00', 12.00, 50),  -- Speak No Evil showing only Nov 15
+(4, 2, '2024-11-15 14:00:00', 12.00, 50),
+(4, 3, '2024-11-15 17:00:00', 12.00, 50),
+(9, 1, '2024-11-15 16:00:00', 12.00, 50),  -- Wall-E showing Nov 15 and 22
+(9, 2, '2024-11-15 19:00:00', 12.00, 50),
+(9, 3, '2024-11-15 22:00:00', 12.00, 50),
+(10, 1, '2024-11-15 12:00:00', 12.00, 50), -- Spirited Away showing Nov 8 and 15
+(10, 2, '2024-11-15 15:00:00', 12.00, 50),
+(10, 3, '2024-11-15 18:00:00', 12.00, 50),
+(11, 1, '2024-11-15 11:30:00', 12.00, 50),
+(11, 2, '2024-11-15 14:30:00', 12.00, 50),
+(11, 3, '2024-11-15 17:30:00', 12.00, 50),
 
+-- Shows for November 22nd
 (1, 1, '2024-11-22 10:00:00', 10.00, 50),
-(1, 1, '2024-11-22 13:00:00', 10.00, 50),
-(1, 1, '2024-11-22 16:00:00', 10.00, 50),
-(1, 1, '2024-11-22 19:00:00', 10.00, 50),
-(1, 2, '2024-11-22 11:00:00', 10.00, 50),
-(1, 2, '2024-11-22 14:30:00', 10.00, 50),
-(1, 2, '2024-11-22 18:00:00', 10.00, 50),
-(2, 1, '2024-11-22 09:30:00', 10.00, 50),
-(2, 1, '2024-11-22 12:45:00', 10.00, 50),
-(2, 1, '2024-11-22 15:45:00', 10.00, 50),
-(2, 3, '2024-11-22 17:15:00', 10.00, 50),
-(2, 3, '2024-11-22 20:30:00', 10.00, 50),
+(1, 2, '2024-11-22 13:00:00', 10.00, 50),
+(1, 3, '2024-11-22 16:00:00', 10.00, 50),
+(2, 1, '2024-11-22 11:00:00', 10.00, 50),
+(2, 2, '2024-11-22 14:00:00', 10.00, 50),
+(2, 3, '2024-11-22 17:00:00', 10.00, 50),
+(5, 1, '2024-11-22 12:00:00', 12.00, 50),  -- It Ends With Us showing only Nov 22
+(5, 2, '2024-11-22 15:00:00', 12.00, 50),
+(5, 3, '2024-11-22 18:00:00', 12.00, 50),
+(8, 1, '2024-11-22 15:00:00', 12.00, 50),
+(8, 2, '2024-11-22 18:00:00', 12.00, 50),
+(8, 3, '2024-11-22 21:00:00', 12.00, 50),
+(9, 1, '2024-11-22 16:00:00', 12.00, 50),
+(9, 2, '2024-11-22 19:00:00', 12.00, 50),
+(9, 3, '2024-11-22 22:00:00', 12.00, 50),
+(11, 1, '2024-11-22 11:30:00', 12.00, 50),
+(11, 2, '2024-11-22 14:30:00', 12.00, 50),
+(11, 3, '2024-11-22 17:30:00', 12.00, 50),
+(12, 1, '2024-11-22 13:30:00', 12.00, 50), -- Transformers Movie showing Nov 8 and 22
+(12, 2, '2024-11-22 16:30:00', 12.00, 50),
+(12, 3, '2024-11-22 19:30:00', 12.00, 50);
 
-(3, 1, '2024-11-08 19:00:00', 10.00, 50),
-(4, 1, '2024-11-08 19:00:00', 10.00, 50),
-(5, 1, '2024-11-08 19:00:00', 10.00, 50);
-
-
+DELETE FROM showtimes WHERE show_id IN (6, 7);
 -- Inserting Drinks
 INSERT INTO drinks (name, description, price, category, image_url) VALUES
 ('Coke', 'Classic Coca-Cola, refreshing and fizzy', 2.50, 'Drink', 'coke.jpg'),
