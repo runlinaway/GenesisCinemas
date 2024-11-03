@@ -16,10 +16,25 @@ class CinemaLayout extends HTMLElement {
         try {
             const response = await fetch(`./src/services/fetch_booked_seats.php?showtime_id=${this.showtimeId}`);
             const data = await response.json();
-            this.bookedSeats = new Set(data.map(seat => seat.seat_loc));
+            
+            // Check if there's an error in the response
+            if (data.error) {
+                console.error('Server error:', data.error);
+                return;
+            }
+
+            // Make sure data is an array before using map
+            if (Array.isArray(data)) {
+                this.bookedSeats = new Set(data.map(seat => seat.seat_loc));
+            } else {
+                this.bookedSeats = new Set(); // Empty set if no booked seats
+            }
+            
             this.updateSeats();
         } catch (error) {
             console.error('Error fetching booked seats:', error);
+            this.bookedSeats = new Set(); // Empty set on error
+            this.updateSeats();
         }
     }
 
@@ -60,30 +75,25 @@ class CinemaLayout extends HTMLElement {
                 .seat {
                     width: 30px;
                     height: 30px;
-                    border: 2px solid #ffffff;
+                    margin: 3px;
+                    border: 1px solid #ccc;
                     border-radius: 5px;
                     cursor: pointer;
-                    transition: all 0.3s ease;
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                    font-size: 12px;
-                }
-
-                .seat:hover:not(.booked) {
-                    background-color: #4CAF50;
+                    background-color: #fff;
                 }
 
                 .seat.selected {
                     background-color: #4CAF50;
-                    border-color: #4CAF50;
+                    color: white;
                 }
 
                 .seat.booked {
-                    background-color: #cccccc;
-                    border-color: #999999;
+                    background-color: #ccc;
+                    cursor: not-allowed;
+                    opacity: 0.5;
+                }
+
+                .seat:disabled {
                     cursor: not-allowed;
                 }
 
@@ -180,11 +190,13 @@ class CinemaLayout extends HTMLElement {
     }
 
     updateSeats() {
-        const seats = this.shadowRoot.querySelectorAll('.seat');
-        seats.forEach(seat => {
-            const seatId = seat.dataset.seat;
+        const seatElements = this.shadowRoot.querySelectorAll('.seat');
+        seatElements.forEach(seat => {
+            const seatId = seat.getAttribute('data-seat');
             if (this.bookedSeats.has(seatId)) {
                 seat.classList.add('booked');
+                seat.classList.remove('selected');
+                seat.disabled = true;
             }
         });
     }

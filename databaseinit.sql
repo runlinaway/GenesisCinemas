@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS wine_selection;
+DROP TABLE IF EXISTS wine;
+DROP TABLE IF EXISTS alcohol;
+DROP TABLE IF EXISTS food;
+DROP TABLE IF EXISTS drinks;
 DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS bookings;
 DROP TABLE IF EXISTS showtimes;
@@ -8,13 +13,13 @@ DROP TABLE IF EXISTS members;
 
 
 CREATE TABLE IF NOT EXISTS members (
-    member_id INT PRIMARY KEY,
+    member_id INT PRIMARY KEY AUTO_INCREMENT,
     member_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password_hash VARCHAR(100) NOT NULL,
     points INT DEFAULT 0,
     session_token VARCHAR(64)
-);
+)AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS shows (
     show_id INT AUTO_INCREMENT PRIMARY KEY,

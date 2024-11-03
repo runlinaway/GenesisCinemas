@@ -82,20 +82,31 @@ class LoginForm extends HTMLElement {
             return;
         }
 
-        const response = await fetch('./src/services/login.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
+        try {
+            const response = await fetch('./src/services/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
 
-        const result = await response.json();
+            // Check if response is JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server returned non-JSON response. Please check server logs.');
+            }
 
-        if (result.success) {
-            document.cookie = `user=${encodeURIComponent(JSON.stringify(result.userData))}; path=/;`;
-            alert('Login successful! Welcome back!');
-            window.location.href = '#'; // Redirect to home or desired page
-        } else {
-            alert(result.message);
+            const result = await response.json();
+
+            if (result.success) {
+                document.cookie = `user=${encodeURIComponent(JSON.stringify(result.userData))}; path=/;`;
+                alert('Login successful! Welcome back!');
+                window.location.href = '#';
+            } else {
+                alert(result.message || 'Login failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('An error occurred during login. Please try again later.');
         }
     }
 }

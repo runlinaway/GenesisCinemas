@@ -8,6 +8,7 @@ import './src/components/Header.js';
 import './src/components/Footer.js';
 import './src/pages/SeatSelectionPage.js';
 import './src/components/CinemaLayout.js';
+import './src/pages/CheckoutPage.js';
 
 // Main App Initialization
 function init() {
@@ -37,25 +38,26 @@ function init() {
 // Function to load the appropriate page component based on the URL hash
 function loadPage() {
     const pageContainer = document.getElementById('page-container');
-    pageContainer.innerHTML = ''; // Clear previous page content
+    pageContainer.innerHTML = '';
 
     let page;
     const hash = window.location.hash;
 
     if (hash.startsWith('#MovieDetails/')) {
-        const movieId = hash.split('/')[1]; // Extract movie ID from the hash
+        const movieId = hash.split('/')[1];
         page = document.createElement('movie-details-page');
-        page.setAttribute('movie-id', movieId); // Pass the movie ID to the component
+        page.setAttribute('movie-id', movieId);
     } else if (hash.startsWith('#Movies')) {
         page = document.createElement('movies-page');
         const params = new URLSearchParams(window.location.hash.split('?')[1]);
         if (params.has('location')) {
             page.setAttribute('location-id', params.get('location'));
         }
-    }  else if (hash.startsWith('#SeatSelection')) {
+    } else if (hash.startsWith('#SeatSelection')) {
         page = document.createElement('seat-selection-page');
-    }
-    else {
+    } else if (hash.startsWith('#Payment')) {
+        page = document.createElement('checkout-page');
+    } else {
         switch (hash) {
             case '#Locations':
                 page = document.createElement('locations-page');
