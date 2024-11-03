@@ -26,18 +26,28 @@ class MoviesPage extends HTMLElement {
             this.renderMovies(this.allMovies);
         });
 
+        // Add hash change listener
+        window.addEventListener('hashchange', () => {
+            this.fetchMoviesByPath(window.location.hash);
+        });
+
+        // Initial fetch based on URL (moved to connectedCallback)
+        this.initialSetup();
+    }
+
+    async initialSetup() {
         // Get location from URL if present
-        const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+        const urlParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
         const locationId = urlParams.get('location');
         
+        await this.waitForFilterBar();
+        
         if (locationId) {
-            this.waitForFilterBar().then(() => {
-                this.filterBar.setLocation(locationId);
-            });
+            this.filterBar.setLocation(locationId);
         }
-
+        
         // Initial fetch based on URL
-        this.fetchMoviesByPath(window.location.hash);
+        await this.fetchMoviesByPath(window.location.hash);
     }
 
     async fetchMoviesByPath(hash) {
@@ -52,9 +62,14 @@ class MoviesPage extends HTMLElement {
             status = 'now_showing'; // Default to now showing instead of 'all'
         }
         
+        // Get location from URL
+        const urlParams = new URLSearchParams(hash.split('?')[1] || '');
+        const locationId = urlParams.get('location');
+        
         // Wait for FilterBar to be fully initialized
         await this.waitForFilterBar();
-        this.filterBar.fetchMovies(status);
+        // Pass both status and locationId to fetchMovies
+        this.filterBar.fetchMovies(status, locationId);
     }
 
     // Add helper method to wait for FilterBar
@@ -138,7 +153,15 @@ class MoviesPage extends HTMLElement {
     }
 
     connectedCallback() {
-        this.addStyles(); // Call to add styles when component is added to the DOM
+        this.addStyles();
+        this.initialSetup(); // Call initialSetup when component is connected
+    }
+
+    disconnectedCallback() {
+        // Clean up event listener when component is removed
+        window.removeEventListener('hashchange', () => {
+            this.fetchMoviesByPath(window.location.hash);
+        });
     }
 }
 
