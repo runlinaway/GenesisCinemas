@@ -7,7 +7,7 @@ $name = isset($_GET['name']) ? $_GET['name'] : null;
 
 if ($name) {
     // Prepare a SQL query to find the wine by name
-    $sql = "SELECT id, name, vintage, region, description, price, image_url FROM wine WHERE name = :name LIMIT 1"; // Limit to 1 item
+    $sql = "SELECT name, vintage, region, description, price, image_url FROM wine WHERE name = :name LIMIT 1"; // Limit to 1 item
 
     try {
         // Prepare and execute the query

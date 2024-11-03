@@ -6,7 +6,7 @@ $conn = require '../utils/db_connection.php';
 
 try {
     // Prepare the SQL query to fetch required columns
-    $stmt = $conn->prepare("SELECT id, name, description, price, image_url 
+    $stmt = $conn->prepare("SELECT name, description, price, image_url 
                             FROM drinks");
 
     // Execute the query

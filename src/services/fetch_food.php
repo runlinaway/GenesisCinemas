@@ -7,7 +7,7 @@ $conn = require '../utils/db_connection.php'; // Adjust the path as needed
 
 try {
     // Prepare and execute the query
-    $stmt = $conn->prepare("SELECT id, name, description, price, image_url  FROM food");
+    $stmt = $conn->prepare("SELECT name, description, price, image_url  FROM food");
     $stmt->execute();
     
     // Fetch results

@@ -3,7 +3,7 @@
 $conn = require '../utils/db_connection.php'; // Adjust the path as needed
 
 // Query to find all featured wines
-$sql = "SELECT id, name, description, image_url FROM wine WHERE featured = 1"; // Fetching wines marked as featured
+$sql = "SELECT name, description, image_url FROM wine WHERE featured = 1"; // Fetching wines marked as featured
 
 try {
     // Prepare and execute the query
