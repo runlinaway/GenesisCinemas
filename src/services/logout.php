@@ -15,35 +15,48 @@ if (isset($_COOKIE['user'])) {
     // Get the user data from the cookie
     $userData = json_decode($_COOKIE['user'], true);
     
+    // Debug log
+    error_log("User data from cookie: " . print_r($userData, true));
+    
     // Ensure that email is available
     if (isset($userData['email'])) {
         $email = $userData['email'];
-
+        
         try {
-            // Update the session_token in the database
+            // Debug log before query
+            error_log("Attempting to clear session_token for email: " . $email);
+            
+            // Update the session_token in the members table to NULL
             $sql = "UPDATE members SET session_token = NULL WHERE email = :email";
             $stmt = $conn->prepare($sql);
-            $stmt->execute(['email' => $email]);
+            $result = $stmt->execute(['email' => $email]);
+            
+            // Debug log after query
+            error_log("Query executed. Affected rows: " . $stmt->rowCount());
 
             // Delete the user cookie
-            setcookie('user', '', time() - 3600, "/"); // Expire the cookie
+            setcookie('user', '', time() - 3600, "/");
+
+            // Destroy the session
+            session_destroy();
 
             // Return a success response
             echo json_encode(['success' => true, 'message' => 'Logged out successfully.']);
         } catch (PDOException $e) {
-            // Handle any database errors
+            error_log("Database error: " . $e->getMessage());
             echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
             exit;
         } catch (Exception $e) {
-            // Handle any unexpected errors
+            error_log("Unexpected error: " . $e->getMessage());
             echo json_encode(['success' => false, 'message' => 'An unexpected error occurred.']);
             exit;
         }
     } else {
+        error_log("Email not found in user data");
         echo json_encode(['success' => false, 'message' => 'User data not found.']);
     }
 } else {
-    // If the cookie doesn't exist, return a message
+    error_log("No user cookie found");
     echo json_encode(['success' => false, 'message' => 'No user is logged in.']);
 }
 

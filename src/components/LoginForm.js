@@ -2,6 +2,11 @@ class LoginForm extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.isCheckoutPage = window.location.hash.startsWith('#Payment');
+        this.render();
+    }
+
+    render() {
         this.shadowRoot.innerHTML = `
             <style>
                 .container {
@@ -69,7 +74,6 @@ class LoginForm extends HTMLElement {
             </div>
         `;
 
-
         this.shadowRoot.getElementById('login-button').addEventListener('click', () => this.handleLogin());
     }
 
@@ -82,20 +86,35 @@ class LoginForm extends HTMLElement {
             return;
         }
 
-        const response = await fetch('./src/services/login.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
+        try {
+            const response = await fetch('./src/services/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
 
-        const result = await response.json();
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server returned non-JSON response. Please check server logs.');
+            }
 
-        if (result.success) {
-            document.cookie = `user=${encodeURIComponent(JSON.stringify(result.userData))}; path=/;`;
-            alert('Login successful! Welcome back!');
-            window.location.href = '#'; // Redirect to home or desired page
-        } else {
-            alert(result.message);
+            const result = await response.json();
+
+            if (result.success) {
+                document.cookie = `user=${encodeURIComponent(JSON.stringify(result.userData))}; path=/;`;
+                
+                if (this.isCheckoutPage) {
+                    window.location.reload();
+                } else {
+                    alert('Login successful! Welcome back!');
+                    window.location.href = '#';
+                }
+            } else {
+                alert(result.message || 'Login failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('An error occurred during login. Please try again later.');
         }
     }
 }

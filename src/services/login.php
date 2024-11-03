@@ -61,12 +61,14 @@ try {
     error_log("Token: " . var_export($token, true));
     // Create user data array
     $userData = [
+        'member_id' => $user['member_id'],
         'name' => $user['member_name'],
-        'email' => $email
+        'email' => $email,
+        'token' => $token
     ];
 
-    $cookieData = json_encode(['name' => $user['member_name'], 'email' => $email, 'token' => $token]);
-    setcookie('user', $cookieData, 0, "/"); // 0 timing till browser close for my sanity
+    $cookieData = json_encode($userData);
+    setcookie('user', $cookieData, 0, "/");
 
     echo json_encode(['success' => true, 'userData' => $userData]);
 } catch (PDOException $e) {

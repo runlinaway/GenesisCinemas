@@ -56,12 +56,14 @@ try {
 
         // Create user data array
         $userData = [
+            'member_id' => $userId,
             'name' => $name,
-            'email' => $email
+            'email' => $email,
+            'token' => $token
         ];
-
-        $cookieData = json_encode(['name' => $name, 'email' => $email, 'token' => $token]);
-        setcookie('user', $cookieData, 0, "/"); // 0 timing till browser close for my sanity
+        
+        $cookieData = json_encode($userData);
+        setcookie('user', $cookieData, 0, "/");
 
         echo json_encode(['success' => true, 'userData' => $userData]);
     } else {

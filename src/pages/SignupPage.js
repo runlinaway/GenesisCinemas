@@ -7,20 +7,22 @@ class SignupPage extends HTMLElement {
         this.render();
     }
 
-    render() {
+    async render() {
         const userCookie = this.getCookie('user');
 
         if (userCookie) {
-            // Decode the cookie data
             let userData;
             try {
                 userData = JSON.parse(decodeURIComponent(userCookie));
+                console.log('User data from cookie:', userData);
+                
+                const points = await this.fetchUserPoints(userData.member_id);
+                userData.points = points;
             } catch (e) {
-                console.error('Error parsing user cookie:', e);
-                userData = null; // Set userData to null if there's a parsing error
+                console.error('Error parsing user cookie or fetching points:', e);
+                userData = null;
             }
 
-            // Render different HTML if the user cookie exists and is valid
             if (userData && userData.name) {
                 this.shadowRoot.innerHTML = `
                     <style>
@@ -50,14 +52,10 @@ class SignupPage extends HTMLElement {
                             margin: 1rem 0;
                         }
 
-                        a {
+                        .points {
                             color: #FFD700;
-                            text-decoration: none;
-                            transition: color 0.3s ease;
-                        }
-
-                        a:hover {
-                            color: #FFA500;
+                            font-weight: bold;
+                            font-size: 1.4rem;
                         }
 
                         #logout-button {
@@ -79,7 +77,7 @@ class SignupPage extends HTMLElement {
                     </style>
                     <div class="container">
                         <h2>Welcome Back, ${userData.name}!</h2>
-                        <p>You are already logged in. <a href="#account">Go to your account</a>.</p>
+                        <p>Your current points: <span class="points">${userData.points}</span></p>
                         <button id="logout-button">Logout</button>
                     </div>
                 `;
@@ -156,6 +154,25 @@ class SignupPage extends HTMLElement {
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
         return null; // Return null if the cookie does not exist
+    }
+
+    async fetchUserPoints(userId) {
+        try {
+            console.log('Fetching points for user:', userId);
+            
+            const response = await fetch(`./src/services/get_points.php?userId=${encodeURIComponent(userId)}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                return data.points;
+            } else {
+                console.error('Failed to fetch points:', data.message);
+                return 0;
+            }
+        } catch (error) {
+            console.error('Error fetching points:', error);
+            return 0;
+        }
     }
 }
 
