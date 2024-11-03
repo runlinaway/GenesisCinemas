@@ -194,7 +194,7 @@ class WineBanner extends HTMLElement {
 
             .banner-item {
                 position: relative;
-                flex: 1 0 auto;
+                /*flex: 1 0 auto;*/
                 width: 100vw;
                 height: 100%;
                 overflow: hidden;
