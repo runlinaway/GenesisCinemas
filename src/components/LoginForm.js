@@ -2,6 +2,11 @@ class LoginForm extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.isCheckoutPage = window.location.hash.startsWith('#checkout');
+        this.render();
+    }
+
+    render() {
         this.shadowRoot.innerHTML = `
             <style>
                 .container {
@@ -69,7 +74,6 @@ class LoginForm extends HTMLElement {
             </div>
         `;
 
-
         this.shadowRoot.getElementById('login-button').addEventListener('click', () => this.handleLogin());
     }
 
@@ -89,7 +93,6 @@ class LoginForm extends HTMLElement {
                 body: JSON.stringify({ email, password })
             });
 
-            // Check if response is JSON
             const contentType = response.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
                 throw new Error('Server returned non-JSON response. Please check server logs.');
@@ -99,8 +102,13 @@ class LoginForm extends HTMLElement {
 
             if (result.success) {
                 document.cookie = `user=${encodeURIComponent(JSON.stringify(result.userData))}; path=/;`;
-                alert('Login successful! Welcome back!');
-                window.location.href = '#';
+                
+                if (this.isCheckoutPage) {
+                    window.location.reload();
+                } else {
+                    alert('Login successful! Welcome back!');
+                    window.location.href = '#';
+                }
             } else {
                 alert(result.message || 'Login failed. Please try again.');
             }

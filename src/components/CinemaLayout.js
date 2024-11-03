@@ -80,6 +80,17 @@ class CinemaLayout extends HTMLElement {
                     border-radius: 5px;
                     cursor: pointer;
                     background-color: #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #333;
+                    font-size: 0.8rem;
+                    transition: background-color 0.2s ease;
+                }
+
+                .seat:hover:not(.booked) {
+                    background-color: #4CAF50;
+                    color: white;
                 }
 
                 .seat.selected {
@@ -91,6 +102,7 @@ class CinemaLayout extends HTMLElement {
                     background-color: #ccc;
                     cursor: not-allowed;
                     opacity: 0.5;
+                    color: #666;
                 }
 
                 .seat:disabled {

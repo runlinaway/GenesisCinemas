@@ -182,6 +182,60 @@ class CheckoutPage extends HTMLElement {
 
     renderThankYou() {
         this.shadowRoot.innerHTML = `
+            <style>
+                .container {
+                    padding: 20px;
+                    color: white;
+                    font-family: 'Kantumruy Pro', sans-serif;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    min-height: 60vh;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                }
+
+                .header-info {
+                    background: #1e1e1e;
+                    padding: 40px;
+                    border-radius: 8px;
+                    margin-bottom: 20px;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+
+                h1 {
+                    font-family: 'Italiana', serif;
+                    font-size: 2.5rem;
+                    margin: 0 0 20px 0;
+                    color: #FFD700;
+                }
+
+                p {
+                    font-size: 1.2rem;
+                    margin: 10px 0;
+                    line-height: 1.6;
+                }
+
+                button {
+                    background-color: #FFD700;
+                    color: #1e1e1e;
+                    border: none;
+                    padding: 0.8rem 1.5rem;
+                    font-family: 'Kantumruy Pro', sans-serif;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    margin-top: 2rem;
+                    transition: background-color 0.3s ease;
+                }
+
+                button:hover {
+                    background-color: #FFA500;
+                }
+            </style>
             <div class="container">
                 <div class="header-info">
                     <h1>Thank You for Your Purchase!</h1>
