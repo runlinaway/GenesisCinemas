@@ -1,9 +1,9 @@
 <?php
 // Include the database connection
-$conn = require '../utils/db_connection.php'; // Adjust the path as needed
+$conn = require '../utils/db_connection.php';
 
-// Query to find all featured wines
-$sql = "SELECT name, description, image_url FROM wine WHERE featured = 1"; // Fetching wines marked as featured
+// Modified query to find wines with featured banner URLs
+$sql = "SELECT name, description, featured_banner_url as image_url FROM wine WHERE featured_banner_url IS NOT NULL";
 
 try {
     // Prepare and execute the query
@@ -18,9 +18,10 @@ try {
     echo json_encode($wines);
 } catch (PDOException $e) {
     // Handle query error
+    header('HTTP/1.1 500 Internal Server Error');
     echo json_encode(['error' => $e->getMessage()]);
 }
 
-// Close the connection (optional, as it's done automatically at the end of the script)
+// Close the connection
 $conn = null; 
 ?>

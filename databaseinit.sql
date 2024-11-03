@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS wine (
     description TEXT,
     price FLOAT NOT NULL,
     image_url VARCHAR(255),
-    featured BOOLEAN DEFAULT 0
+    featured_banner_url VARCHAR(255) DEFAULT NULL
 );
 
 SHOW TABLES;
@@ -351,20 +351,20 @@ INSERT INTO alcohol (name, type, price, image_url) VALUES
 ('Passionfruit Martini', 'Cocktail', 10.50, 'passionfruit_martini.jpg');
 
 
--- Insert Wines
-INSERT INTO wine (name, vintage, region, description, price, image_url, featured) VALUES
-('Cloudy Bay Sauvignon Blanc', 2021, 'Marlborough, New Zealand', 'Crisp and vibrant Sauvignon Blanc with citrus and tropical notes', 25.00, 'cloudy_bay_sauvignon_blanc.jpg', 1), -- Featured
-('Cabernet Sauvignon', 2020, 'Napa Valley, USA', 'Rich and full-bodied with flavors of dark fruit and oak', 30.00, 'cabernet_sauvignon.jpg', 0), -- Not Featured
-('Catena Zapata', 2019, 'Mendoza, Argentina', 'Elegant red wine with notes of dark berries and spice', 35.00, 'catena_zapata.jpg', 1), -- Featured
-('Merlot', 2020, 'Bordeaux, France', 'Soft and smooth with flavors of ripe plum and cherry', 22.00, 'merlot.jpg', 0), -- Not Featured
-('Barons de Rothschild Legende Bordeaux Rouge', 2018, 'Bordeaux, France', 'Classic Bordeaux blend with notes of blackcurrant and cedar', 28.00, 'bordeaux_rouge.jpg', 0), -- Not Featured
-('Chardonnay', 2021, 'Sonoma Coast, USA', 'Buttery and oaky Chardonnay with hints of vanilla', 20.00, 'chardonnay.jpg', 0), -- Not Featured
-('Malbec', 2019, 'Mendoza, Argentina', 'Deep and bold Malbec with flavors of blackberry and cocoa', 24.00, 'malbec.jpg', 0), -- Not Featured
-('Olema Cabernet Sauvignon', 2019, 'Sonoma County, USA', 'Balanced Cabernet Sauvignon with notes of black cherry and spice', 26.00, 'olema_cabernet.jpg', 0), -- Not Featured
-('Cabernet Franc', 2020, 'Loire Valley, France', 'Earthy and aromatic with red fruit flavors', 23.00, 'cabernet_franc.jpg', 0), -- Not Featured
-('Castello Albola Chianti Classico', 2018, 'Tuscany, Italy', 'Bright and lively Chianti with notes of cherry and spice', 21.00, 'chianti_classico.jpg', 0), -- Not Featured
-('Chianti Classico Marchese Antinori Riserva', 2017, 'Tuscany, Italy', 'Complex Chianti with rich flavors of dark fruit and oak', 32.00, 'marchese_antinori.jpg', 0), -- Not Featured
-('Châteauneuf-du-pape Vieilles Vignes', 2018, 'Rhône Valley, France', 'Powerful red wine with notes of blackberries and herbs', 40.00, 'chateauneuf_du_pape.jpg', 1), -- Featured
-('Cloudy Bay Pinot Noir', 2021, 'Marlborough, New Zealand', 'Elegant Pinot Noir with flavors of cherry and spice', 35.00, 'cloudy_bay_pinot_noir.jpg', 0), -- Not Featured
-('Masseto', 2016, 'Tuscany, Italy', 'Exceptional Merlot with velvety texture and deep fruit flavors', 400.00, 'masseto.jpg', 1), -- Featured
-('Brunello di Montalcino', 2017, 'Tuscany, Italy', 'Full-bodied red wine with notes of leather and dried cherry', 45.00, 'brunello_di_montalcino.jpg', 1); -- Featured
+-- Insert Wines (modified version)
+INSERT INTO wine (name, vintage, region, description, price, image_url, featured_banner_url) VALUES
+('Cloudy Bay Sauvignon Blanc', 2021, 'Marlborough, New Zealand', 'Crisp and vibrant Sauvignon Blanc with citrus and tropical notes', 25.00, 'cloudy_bay_sauvignon_blanc.jpg', 'cloudy_bay_featured_banner.jpg'),
+('Cabernet Sauvignon', 2020, 'Napa Valley, USA', 'Rich and full-bodied with flavors of dark fruit and oak', 30.00, 'cabernet_sauvignon.jpg', NULL),
+('Catena Zapata', 2019, 'Mendoza, Argentina', 'Elegant red wine with notes of dark berries and spice', 35.00, 'catena_zapata.jpg', NULL),
+('Merlot', 2020, 'Bordeaux, France', 'Soft and smooth with flavors of ripe plum and cherry', 22.00, 'merlot.jpg', NULL),
+('Barons de Rothschild Legende Bordeaux Rouge', 2018, 'Bordeaux, France', 'Classic Bordeaux blend with notes of blackcurrant and cedar', 28.00, 'bordeaux_rouge.jpg', NULL),
+('Chardonnay', 2021, 'Sonoma Coast, USA', 'Buttery and oaky Chardonnay with hints of vanilla', 20.00, 'chardonnay.jpg', NULL),
+('Malbec', 2019, 'Mendoza, Argentina', 'Deep and bold Malbec with flavors of blackberry and cocoa', 24.00, 'malbec.jpg', NULL),
+('Olema Cabernet Sauvignon', 2019, 'Sonoma County, USA', 'Balanced Cabernet Sauvignon with notes of black cherry and spice', 26.00, 'olema_cabernet.jpg', NULL),
+('Cabernet Franc', 2020, 'Loire Valley, France', 'Earthy and aromatic with red fruit flavors', 23.00, 'cabernet_franc.jpg', NULL),
+('Castello Albola Chianti Classico', 2018, 'Tuscany, Italy', 'Bright and lively Chianti with notes of cherry and spice', 21.00, 'chianti_classico.jpg', NULL),
+('Chianti Classico Marchese Antinori Riserva', 2017, 'Tuscany, Italy', 'Complex Chianti with rich flavors of dark fruit and oak', 32.00, 'marchese_antinori.jpg', NULL),
+('Châteauneuf-du-pape Vieilles Vignes', 2018, 'Rhône Valley, France', 'Powerful red wine with notes of blackberries and herbs', 40.00, 'chateauneuf_du_pape.jpg', 'chateauneuf_featured_banner.jpg'),
+('Cloudy Bay Pinot Noir', 2021, 'Marlborough, New Zealand', 'Elegant Pinot Noir with flavors of cherry and spice', 35.00, 'cloudy_bay_pinot_noir.jpg', NULL),
+('Masseto', 2016, 'Tuscany, Italy', 'Exceptional Merlot with velvety texture and deep fruit flavors', 400.00, 'masseto.jpg', NULL),
+('Brunello di Montalcino', 2017, 'Tuscany, Italy', 'Full-bodied red wine with notes of leather and dried cherry', 45.00, 'brunello_di_montalcino.jpg', 'brunello_featured_banner.jpg');
