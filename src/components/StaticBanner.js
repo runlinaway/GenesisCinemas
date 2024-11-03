@@ -2,79 +2,70 @@ class StaticBanner extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.wrapper = document.createElement("div");
-    this.wrapper.setAttribute("id", "wrapper");
-    this.shadowRoot.appendChild(this.wrapper);
-    this.bannerContainer = document.createElement("div");
-    this.bannerContainer.setAttribute("id", "banner-container");
-    this.wrapper.appendChild(this.bannerContainer);
-  }
+    this.shadowRoot.innerHTML = `
+      <style>
+        .static-banner {
+          position: relative;
+          width: 100%;
+          height: 600px;
+          overflow: hidden;
+        }
 
-  connectedCallback() {
-    this.createBanner();
-  }
+        .banner-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
 
-  createBanner() {
-    const staticImages = [
-      {
-        name: "Placeholder Banner",
-        bannerUrl: "Cinema.jpg",
-        overlayText: "Welcome to Our Cinema",
-      },
-    ];
+        .banner-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 50%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          color: white;
+          padding: 10px;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
 
-    staticImages.forEach((image) => {
-      const bannerItem = document.createElement("div");
-      bannerItem.className = "banner-item";
+        .banner-title {
+          font-family: 'Italiana', serif;
+          font-size: 50px;
+          font-weight: normal;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding: 10px 10px 10px;
+        }
 
-      const link = document.createElement("a");
-      link.href = "#";
+        .banner-text {
+          font-family: 'Kantumury Pro Thin', serif;
+          font-size: 20px;
+          max-width: 400px;
+          min-height: 160px;
+          padding: 0 10px;
+        }
 
-      const bannerImage = document.createElement("img");
-      bannerImage.src = `./src/assets/images/${image.bannerUrl}`;
-      bannerImage.className = "banner-image";
-      link.appendChild(bannerImage);
+        .banner-content {
+          padding-left:20px;
+        }
+      </style>
 
-      const overlay = document.createElement("div");
-      overlay.className = "overlay";
-      overlay.innerText = image.overlayText;
-
-      bannerItem.appendChild(overlay);
-      bannerItem.appendChild(link);
-      this.bannerContainer.appendChild(bannerItem);
-    });
-
-    const style = document.createElement("style");
-    style.textContent = `
-      #wrapper {
-        position: relative;
-      }
-
-      #banner-container {
-        display: flex;
-      }
-
-      .banner-item {
-        position: relative;
-        margin-right: 10px;
-      }
-
-      .banner-image {
-        width: 100%;
-      }
-
-      .overlay {
-        position: absolute;
-        top: 10%;
-        left: 10%;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        font-size: 1.5rem;
-      }
+      <div class="static-banner">
+        <img class="banner-image" src="./src/assets/images/contact_banner.jpg" alt="Contact Us">
+        <div class="banner-overlay">
+          <div class="banner-content">
+          <h1 class="banner-title">Contact Us</h1>
+          <p class="banner-text">Genesis Theatres are available for private hire for your personal and corporate events. We have had extensive experience hosting private screenings, town hall sessions, product launches and more. If you are looking for a unique and creative space to host your event, get in touch with us now: hire@genesistheatres.sg</p>
+        
+          </div>
+      </div>
     `;
-    this.shadowRoot.appendChild(style);
   }
 }
 
