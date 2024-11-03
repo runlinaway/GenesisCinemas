@@ -321,7 +321,7 @@ class AppHeader extends HTMLElement {
             </li>
 
             <li class="dropdown">
-                <a href="#Movies/nowshowing" class="dropbtn">Locations</a>
+                <a href="#Locations" class="dropbtn">Locations</a>
                 <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="dropdown-chevron">
                         <title>Chevron Down</title>
                         <g id="Complete">
