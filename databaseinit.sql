@@ -4,6 +4,11 @@ DROP TABLE IF EXISTS showtimes;
 DROP TABLE IF EXISTS shows;
 DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS wine_selection;
+DROP TABLE IF EXISTS wine;
+DROP TABLE IF EXISTS alcohol;
+DROP TABLE IF EXISTS food;
+DROP TABLE IF EXISTS drinks;
 
 
 
@@ -76,6 +81,19 @@ CREATE TABLE IF NOT EXISTS payments (
     status VARCHAR(50) CHECK (status IN ('pending', 'failed', 'completed')),
     FOREIGN KEY (booking_id) REFERENCES bookings(booking_id) ON DELETE CASCADE
 );
+
+-- CREATE TABLE IF NOT EXISTS showtimes (
+--     showtime_id INT AUTO_INCREMENT PRIMARY KEY,
+--     show_id INT NOT NULL,
+--     location_id INT NOT NULL,
+--     show_date DATETIME NOT NULL,
+--     price FLOAT NOT NULL,
+--     seats_available INT NOT NULL,
+--     FOREIGN KEY (show_id) REFERENCES shows(show_id) ON DELETE CASCADE,
+--     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
+-- );
+
+
 SHOW TABLES;
 
 INSERT INTO shows (title, synopsis, cast, director, genre, duration, rating, release_date, poster_url, trailer_url, banner_url) VALUES
@@ -243,5 +261,69 @@ INSERT INTO showtimes (show_id, location_id, show_date, price, seats_available) 
 (5, 1, '2024-11-08 19:00:00', 10.00, 50);
 
 
+-- Inserting Drinks
+INSERT INTO drinks (name, description, price, category, image_url) VALUES
+('Coke', 'Classic Coca-Cola, refreshing and fizzy', 2.50, 'Drink', 'coke.jpg'),
+('Sprite', 'Lemon-lime soda for a crisp, clean taste', 2.50, 'Drink', 'sprite.jpg'),
+('Ice Water', 'Chilled purified water, perfect for hydration', 1.00, 'Drink', 'ice_water.jpg'),
+('Coffee', 'Freshly brewed coffee for an energizing kick', 3.00, 'Drink', 'coffee.jpg'),
+('Tea', 'Hot or iced tea, available in a variety of flavors', 2.50, 'Drink', 'tea.jpg');
+
+-- Inserting Snacks
+INSERT INTO food (name, description, price, category, image_url) VALUES
+('Nuggets', 'Crispy chicken nuggets served with dipping sauce', 4.00, 'Snack', 'nuggets.jpg'),
+('Fries', 'Golden french fries, crispy and salted', 3.50, 'Snack', 'fries.jpg'),
+('Nacho Chips', 'Crispy tortilla chips served with cheese sauce', 4.50, 'Snack', 'nacho_chips.jpg'),
+('Pizza', 'Individual-sized pizza with a selection of toppings', 8.00, 'Snack', 'pizza.jpg'),
+('Hotdogs', 'Classic hotdogs with ketchup and mustard', 4.00, 'Snack', 'hotdogs.jpg'),
+('Ice Cream', 'Creamy ice cream, available in different flavors', 3.00, 'Snack', 'ice_cream.jpg'),
+('Cheesy Nuggets', 'Chicken nuggets stuffed with gooey cheese', 4.50, 'Snack', 'cheesy_nuggets.jpg'),
+('Chilli Cheese Dog', 'Hotdog topped with spicy chili and melted cheese', 5.00, 'Snack', 'chilli_cheese_dog.jpg'),
+('Popcorn', 'Buttery popcorn with a touch of sweetness', 2.50, 'Snack', 'popcorn.jpg'),
+('Mozzarella Sticks', 'Crispy on the outside, gooey on the inside', 5.00, 'Snack', 'mozzarella_sticks.jpg');
+
+-- Inserting Cocktails and Alcoholic Drinks
+INSERT INTO alcohol (name, type, price, image_url) VALUES
+('Martini', 'Cocktail', 10.00, 'martini.jpg'),
+('Margarita', 'Cocktail', 9.00, 'margarita.jpg'),
+('Negroni', 'Cocktail', 11.00, 'negroni.jpg'),
+('Cosmopolitan', 'Cocktail', 10.50, 'cosmopolitan.jpg'),
+('Gimlet', 'Cocktail', 8.50, 'gimlet.jpg'),
+('Whiskey Sour', 'Cocktail', 9.50, 'whiskey_sour.jpg'),
+('Mojito', 'Cocktail', 8.00, 'mojito.jpg'),
+('Old Fashioned', 'Cocktail', 10.00, 'old_fashioned.jpg'),
+('Long Island Iced Tea', 'Cocktail', 11.00, 'long_island_iced_tea.jpg'),
+('Manhattan', 'Cocktail', 10.00, 'manhattan.jpg'),
+('Bloody Mary', 'Cocktail', 9.00, 'bloody_mary.jpg'),
+('Daiquiri', 'Cocktail', 8.50, 'daiquiri.jpg'),
+('Gin and Tonic', 'Cocktail', 7.50, 'gin_and_tonic.jpg'),
+('Moscow Mule', 'Cocktail', 9.00, 'moscow_mule.jpg'),
+('Piña Colada', 'Cocktail', 9.50, 'pina_colada.jpg'),
+('Tiger Beer', 'Beer', 6.00, 'tiger_beer.jpg'),
+('Cider', 'Beer', 5.50, 'cider.jpg'),
+('Penicillin', 'Cocktail', 11.00, 'penicillin.jpg'),
+('Sazerac', 'Cocktail', 12.00, 'sazerac.jpg'),
+('Spritz', 'Cocktail', 8.00, 'spritz.jpg'),
+('Tequila Sunrise', 'Cocktail', 8.50, 'tequila_sunrise.jpg'),
+('Mai Tai', 'Cocktail', 9.50, 'mai_tai.jpg'),
+('Mimosa', 'Cocktail', 7.50, 'mimosa.jpg'),
+('Passionfruit Martini', 'Cocktail', 10.50, 'passionfruit_martini.jpg');
 
 
+-- Insert Wines
+INSERT INTO wine (name, vintage, region, description, price, image_url, featured) VALUES
+('Cloudy Bay Sauvignon Blanc', 2021, 'Marlborough, New Zealand', 'Crisp and vibrant Sauvignon Blanc with citrus and tropical notes', 25.00, 'cloudy_bay_sauvignon_blanc.jpg', 1), -- Featured
+('Cabernet Sauvignon', 2020, 'Napa Valley, USA', 'Rich and full-bodied with flavors of dark fruit and oak', 30.00, 'cabernet_sauvignon.jpg', 0), -- Not Featured
+('Catena Zapata', 2019, 'Mendoza, Argentina', 'Elegant red wine with notes of dark berries and spice', 35.00, 'catena_zapata.jpg', 1), -- Featured
+('Merlot', 2020, 'Bordeaux, France', 'Soft and smooth with flavors of ripe plum and cherry', 22.00, 'merlot.jpg', 0), -- Not Featured
+('Barons de Rothschild Legende Bordeaux Rouge', 2018, 'Bordeaux, France', 'Classic Bordeaux blend with notes of blackcurrant and cedar', 28.00, 'bordeaux_rouge.jpg', 0), -- Not Featured
+('Chardonnay', 2021, 'Sonoma Coast, USA', 'Buttery and oaky Chardonnay with hints of vanilla', 20.00, 'chardonnay.jpg', 0), -- Not Featured
+('Malbec', 2019, 'Mendoza, Argentina', 'Deep and bold Malbec with flavors of blackberry and cocoa', 24.00, 'malbec.jpg', 0), -- Not Featured
+('Olema Cabernet Sauvignon', 2019, 'Sonoma County, USA', 'Balanced Cabernet Sauvignon with notes of black cherry and spice', 26.00, 'olema_cabernet.jpg', 0), -- Not Featured
+('Cabernet Franc', 2020, 'Loire Valley, France', 'Earthy and aromatic with red fruit flavors', 23.00, 'cabernet_franc.jpg', 0), -- Not Featured
+('Castello Albola Chianti Classico', 2018, 'Tuscany, Italy', 'Bright and lively Chianti with notes of cherry and spice', 21.00, 'chianti_classico.jpg', 0), -- Not Featured
+('Chianti Classico Marchese Antinori Riserva', 2017, 'Tuscany, Italy', 'Complex Chianti with rich flavors of dark fruit and oak', 32.00, 'marchese_antinori.jpg', 0), -- Not Featured
+('Châteauneuf-du-pape Vieilles Vignes', 2018, 'Rhône Valley, France', 'Powerful red wine with notes of blackberries and herbs', 40.00, 'chateauneuf_du_pape.jpg', 1), -- Featured
+('Cloudy Bay Pinot Noir', 2021, 'Marlborough, New Zealand', 'Elegant Pinot Noir with flavors of cherry and spice', 35.00, 'cloudy_bay_pinot_noir.jpg', 0), -- Not Featured
+('Masseto', 2016, 'Tuscany, Italy', 'Exceptional Merlot with velvety texture and deep fruit flavors', 400.00, 'masseto.jpg', 1), -- Featured
+('Brunello di Montalcino', 2017, 'Tuscany, Italy', 'Full-bodied red wine with notes of leather and dried cherry', 45.00, 'brunello_di_montalcino.jpg', 1); -- Featured
