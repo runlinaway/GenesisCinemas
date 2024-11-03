@@ -8,60 +8,70 @@ class LocationsPage extends HTMLElement {
       <style>
         :host {
           display: block;
-          padding: 20px;
-          font-family: Arial, sans-serif;
+          padding: 0;
+          background-color: #1e1e1e;
+          color: white;
         }
 
         h2 {
-          color: #333;
-          font-size: 2rem;
-          margin-bottom: 20px;
+          font-family: 'Italiana', serif;
+          font-size: 2.5rem;
+          font-weight: normal;
+          text-align: left;
+          margin: 30px 0;
+          margin-left: 20px;
+          text-decoration: underline;
+          text-decoration-thickness: 2px;
         }
 
         .locations-list {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 20px;
-          margin-top: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 25px;
+          padding: 20px;
         }
 
         .location-card {
-          background: white;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          background: #2a2a2a;
+          padding: 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          border: 1px solid transparent;
+        }
+
+        .location-card:hover {
+          border-color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+
+        .location-info {
+          flex: 1;
         }
 
         .location-card h3 {
-          margin: 0 0 10px 0;
-          color: #333;
+          margin: 0 0 15px 0;
+          color: white;
+          font-family: 'Kantumruy Pro', sans-serif;
+          font-size: 1.4rem;
+          font-weight: 600;
         }
 
         .location-card p {
-          margin: 5px 0;
-          color: #666;
-        }
-
-        .view-movies-btn {
-          display: inline-block;
-          padding: 10px 20px;
-          margin-top: 15px;
-          background-color: #1e1e1e;
-          color: white;
-          text-decoration: none;
-          border-radius: 5px;
-          border: none;
-          cursor: pointer;
-          transition: background-color 0.3s;
-        }
-
-        .view-movies-btn:hover {
-          background-color: #333;
+          margin: 8px 0;
+          color: #b3b3b3;
+          font-family: 'Kantumruy Pro', sans-serif;
+          font-size: 1rem;
         }
       </style>
 
       <h2>Our Locations</h2>
-      <map-window></map-window>
+      <map-window id="locationMap"></map-window>
       <div class="locations-list"></div>
     `;
   }
@@ -76,25 +86,21 @@ class LocationsPage extends HTMLElement {
       const locations = await response.json();
       
       const locationsList = this.shadowRoot.querySelector('.locations-list');
+      const mapWindow = this.shadowRoot.querySelector('map-window');
       
       locations.forEach(location => {
         const card = document.createElement('div');
         card.className = 'location-card';
         card.innerHTML = `
-          <h3>${location.name}</h3>
-          <p>${location.address}</p>
-          <p>${location.postcode}</p>
-          <button class="view-movies-btn">View Movies</button>
+          <div class="location-info">
+            <h3>${location.name}</h3>
+            <p>${location.address}</p>
+            <p>${location.postcode}</p>
+          </div>
         `;
 
-        card.querySelector('.view-movies-btn').addEventListener('click', () => {
-          window.location.hash = `#Movies/nowshowing?location=${location.location_id}`;
-          const event = new CustomEvent('location-selected', {
-            detail: { locationId: location.location_id },
-            bubbles: true,
-            composed: true
-          });
-          document.dispatchEvent(event);
+        card.addEventListener('click', () => {
+          mapWindow.zoomToLocation(location.postcode, location.name);
         });
 
         locationsList.appendChild(card);
