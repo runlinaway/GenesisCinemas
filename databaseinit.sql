@@ -98,6 +98,42 @@ CREATE TABLE IF NOT EXISTS payments (
 --     FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE
 -- );
 
+CREATE TABLE IF NOT EXISTS drinks (
+    drink_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price FLOAT NOT NULL,
+    category VARCHAR(50),
+    image_url VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS food (
+    food_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price FLOAT NOT NULL,
+    category VARCHAR(50),
+    image_url VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS alcohol (
+    alcohol_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    type VARCHAR(50),
+    price FLOAT NOT NULL,
+    image_url VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS wine (
+    wine_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    vintage INT,
+    region VARCHAR(100),
+    description TEXT,
+    price FLOAT NOT NULL,
+    image_url VARCHAR(255),
+    featured BOOLEAN DEFAULT 0
+);
 
 SHOW TABLES;
 
