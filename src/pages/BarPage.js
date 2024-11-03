@@ -33,11 +33,27 @@ class BarPage extends HTMLElement {
           font-weight: normal;
           margin-bottom: 10px;
           color: white;
-          text-decoration: underline;
-          text-decoration-color: white;
-          text-decoration-thickness: 2px;
-          border-radius: 10px;
           cursor: pointer;
+          position: relative;
+          text-decoration: none;
+        }
+
+        .page-content h1::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background-color: white;
+          transform: scaleX(0);
+          transform-origin: bottom right;
+          transition: transform 0.3s ease-out;
+        }
+
+        .page-content h1:hover::after {
+          transform: scaleX(1);
+          transform-origin: bottom left;
         }
         .item-list {
           display: none; /* Initially hide all lists */

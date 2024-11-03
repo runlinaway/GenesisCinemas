@@ -79,72 +79,117 @@ class ItemDetailsPage extends HTMLElement {
     this.shadowRoot.innerHTML = `
             <style>
                 .container {
-                    display: flex;
-                    flex-direction: column;
-                    width: 100%;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 2rem;
                 }
 
                 .content-wrapper {
                     display: flex;
+                    gap: 3rem;
                     align-items: flex-start;
-                    margin-top: 20px;
                 }
 
                 .image-container {
-                    width: 30%;
+                    flex: 0 0 40%;
+                    border-radius: 12px;
                     overflow: hidden;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
                 }
 
                 .item-image {
                     width: 100%;
-                    max-width: 200px;
                     height: auto;
+                    display: block;
+                    transition: transform 0.3s ease;
+                }
+
+                .item-image:hover {
+                    transform: scale(1.05);
                 }
 
                 .text-container {
-                    width: 70%;
-                    padding-left: 20px;
+                    flex: 1;
                 }
 
                 .description-container {
                     color: white;
-                    font-family: 'Kantumury Pro Thin', serif;
-                    margin-bottom: 20px;
+                    margin-bottom: 2rem;
                 }
                 
                 .description-container h1 {
                     font-family: 'Italiana', serif;
-                    font-size: 3rem;
+                    font-size: clamp(2.5rem, 5vw, 4rem);
                     font-weight: normal;
-                    margin-bottom: 10px;
-                    text-decoration: underline;
-                    text-decoration-color: white;
-                    text-decoration-thickness: 2px;
-                    border-radius: 10px;
+                    margin-bottom: 1rem;
+                    position: relative;
+                    display: inline-block;
+                }
+                
+                .description-container h1::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -5px;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background-color: white;
+                    transform: scaleX(0);
+                    transform-origin: left;
+                    transition: transform 0.3s ease;
+                }
+
+                .description-container h1:hover::after {
+                    transform: scaleX(1);
                 }
                 
                 .description-container p {
                     font-family: 'Kantumury Pro Thin', serif;
-                    font-size: 1.5rem;
-                    margin: 0;
+                    font-size: 1.25rem;
+                    line-height: 1.6;
+                    opacity: 0.9;
                 }
 
                 .info-box {
-                    border: 2px solid white;
-                    border-radius: 10px;
-                    padding: 20px;
-                    background: #1e1e1e;
+                    border: 2px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 16px;
+                    padding: 2rem;
+                    background: rgba(30, 30, 30, 0.8);
+                    backdrop-filter: blur(10px);
                     color: white;
                     font-family: 'Kantumury Pro Thin', serif;
-                    width: 300px;
+                    width: 100%;
+                    max-width: 400px;
                 }
 
                 .info-box div {
-                    margin-bottom: 10px;
-                    font-size: 1.5rem;
+                    margin-bottom: 1rem;
+                    font-size: 1.25rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .info-box div:last-child {
+                    margin-bottom: 0;
+                }
+
+                @media (max-width: 768px) {
+                    .content-wrapper {
+                        flex-direction: column;
+                    }
+
+                    .image-container {
+                        flex: 0 0 100%;
+                    }
+
+                    .text-container {
+                        width: 100%;
+                    }
+
+                    .info-box {
+                        max-width: 100%;
+                    }
                 }
             </style>
 

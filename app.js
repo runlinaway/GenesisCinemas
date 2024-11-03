@@ -9,6 +9,9 @@ import './src/components/Footer.js';
 import './src/pages/SeatSelectionPage.js';
 import './src/components/CinemaLayout.js';
 import './src/pages/CheckoutPage.js';
+import "./src/pages/CorporatePage.js";
+import "./src/pages/FaqPage.js";
+import "./src/pages/ItemDetailsPage.js";
 
 // Main App Initialization
 function init() {
@@ -77,6 +80,12 @@ function loadPage() {
                 break;
             case '#Signup':
                 page = document.createElement('signup-page');
+                break;
+            case '#Corporate':
+                page = document.createElement('corporate-page');
+                break;
+            case '#FAQ':
+                page = document.createElement('faq-page');
                 break;
             case '#Home':
             default:
