@@ -2,7 +2,7 @@ class LoginForm extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.isCheckoutPage = window.location.hash.startsWith('#checkout');
+        this.isCheckoutPage = window.location.hash.startsWith('#Payment');
         this.render();
     }
 
