@@ -4,36 +4,6 @@ A functional cinema website built for the web development course **IE4727** at *
 
 ---
 
-## Features
-
-### Movie Experience
-- **Browse** current and upcoming movies
-- **View** detailed movie information, including trailers
-- **Real-time** seat selection
-- **Support** for multiple locations
-- **Dynamic** showtime scheduling
-- **Holiday pricing** support
-
-### Food & Beverage
-- **Browse** the food menu
-- **Order** drinks and snacks
-- **Premium wine** selection
-- **Bar menu** with cocktails
-
-### Corporate Events
-- **Corporate booking** system
-- **Event planning** support
-- **Custom event scheduling**
-- **Group booking** capabilities
-
-### User Management
-- **Member registration**
-- **Points system**
-- **Session management**
-- **Secure password handling**
-
----
-
 ## Technology Stack
 
 ### Frontend
