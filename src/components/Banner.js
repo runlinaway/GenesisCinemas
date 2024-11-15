@@ -46,7 +46,11 @@ class Banner extends HTMLElement {
             bannerItem.className = "banner-item";
 
             const link = document.createElement("a");
-            link.href = `#${this.type === 'wine' ? 'WineDetails' : 'MovieDetails'}/${encodeURIComponent(item.title || item.name)}`;
+            if (this.type === 'wine') {
+                link.href = `#ItemDetails/${encodeURIComponent(item.name)}/wine`;
+            } else {
+                link.href = `#MovieDetails/${encodeURIComponent(item.title)}`;
+            }
             link.style.textDecoration = "none";
 
             const bannerImage = document.createElement("img");
