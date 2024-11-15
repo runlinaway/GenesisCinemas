@@ -55,27 +55,22 @@ class Banner extends HTMLElement {
             link.appendChild(bannerImage);
 
             const infoBox = document.createElement("div");
-            infoBox.className = this.type === 'wine' ? "wine-info-box" : "movie-info-box";
+            infoBox.className = "info-box";
             infoBox.innerHTML = `
                 <strong class="title">${item.title || item.name}</strong>
                 <p class="description">${item.synopsis || item.description}</p>
             `;
             link.appendChild(infoBox);
 
-            if (this.type === 'movie') {
-                infoBox.addEventListener("mouseenter", () => {
-                    infoBox.style.transform = "translateY(0)";
-                    clearInterval(this.intervalId);
-                });
-                
-                infoBox.addEventListener("mouseleave", () => {
-                    infoBox.style.transform = "translateY(72%)";
-                    this.startAutoScroll();
-                });
-            } else {
-                infoBox.addEventListener("mouseenter", () => clearInterval(this.intervalId));
-                infoBox.addEventListener("mouseleave", () => this.startAutoScroll());
-            }
+            infoBox.addEventListener("mouseenter", () => {
+                infoBox.style.transform = "translateY(0)";
+                clearInterval(this.intervalId);
+            });
+            
+            infoBox.addEventListener("mouseleave", () => {
+                infoBox.style.transform = "translateY(72%)";
+                this.startAutoScroll();
+            });
 
             bannerItem.appendChild(link);
             this.bannerContainer.appendChild(bannerItem);
@@ -194,7 +189,7 @@ class Banner extends HTMLElement {
                 object-position: top;
             }
 
-            .movie-info-box, .wine-info-box {
+            .info-box {
                 position: absolute;
                 bottom: 0px;
                 right: 300px;
@@ -207,16 +202,8 @@ class Banner extends HTMLElement {
                 display: flex;
                 flex-direction: column;
                 box-sizing: border-box;
-            }
-
-            .movie-info-box {
                 transition: transform 0.3s ease;
                 transform: translateY(72%);
-            }
-
-            .wine-info-box {
-                opacity: 1;
-                transform: translateY(0);
             }
 
             .title {
