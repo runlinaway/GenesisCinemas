@@ -1,3 +1,5 @@
+import { GOOGLE_MAPS_API_KEY } from '../config.js';
+
 class MapWindow extends HTMLElement {
   constructor() {
     super();
@@ -23,7 +25,7 @@ class MapWindow extends HTMLElement {
     // Load Google Maps script
     if (!window.google) {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}`;
       script.async = true;
       script.defer = true;
       script.addEventListener('load', () => this.initMap());
