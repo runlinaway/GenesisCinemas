@@ -6,42 +6,31 @@ class CorporatePage extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
         <style>
-          /* Basic page styling */
           :host {
-            display: block;
-            padding: 0;
-            margin: 0;
-            font-family: 'Kantumruy Pro', sans-serif;
+            display: bloc;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            color: #333;
             background-color: #1e1e1e;
-            min-height: 100vh;
+            text-align: left;
           }
 
-          .page-content {
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0;
-            padding-left: 4rem;
+          h1, h2 {
+            color: #fff;
           }
 
           h1 {
-            font-family: 'Italiana', serif;
-            color: #fff;
-            font-size: 2.5rem;
-            margin: 0 0 2rem;
-            text-align: left;
-            padding: 0;
+            font-size: 3rem;
+            margin: 0 0 10px;
           }
 
           h2 {
-            font-family: 'Italiana', serif;
-            color: #fff;
             font-size: 2rem;
-            padding: 0.5rem 0;
-            margin: 1rem 0;
+            margin: 0 0 10px;
           }
 
           p {
-            color: #ccc; /* Changed to a lighter grey for better contrast */
+            color: #ccc;
             font-size: 1rem;
             line-height: 1.5;
           }
@@ -53,24 +42,21 @@ class CorporatePage extends HTMLElement {
             padding: 10px;
             width: 100%;
             box-sizing: border-box;
-            color: #fff; /* White text for textarea */
+            color: #fff;
           }
 
           button {
-            background-color: #FFD700;
-            color: #1e1e1e;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-family: 'Kantumruy Pro', sans-serif;
-            font-size: 1rem;
+            background-color: #1e1e1e;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 5px;
             cursor: pointer;
-            border-radius: 4px;
-            margin-top: 1rem;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
+            float: right;
           }
 
           button:hover {
-            background-color: #FFA500;
+            background-color: #333;
           }
 
           .error {
@@ -79,65 +65,60 @@ class CorporatePage extends HTMLElement {
           }
 
           form {
-            border: none;
-            padding: 20px 0;
+            border: 2px solid transparent;
+            padding: 20px;
             margin: 0;
             text-align: left;
-            width: 100%;
-            max-width: 800px;
+            width: 1200px;
+            box-sizing: border-box;
           }
 
           label {
-            color: #fff; /* Change to desired color (white in this case) */
-            font-size: 1rem; /* Optional: set font size */
-            margin-bottom: 5px; /* Optional: space below the label */
-            display: block; /* Ensure labels take up the full width */
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            display: block;
           }
 
           img {
-            width: 100%; /* Set the width to always be 100% of the container */
-            height: auto; /* Maintain aspect ratio for height */
-            max-height: 300px; /* Set a maximum height to scale down if needed */
-            object-fit: cover; /* Cover the space while preserving aspect ratio */
-            border-radius: 5px; /* Optional: rounded corners */
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
           }
         </style>
-
         <static-banner></static-banner>
-  
         <div class="page-content">
-            <h1><strong>Get in touch with us</strong></h1>
-              <p>Please fill out the form below for any corporate inquiries, and we'll get back to you as soon as possible.</p>
-                <div class = "form">
-                  <form id="corporate-form">
-                    <h2><strong>Personal Details</strong></h2>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" placeholder="Your Name" required>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Your Email" required>
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+          <h1><strong>Get in touch with us</strong></h1>
+          <p>Please fill out the form below for any corporate inquiries, and we'll get back to you as soon as possible.</p>
+          <div class="form">
+            <form id="corporate-form">
+              <h2><strong>Personal Details</strong></h2>
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" placeholder="Your Name" required>
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" placeholder="Your Email" required>
+              <label for="message">Message:</label>
+              <textarea id="message" name="message" placeholder="Your Message" required></textarea>
 
-                    <h2><strong>Movie Booking Details</strong></h2>
-                    <label for="movie-title">Movie Title:</label>
-                    <input type="text" id="movie-title" name="movie-title" placeholder="Movie Title" required>
-                    <label for="event-date">Event Date:</label>
-                    <input type="date" id="event-date" name="event-date" required>
-                    <label for="event-name">Event Name (Optional):</label>
-                    <input type="text" id="event-name" name="event-name" placeholder="Event Name (Optional)">
-                    <label for="number-of-pax">Number of Pax:</label>
-                    <input type="number" id="number-of-pax" name="number-of-pax" placeholder="Number of Pax" required>
-                    <label for="preferred-time">Preferred Time:</label>
-                    <input type="time" id="preferred-time" name="preferred-time" required>
-                    <button type="submit">Submit</button>
-                    <button type="button" id = "clear-button">Clear</button>
-                    
-                    <div id="error-message" class="error"></div>
-                  </form>
-                </div>
-                
+              <h2><strong>Movie Booking Details</strong></h2>
+              <label for="movie-title">Movie Title:</label>
+              <input type="text" id="movie-title" name="movie-title" placeholder="Movie Title" required>
+              <label for="event-date">Event Date:</label>
+              <input type="date" id="event-date" name="event-date" required>
+              <label for="event-name">Event Name (Optional):</label>
+              <input type="text" id="event-name" name="event-name" placeholder="Event Name (Optional)">
+              <label for="number-of-pax">Number of Pax:</label>
+              <input type="number" id="number-of-pax" name="number-of-pax" placeholder="Number of Pax" required>
+              <label for="preferred-time">Preferred Time:</label>
+              <input type="time" id="preferred-time" name="preferred-time" required>
+              <button type="submit">Submit</button>
+              <button type="button" id="clear-button">Clear</button>
+              <div id="error-message" class="error"></div>
+            </form>
           </div>
-
+        </div>
       `;
 
     this.shadowRoot
@@ -153,7 +134,7 @@ class CorporatePage extends HTMLElement {
   }
 
   clearForm() {
-    this.shadowRoot.querySelector("#corporate-form").reset(); // Reset the form
+    this.shadowRoot.querySelector("#corporate-form").reset();
   }
 
   validateForm() {
@@ -167,36 +148,22 @@ class CorporatePage extends HTMLElement {
       10
     );
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize today's date to compare dates correctly
+    today.setHours(0, 0, 0, 0);
 
-    let errorMessages = [];
+    const errorMessages = [];
 
-    // Check if all fields are filled
-    if (!name) {
-      errorMessages.push("Name is required.");
-    }
-    if (!email) {
-      errorMessages.push("Email is required.");
-    }
-    if (!message) {
-      errorMessages.push("Message is required.");
-    }
+    if (!name) errorMessages.push("Name is required.");
+    if (!email) errorMessages.push("Email is required.");
+    if (!message) errorMessages.push("Message is required.");
     if (!eventDateInput) {
       errorMessages.push("Event date is required.");
     } else if (eventDate <= today) {
-      // Check if the event date is not today or in the past
       errorMessages.push("Event date must be in the future.");
     }
-
-    // Check if the number of pax is valid (aka >0)
-    if (numberOfPax <= 9) {
+    if (numberOfPax <= 9)
       errorMessages.push("Number of Pax cannot be less than 10.");
-    }
-
-    // Check if email format is valid
-    if (email && !/^\S+@[a-zA-Z]{3,}(\.[a-zA-Z]{2,}){1,2}$/.test(email)) {
+    if (email && !/^\S+@\S+\.\S+$/.test(email))
       errorMessages.push("Please enter a valid email address.");
-    }
 
     if (errorMessages.length > 0) {
       this.showPopup(errorMessages.join("\n"));
@@ -206,7 +173,6 @@ class CorporatePage extends HTMLElement {
   }
 
   showPopup(message) {
-    // Create the popup container
     const popupContainer = document.createElement("div");
     popupContainer.style.position = "fixed";
     popupContainer.style.top = "50%";
@@ -218,31 +184,26 @@ class CorporatePage extends HTMLElement {
     popupContainer.style.zIndex = "1000";
     popupContainer.style.textAlign = "center";
 
-    // Create the message element
     const messageElement = document.createElement("p");
     messageElement.textContent = message;
-    messageElement.style.whiteSpace = "pre-line"; // To handle newlines correctly
+    messageElement.style.whiteSpace = "pre-line";
+    messageElement.style.color = "red";
+    messageElement.style.fontSize = "20px";
+    messageElement.style.fontWeight = "bold";
 
-    // Custom styling for the error message
-    messageElement.style.color = "red"; // Change the text color
-    messageElement.style.fontSize = "20px"; // Change the font size
-    messageElement.style.fontWeight = "bold"; // Optional: Make the text bold
-
-    // Create the OK button
     const okButton = document.createElement("button");
     okButton.textContent = "OK";
     okButton.style.marginTop = "10px";
     okButton.addEventListener("click", () => {
-      popupContainer.remove(); // Remove the popup when OK is clicked
+      popupContainer.remove();
     });
 
     popupContainer.appendChild(messageElement);
     popupContainer.appendChild(okButton);
-    this.shadowRoot.appendChild(popupContainer); // Append the popup to the shadow DOM
+    this.shadowRoot.appendChild(popupContainer);
   }
 
   submitForm() {
-    // Collect form data and send it to the server
     const formData = new FormData(
       this.shadowRoot.querySelector("#corporate-form")
     );
@@ -252,7 +213,7 @@ class CorporatePage extends HTMLElement {
     })
       .then((response) => response.text())
       .then((data) => {
-        alert(data); // Display the server response
+        alert(data);
       })
       .catch((error) => {
         console.error("Error:", error);

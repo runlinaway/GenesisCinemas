@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS wine;
 DROP TABLE IF EXISTS alcohol;
 DROP TABLE IF EXISTS food;
 DROP TABLE IF EXISTS drinks;
+DROP TABLE IF EXISTS inquiries;
 
 
 
@@ -133,6 +134,19 @@ CREATE TABLE IF NOT EXISTS wine (
     price FLOAT NOT NULL,
     image_url VARCHAR(255),
     featured_banner_url VARCHAR(255) DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS inquiries (
+    inquiry_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    message TEXT NOT NULL,
+    movie_title VARCHAR(100) NOT NULL,
+    event_date DATE NOT NULL,
+    event_name VARCHAR(100) DEFAULT 'N/A',
+    number_of_pax INT NOT NULL,
+    preferred_time TIME NOT NULL,
+    submission_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 SHOW TABLES;
@@ -323,74 +337,63 @@ INSERT INTO locations (name, address, city, postcode, contact_number) VALUES
     '+65 63489545'
 );
 
+DELETE FROM showtimes;
+
 INSERT INTO showtimes (show_id, location_id, show_date, price, seats_available) VALUES
--- Shows for November 8th
-(1, 1, '2024-11-08 10:00:00', 10.00, 50),  -- Akira showing all dates
-(1, 2, '2024-11-08 13:00:00', 10.00, 50),
-(1, 3, '2024-11-08 16:00:00', 10.00, 50),
-(2, 1, '2024-11-08 11:00:00', 10.00, 50),  -- Transformers One showing all dates
-(2, 2, '2024-11-08 14:00:00', 10.00, 50),
-(2, 3, '2024-11-08 17:00:00', 10.00, 50),
-(3, 1, '2024-11-08 10:30:00', 12.00, 50),  -- Alien showing only Nov 8
-(3, 2, '2024-11-08 13:30:00', 12.00, 50),
-(3, 3, '2024-11-08 16:30:00', 12.00, 50),
-(8, 1, '2024-11-08 15:00:00', 12.00, 50),  -- Cars showing Nov 8 and 22
-(8, 2, '2024-11-08 18:00:00', 12.00, 50),
-(8, 3, '2024-11-08 21:00:00', 12.00, 50),
-(10, 1, '2024-11-08 12:00:00', 12.00, 50), -- Spirited Away showing Nov 8 and 15
-(10, 2, '2024-11-08 15:00:00', 12.00, 50),
-(10, 3, '2024-11-08 18:00:00', 12.00, 50),
-(11, 1, '2024-11-08 11:30:00', 12.00, 50), -- Ready Player One showing all dates
-(11, 2, '2024-11-08 14:30:00', 12.00, 50),
-(11, 3, '2024-11-08 17:30:00', 12.00, 50),
-(12, 1, '2024-11-08 13:30:00', 12.00, 50), -- Transformers Movie showing Nov 8 and 22
-(12, 2, '2024-11-08 16:30:00', 12.00, 50),
-(12, 3, '2024-11-08 19:30:00', 12.00, 50),
+-- November 15
+(1, 1, '2024-11-15 10:00:00', 12.00, 50),  -- Akira at Lido
+(1, 3, '2024-11-15 14:00:00', 12.00, 50),  -- Akira at PLQ
+(2, 2, '2024-11-15 11:00:00', 12.00, 50),  -- Transformers One at nex
+(3, 1, '2024-11-15 16:30:00', 12.00, 50),  -- Alien at Lido
 
--- Shows for November 15th
-(1, 1, '2024-11-15 10:00:00', 10.00, 50),
-(1, 2, '2024-11-15 13:00:00', 10.00, 50),
-(1, 3, '2024-11-15 16:00:00', 10.00, 50),
-(2, 1, '2024-11-15 11:00:00', 10.00, 50),
-(2, 2, '2024-11-15 14:00:00', 10.00, 50),
-(2, 3, '2024-11-15 17:00:00', 10.00, 50),
-(4, 1, '2024-11-15 11:00:00', 12.00, 50),  -- Speak No Evil showing only Nov 15
-(4, 2, '2024-11-15 14:00:00', 12.00, 50),
-(4, 3, '2024-11-15 17:00:00', 12.00, 50),
-(9, 1, '2024-11-15 16:00:00', 12.00, 50),  -- Wall-E showing Nov 15 and 22
-(9, 2, '2024-11-15 19:00:00', 12.00, 50),
-(9, 3, '2024-11-15 22:00:00', 12.00, 50),
-(10, 1, '2024-11-15 12:00:00', 12.00, 50), -- Spirited Away showing Nov 8 and 15
-(10, 2, '2024-11-15 15:00:00', 12.00, 50),
-(10, 3, '2024-11-15 18:00:00', 12.00, 50),
-(11, 1, '2024-11-15 11:30:00', 12.00, 50),
-(11, 2, '2024-11-15 14:30:00', 12.00, 50),
-(11, 3, '2024-11-15 17:30:00', 12.00, 50),
+-- November 20
+(2, 1, '2024-11-20 13:00:00', 12.00, 50),  -- Transformers One at Lido
+(4, 2, '2024-11-20 15:00:00', 12.00, 50),  -- Speak No Evil at nex
+(5, 3, '2024-11-20 18:00:00', 12.00, 50),  -- It Ends With Us at PLQ
+(8, 1, '2024-11-20 20:00:00', 12.00, 50),  -- Cars at Lido
 
--- Shows for November 22nd
-(1, 1, '2024-11-22 10:00:00', 10.00, 50),
-(1, 2, '2024-11-22 13:00:00', 10.00, 50),
-(1, 3, '2024-11-22 16:00:00', 10.00, 50),
-(2, 1, '2024-11-22 11:00:00', 10.00, 50),
-(2, 2, '2024-11-22 14:00:00', 10.00, 50),
-(2, 3, '2024-11-22 17:00:00', 10.00, 50),
-(5, 1, '2024-11-22 12:00:00', 12.00, 50),  -- It Ends With Us showing only Nov 22
-(5, 2, '2024-11-22 15:00:00', 12.00, 50),
-(5, 3, '2024-11-22 18:00:00', 12.00, 50),
-(8, 1, '2024-11-22 15:00:00', 12.00, 50),
-(8, 2, '2024-11-22 18:00:00', 12.00, 50),
-(8, 3, '2024-11-22 21:00:00', 12.00, 50),
-(9, 1, '2024-11-22 16:00:00', 12.00, 50),
-(9, 2, '2024-11-22 19:00:00', 12.00, 50),
-(9, 3, '2024-11-22 22:00:00', 12.00, 50),
-(11, 1, '2024-11-22 11:30:00', 12.00, 50),
-(11, 2, '2024-11-22 14:30:00', 12.00, 50),
-(11, 3, '2024-11-22 17:30:00', 12.00, 50),
-(12, 1, '2024-11-22 13:30:00', 12.00, 50), -- Transformers Movie showing Nov 8 and 22
-(12, 2, '2024-11-22 16:30:00', 12.00, 50),
-(12, 3, '2024-11-22 19:30:00', 12.00, 50);
+-- November 25
+(3, 2, '2024-11-25 11:30:00', 12.00, 50),  -- Alien at nex
+(6, 3, '2024-11-25 14:30:00', 12.00, 50),  -- Red One at PLQ
+(9, 1, '2024-11-25 17:30:00', 12.00, 50),  -- Wall-E at Lido
+(10, 2, '2024-11-25 20:30:00', 12.00, 50), -- Spirited Away at nex
 
-DELETE FROM showtimes WHERE show_id IN (6, 7);
+-- December 1
+(7, 1, '2024-12-01 12:00:00', 12.00, 50),  -- Gladiator II at Lido
+(8, 3, '2024-12-01 15:00:00', 12.00, 50),  -- Cars at PLQ
+(11, 2, '2024-12-01 18:00:00', 12.00, 50), -- Ready Player One at nex
+
+-- December 5
+(1, 2, '2024-12-05 11:00:00', 12.00, 50),  -- Akira at nex
+(4, 3, '2024-12-05 14:00:00', 12.00, 50),  -- Speak No Evil at PLQ
+(12, 1, '2024-12-05 17:00:00', 12.00, 50), -- Transformers Movie at Lido
+
+-- December 10
+(5, 1, '2024-12-10 13:30:00', 12.00, 50),  -- It Ends With Us at Lido
+(6, 2, '2024-12-10 16:30:00', 12.00, 50),  -- Red One at nex
+(10, 3, '2024-12-10 19:30:00', 12.00, 50), -- Spirited Away at PLQ
+
+-- December 15
+(2, 3, '2024-12-15 12:00:00', 12.00, 50),  -- Transformers One at PLQ
+(7, 1, '2024-12-15 15:00:00', 12.00, 50),  -- Gladiator II at Lido
+(9, 2, '2024-12-15 18:00:00', 12.00, 50),  -- Wall-E at nex
+
+-- December 20
+(3, 1, '2024-12-20 14:00:00', 12.00, 50),  -- Alien at Lido
+(11, 3, '2024-12-20 17:00:00', 12.00, 50), -- Ready Player One at PLQ
+(12, 2, '2024-12-20 20:00:00', 12.00, 50), -- Transformers Movie at nex
+
+-- December 25 (Christmas Special Schedule)
+(8, 1, '2024-12-25 11:00:00', 15.00, 50),  -- Cars at Lido (Holiday pricing)
+(9, 2, '2024-12-25 14:00:00', 15.00, 50),  -- Wall-E at nex (Holiday pricing)
+(10, 3, '2024-12-25 17:00:00', 15.00, 50), -- Spirited Away at PLQ (Holiday pricing)
+(6, 1, '2024-12-25 20:00:00', 15.00, 50),  -- Red One at Lido (Holiday pricing)
+
+-- December 31 (New Year's Eve Special)
+(1, 1, '2024-12-31 14:00:00', 15.00, 50),  -- Akira at Lido (Holiday pricing)
+(7, 2, '2024-12-31 17:00:00', 15.00, 50),  -- Gladiator II at nex (Holiday pricing)
+(12, 3, '2024-12-31 20:00:00', 15.00, 50); -- Transformers Movie at PLQ (Holiday pricing)
+
 -- Inserting Drinks
 INSERT INTO drinks (name, description, price, category, image_url) VALUES
 ('Coke', 'Classic Coca-Cola, refreshing and fizzy', 2.50, 'Drink', 'coke.jpg'),
