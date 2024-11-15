@@ -84,7 +84,6 @@ The application uses multiple interconnected tables:
     $password = 'your_password';
 
 ## Project Structure
-    ```css
     genesis-cinemas/
     ├── src/
     │ ├── assets/
