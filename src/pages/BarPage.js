@@ -1,12 +1,5 @@
 import "../components/WineBanner.js";
-import "../components/FoodCard.js";
-import "../components/DrinksCard.js";
-import "../components/AlcoholCard.js";
-import "../components/WineCard.js";
-import { FoodCard } from "../components/FoodCard.js";
-import { DrinksCard } from "../components/DrinksCard.js";
-import { AlcoholCard } from "../components/AlcoholCard.js";
-import { WineCard } from "../components/WineCard.js";
+import { ItemCard } from "../components/ItemCard.js";
 
 class BarPage extends HTMLElement {
   constructor() {
@@ -128,11 +121,12 @@ class BarPage extends HTMLElement {
         foodList.appendChild(row);
       }
 
-      const foodCard = new FoodCard(
+      const foodCard = new ItemCard(
         food.name,
         food.image_url,
         food.description,
-        food.price
+        food.price,
+        'food'
       );
 
       row.appendChild(foodCard);
@@ -162,11 +156,12 @@ class BarPage extends HTMLElement {
         drinkList.appendChild(row);
       }
 
-      const drinkCard = new DrinksCard(
+      const drinkCard = new ItemCard(
         drink.name,
         drink.image_url,
         drink.description,
-        drink.price
+        drink.price,
+        'drinks'
       );
 
       row.appendChild(drinkCard);
@@ -196,11 +191,12 @@ class BarPage extends HTMLElement {
         wineList.appendChild(row);
       }
 
-      const wineCard = new WineCard(
+      const wineCard = new ItemCard(
         wine.name,
         wine.image_url,
         wine.description,
-        wine.price
+        wine.price,
+        'wine'
       );
 
       row.appendChild(wineCard);
@@ -230,10 +226,12 @@ class BarPage extends HTMLElement {
         alcoholList.appendChild(row);
       }
 
-      const alcoholCard = new AlcoholCard(
+      const alcoholCard = new ItemCard(
         alcohol.name,
         alcohol.image_url,
-        alcohol.price
+        alcohol.description,
+        alcohol.price,
+        'alcohol'
       );
 
       row.appendChild(alcoholCard);
