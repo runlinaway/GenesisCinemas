@@ -1,120 +1,122 @@
 // banner.js
 
-class MovieBanner extends HTMLElement {
+class Banner extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' }); // Create a Shadow DOM
-        this.wrapper = document.createElement('div');
-        this.wrapper.setAttribute('id', 'wrapper');
-        this.shadowRoot.appendChild(this.wrapper); 
-        this.movies = [];
+        this.attachShadow({ mode: "open" });
+        this.wrapper = document.createElement("div");
+        this.wrapper.setAttribute("id", "wrapper");
+        this.shadowRoot.appendChild(this.wrapper);
+        this.items = [];
         this.currentIndex = 0;
-        this.bannerContainer = document.createElement('div'); // Create the banner container
-        this.bannerContainer.setAttribute('id', 'banner-container');
-        this.wrapper.appendChild(this.bannerContainer); // Append to Shadow DOM
-        this.intervalId = null; // To store the interval ID
+        this.bannerContainer = document.createElement("div");
+        this.bannerContainer.setAttribute("id", "banner-container");
+        this.wrapper.appendChild(this.bannerContainer);
+        this.intervalId = null;
+        this.type = this.getAttribute('type') || 'movie'; // Default to movie if not specified
     }
 
-    // Function to fetch movie data from the server
-    async fetchMovieData() {
+    async connectedCallback() {
+        await this.fetchData();
+        this.attachStyles();
+    }
+
+    async fetchData() {
         try {
-            const response = await fetch('./src/services/fetch_featured.php');
+            const endpoint = this.type === 'wine' 
+                ? "./src/services/fetch_featured_wine.php"
+                : "./src/services/fetch_featured.php";
+
+            const response = await fetch(endpoint);
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error("Network response was not ok");
             }
-            this.movies = await response.json();
+            this.items = await response.json();
             this.createBanner();
         } catch (error) {
-            console.error('Error fetching movie data:', error);
+            console.error(`Error fetching ${this.type} data:`, error);
         }
     }
 
-    // Function to create and display the banner
-    // Update createBanner to set container width dynamically
-    // Function to create and display the banner
     createBanner() {
-        this.bannerContainer.style.width = `${this.movies.length * 100}%`; // Set container width based on the number of items
+        this.bannerContainer.style.width = `${this.items.length * 100}%`;
 
-        this.movies.forEach((movie) => {
-            // Create the main banner item container
-            const bannerItem = document.createElement('div');
-            bannerItem.className = 'banner-item';
+        this.items.forEach((item) => {
+            const bannerItem = document.createElement("div");
+            bannerItem.className = "banner-item";
 
-            // Create an anchor element for navigation
-            const link = document.createElement('a');
-            link.href = `#MovieDetails/${encodeURIComponent(movie.title)}`; // Use the movie title for the link
-            link.style.textDecoration = 'none'; // Remove underline for link text
+            const link = document.createElement("a");
+            link.href = `#${this.type === 'wine' ? 'WineDetails' : 'MovieDetails'}/${encodeURIComponent(item.title || item.name)}`;
+            link.style.textDecoration = "none";
 
-            const bannerImage = document.createElement('img');
-            bannerImage.src = `./src/assets/images/${movie.banner_url}`;
-            bannerImage.className = 'banner-image'; // Add a class for styling
-            link.appendChild(bannerImage); // Append image to link
+            const bannerImage = document.createElement("img");
+            bannerImage.src = `./src/assets/images/${item.banner_url || item.image_url}`;
+            bannerImage.className = "banner-image";
+            link.appendChild(bannerImage);
 
-            // Create movie info box
-            const movieInfo = document.createElement('div');
-            movieInfo.className = 'movie-info';
-            movieInfo.innerHTML = `
-                <strong class="movie-title">${movie.title}</strong>
-                <p class="movie-synopsis">${movie.synopsis}</p>
+            const infoBox = document.createElement("div");
+            infoBox.className = this.type === 'wine' ? "wine-info-box" : "movie-info-box";
+            infoBox.innerHTML = `
+                <strong class="title">${item.title || item.name}</strong>
+                <p class="description">${item.synopsis || item.description}</p>
             `;
-            link.appendChild(movieInfo); // Append movie info to link
+            link.appendChild(infoBox);
 
-            // Add mouse enter and leave event listeners to pause/resume auto-scroll
-            movieInfo.addEventListener('mouseenter', () => clearInterval(this.intervalId)); // Pause auto-scroll
-            movieInfo.addEventListener('mouseleave', () => this.startAutoScroll()); // Resume auto-scroll
+            if (this.type === 'movie') {
+                infoBox.addEventListener("mouseenter", () => {
+                    infoBox.style.transform = "translateY(0)";
+                    clearInterval(this.intervalId);
+                });
+                
+                infoBox.addEventListener("mouseleave", () => {
+                    infoBox.style.transform = "translateY(72%)";
+                    this.startAutoScroll();
+                });
+            } else {
+                infoBox.addEventListener("mouseenter", () => clearInterval(this.intervalId));
+                infoBox.addEventListener("mouseleave", () => this.startAutoScroll());
+            }
 
-            bannerItem.appendChild(link); // Append link (with image and info) to bannerItem
-            this.bannerContainer.appendChild(bannerItem); // Append bannerItem to bannerContainer
+            bannerItem.appendChild(link);
+            this.bannerContainer.appendChild(bannerItem);
         });
 
-        this.createNavigationButtons(); // Create navigation buttons
-        this.startAutoScroll(); // Start auto-scrolling
+        this.createNavigationButtons();
+        this.startAutoScroll();
     }
 
-
-
-    // Function to create navigation buttons
     createNavigationButtons() {
-        const leftButton = document.createElement('button');
-        leftButton.className = 'nav-button left';
-    
-        // Create the SVG element directly in JavaScript
+        const leftButton = document.createElement("button");
+        leftButton.className = "nav-button left";
+        
         const leftIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         leftIcon.setAttribute("width", "24");
         leftIcon.setAttribute("height", "24");
         leftIcon.setAttribute("viewBox", "0 0 24 24");
-        leftIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
         
-        // Create the polyline element for the chevron shape
         const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
         polyline.setAttribute("fill", "none");
         polyline.setAttribute("points", "15.5 5 8.5 12 15.5 19");
-        polyline.setAttribute("stroke", "currentColor"); // Use currentColor for CSS control
+        polyline.setAttribute("stroke", "currentColor");
         polyline.setAttribute("stroke-linecap", "round");
         polyline.setAttribute("stroke-linejoin", "round");
         polyline.setAttribute("stroke-width", "2");
 
-        // Append the polyline to the SVG
         leftIcon.appendChild(polyline);
-
-        // Append the SVG to the button
         leftButton.appendChild(leftIcon);
-    
-        leftButton.addEventListener('click', () => this.scrollLeft());
-    
-        // Right Button
-        const rightButton = document.createElement('button');
-        rightButton.className = 'nav-button right';
+        leftButton.addEventListener("click", () => this.scrollLeft());
+
+        const rightButton = document.createElement("button");
+        rightButton.className = "nav-button right";
         
         const rightIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         rightIcon.setAttribute("width", "24");
         rightIcon.setAttribute("height", "24");
         rightIcon.setAttribute("viewBox", "0 0 24 24");
-        rightIcon.setAttribute("aria-label", "Right Navigation");
-
+        
         const rightPolyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
         rightPolyline.setAttribute("fill", "none");
-        rightPolyline.setAttribute("points", "8.5 5 15.5 12 8.5 19"); // Right chevron points
+        rightPolyline.setAttribute("points", "8.5 5 15.5 12 8.5 19");
         rightPolyline.setAttribute("stroke", "currentColor");
         rightPolyline.setAttribute("stroke-linecap", "round");
         rightPolyline.setAttribute("stroke-linejoin", "round");
@@ -122,154 +124,121 @@ class MovieBanner extends HTMLElement {
 
         rightIcon.appendChild(rightPolyline);
         rightButton.appendChild(rightIcon);
-    
-        rightButton.addEventListener('click', () => this.scrollRight());
-    
+        rightButton.addEventListener("click", () => this.scrollRight());
+
         this.wrapper.appendChild(leftButton);
         this.wrapper.appendChild(rightButton);
     }
-    
 
-    // Function to start auto-scrolling through the banner items
     startAutoScroll() {
-        this.intervalId = setInterval(() => {
-            this.scrollRight();
-        }, 5000); // Change every 30 seconds
+        this.intervalId = setInterval(() => this.scrollRight(), 5000);
     }
 
-    // Function to scroll to the right
     scrollRight() {
-        this.currentIndex = (this.currentIndex + 1) % this.movies.length; // Cycle through movies
+        this.currentIndex = (this.currentIndex + 1) % this.items.length;
         this.updateBannerPosition();
         this.resetAutoScroll();
     }
 
-    // Function to scroll to the left
     scrollLeft() {
-        this.currentIndex = (this.currentIndex - 1 + this.movies.length) % this.movies.length; // Cycle backwards
+        this.currentIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
         this.updateBannerPosition();
         this.resetAutoScroll();
     }
 
-    // Function to update the banner position
-    // Function to update the banner position
-updateBannerPosition() {
-    const bannerItemWidth = 100 / this.movies.length; // Calculate width percentage of each banner item
-    const offset = this.currentIndex * -bannerItemWidth; // Calculate the offset for scrolling
-    this.bannerContainer.style.transform = `translateX(${offset}%)`; // Move banner to the left
-}
+    updateBannerPosition() {
+        const itemWidth = 100 / this.items.length;
+        const offset = this.currentIndex * -itemWidth;
+        this.bannerContainer.style.transform = `translateX(${offset}%)`;
+    }
 
-
-    // Function to reset the auto-scroll timer
     resetAutoScroll() {
-        clearInterval(this.intervalId); // Clear existing interval
-        this.startAutoScroll(); // Restart auto-scroll
+        clearInterval(this.intervalId);
+        this.startAutoScroll();
     }
 
-    // Called when the element is connected to the DOM
-    connectedCallback() {
-        this.fetchMovieData(); // Fetch movie data when the element is added to the DOM
-        this.attachStyles(); // Attach styles for the component
-    }
-
-    // Function to attach styles for the component
     attachStyles() {
-        const style = document.createElement('style');
+        const style = document.createElement("style");
         style.textContent = `
-
             #wrapper {
-                display: block; /* Ensure the wrapper behaves like a block element */
-                height: 600px; /* Define the height of the movie banner */
-                position: relative; /* Set relative positioning for absolute children */
-                overflow: hidden; /* Hide overflow if necessary */
+                display: block;
+                height: 600px;
+                position: relative;
+                overflow: hidden;
             }
 
             #banner-container {
                 position: relative;
-                display: flex; /* Display flex ensures items are aligned horizontally */
+                display: flex;
                 height: 600px;
                 width: 100%;
-                overflow: hidden; /* Hide overflow */
-                transition: transform 0.5s ease; /* Smooth transition for scrolling */
-                margin: 0; /* Remove margin */
-                padding: 0; /* Remove padding */
+                overflow: hidden;
+                transition: transform 0.5s ease;
+                margin: 0;
+                padding: 0;
             }
 
             .banner-item {
                 position: relative;
-                /*flex: 1 0 auto;*/
                 width: 100vw;
                 height: 100%;
-                overflow: hidden; /* Hide overflow to prevent images from spilling */
-                margin: 0; /* Remove margin */
-                padding: 0; /* Remove padding */
+                overflow: hidden;
+                margin: 0;
+                padding: 0;
             }
 
             .banner-image {
                 width: 100vw;
                 height: 100%;
-                object-fit: cover; /* Ensures image covers the banner */
+                object-fit: cover;
                 object-position: top;
             }
 
-            .movie-info {
+            .movie-info-box, .wine-info-box {
                 position: absolute;
-                bottom: 0px; /* Position at the bottom */
-                right: 300px; /* Position to the right */
-                min-width: 355px; /* Minimum width */
-                max-width: calc(100% - 20px); /* Set a maximum width */
+                bottom: 0px;
+                right: 300px;
+                min-width: 355px;
+                max-width: calc(100% - 20px);
                 min-height: 300px;
-                background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+                background-color: rgba(0, 0, 0, 0.7);
                 color: white;
                 padding: 10px;
-                transition: transform 0.3s ease; /* Smooth transition for hover effect */
-                transform: translateY(72%); /* Initially position below the banner item */
-                display: flex; /* Use flexbox */
-                flex-direction: column; /* Stack children vertically */
-                box-sizing: border-box; /* Include padding in width calculations */
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
             }
 
-            .movie-title {
-                font-family: 'Queensides', serif;
+            .movie-info-box {
+                transition: transform 0.3s ease;
+                transform: translateY(72%);
+            }
+
+            .wine-info-box {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .title {
+                font-family: 'Kantumury Pro Thin', serif;
                 font-size: 50px;
                 font-weight: normal;
-                white-space: nowrap; /* Prevent text from wrapping */
-                overflow: hidden; /* Hide overflow text */
-                text-overflow: ellipsis; /* Show ellipsis if text is too long */
-                padding-left: 10px; /* Add left padding */
-                padding-right: 10px; /* Add right padding */
-                padding-bottom: 10px; /* Add right padding */
-
-
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 10px;
             }
 
-            .movie-synopsis {
+            .description {
                 font-family: 'Kantumury Pro Thin', serif;
                 font-size: 20px;
-                white-space: normal; /* Allow synopsis text to wrap */
-                margin-top: 5px; /* Add spacing between title and synopsis */
-                flex-grow: 1; /* Allow synopsis to grow and take remaining space */
+                white-space: normal;
+                margin-top: 5px;
+                flex-grow: 1;
                 max-width: 400px;
                 min-height: 160px;
-                padding-left: 10px; /* Add left padding */
-                padding-right: 10px; /* Add right padding */
+                padding: 10px;
             }
-
-
-            .movie-info:hover {
-                transform: translateY(0); /* Move the card up into view on hover */
-            }
-
-            /* Keep the title visible while hiding the synopsis */
-            .movie-synopsis {
-                opacity: 0; /* Start hidden */
-                transition: opacity 0.3s ease; /* Smooth transition for opacity */
-            }
-
-            .movie-info:hover .movie-synopsis {
-                opacity: 1; /* Show synopsis on hover */
-            }
-
 
             .nav-button {
                 position: absolute; /* Position buttons absolutely */
@@ -285,22 +254,21 @@ updateBannerPosition() {
             }
 
             .nav-button:hover {
-                color:white;
+                color: white;
                 background-color: rgba(0, 0, 0, 0.8);
             }
 
             .nav-button.left {
-                left: 0; /* Position left button to the left */
+                left: 0;
             }
 
             .nav-button.right {
-                right: 0; /* Position right button to the right */
+                right: 0;
             }
         `;
-        this.shadowRoot.appendChild(style); // Append styles to Shadow DOM
+        this.shadowRoot.appendChild(style);
     }
 }
 
-// Define the custom element
-customElements.define('movie-banner', MovieBanner);
+customElements.define("content-banner", Banner);
 

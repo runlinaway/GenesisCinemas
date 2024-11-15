@@ -48,7 +48,7 @@ class HomePage extends HTMLElement {
             </style>
   
             <div class="page-content">
-                <movie-banner></movie-banner>
+                <content-banner type="movie"></content-banner>
                 <h1>Now Showing</h1>
                 <div class="movie-list"></div>
             </div>

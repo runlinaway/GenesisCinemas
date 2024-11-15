@@ -1,4 +1,4 @@
-import "../components/WineBanner.js";
+import "../components/Banner.js";
 import { ItemCard } from "../components/ItemCard.js";
 
 class BarPage extends HTMLElement {
@@ -61,7 +61,7 @@ class BarPage extends HTMLElement {
         }
       </style>
       <div class="page-content">
-        <wine-banner></wine-banner>
+        <content-banner type="wine"></content-banner>
         <h1 class="toggle-header" data-target=".food-list">Food List</h1>
         <div class="food-list item-list"></div>
         <h1 class="toggle-header" data-target=".drink-list">Drinks List</h1>
